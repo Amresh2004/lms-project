@@ -1,22 +1,109 @@
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
+import { FaGraduationCap } from "react-icons/fa";
+import "./Navbar.css";
 
-function Navbar(){
-return(
+function Navbar() {
+  return (
+    <nav
+      className="navbar navbar-expand-lg bg-white shadow-sm fixed-top"
+      style={{ fontFamily: "Inter, sans-serif", padding: "14px 40px"  }}
+    >
+      <div className="container-fluid">
+        {/* Logo */}
+        <div className="d-flex align-items-center">
+          <div
+            style={{
+              width: "46px",
+              height: "46px",
+              borderRadius: "14px",
+              background: "linear-gradient(135deg,#4f46e5,#9333ea)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white",
+              fontSize: "20px",
+              marginRight: "12px",
+            }}
+          >
+            <FaGraduationCap />
+          </div>
 
-<nav>
+          <div>
+            <div style={{ fontWeight: "600", fontSize: "20px" }}>
+              ATSS College
+            </div>
 
-<h2>ATSS College</h2>
+            <div style={{ fontSize: "14px", color: "#6b7280" }}>
+              Digital Learning
+            </div>
+          </div>
+        </div>
 
-<Link to="/">Home</Link>
-<Link to="/about">About ATSS</Link>
-<Link to="/courses">Courses</Link>
-<Link to="/contact">Contact</Link>
-<Link to="/login">LMS Login</Link>
-<Link to="/register">Register</Link>
+        {/* Mobile Menu */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navMenu"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-</nav>
+        {/* Menu */}
+        <div
+          className="collapse navbar-collapse justify-content-end"
+          id="navMenu"
+        >
+          <ul className="navbar-nav align-items-center gap-3">
+            <li className="nav-item">
+              <Link className="nav-link nav-hover fw-medium" to="/">
+                Home
+              </Link>
+            </li>
 
-)
+            <li className="nav-item">
+              <Link className="nav-link nav-hover fw-medium" to="/about">
+                About ATSS
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link nav-hover fw-medium" to="/courses">
+                Courses
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link nav-hover fw-medium" to="/contact">
+                Contact
+              </Link>
+            </li>
+
+            {/* Login Button */}
+            <li className="nav-item">
+              <Link
+                className="login-btn"
+                to="/login"
+              >
+                LMS Login
+              </Link>
+            </li>
+
+            {/* Register Button */}
+            <li className="nav-item">
+              <Link
+                className="register-btn"
+                to="/register"
+              >
+                Register
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
 }
 
-export default Navbar
+export default Navbar;
