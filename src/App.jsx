@@ -10,6 +10,8 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 function App() {
   return (
     <div style={{ marginTop: "80px" }}>
