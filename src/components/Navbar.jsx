@@ -80,6 +80,12 @@ function Navbar() {
               </Link>
             </li>
 
+             <li className="nav-item">
+              <Link className="nav-link nav-hover fw-medium" to="/career">
+                Career
+              </Link>
+            </li>
+
             {/* Login Button */}
             <li className="nav-item">
               <Link
