@@ -57,7 +57,7 @@ function Navbar() {
         >
           <ul className="navbar-nav align-items-center gap-3">
             <li className="nav-item">
-              <Link className="nav-link nav-hover fw-medium" to="/">
+              <Link className="nav-link nav-hover fw-medium" to="/home">
                 Home
               </Link>
             </li>
@@ -89,7 +89,7 @@ function Navbar() {
             {/* Login Button */}
             <li className="nav-item">
               <Link
-                className="login-btn"
+                className="login-btn1"
                 to="/login"
               >
                 LMS Login

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 function Login() {
   return (
     <div className="container-fluid">
@@ -50,9 +51,9 @@ function Login() {
 
           <div className="card shadow p-4" style={{ width: "400px", borderRadius: "15px" }}>
 
-            <a href="#" className="mb-3 text-primary text-decoration-none">
+            <Link className="mb-3 text-primary text-decoration-none" to="/home">
               ← Back to Home
-            </a>
+            </Link>
 
             <h4 className="fw-bold">Login to LMS</h4>
             <p className="text-muted mb-4">
@@ -112,9 +113,9 @@ function Login() {
 
               <p className="text-center mt-3">
                 Don't have an account?{" "}
-                <a href="#" className="text-decoration-none">
+                <Link className="text-decoration-none" to="/register">
                   Register Now
-                </a>
+                </Link>
               </p>
 
             </form>
