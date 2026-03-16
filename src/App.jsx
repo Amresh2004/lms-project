@@ -9,15 +9,8 @@ import Courses from './pages/Courses';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
-<<<<<<< HEAD
 import Location from "./components/Location";
 
-=======
-import Career from './pages/Career';
-
-
-import "bootstrap-icons/font/bootstrap-icons.css";
->>>>>>> 790902e640d6df7d8a95715053ece8ee87c894f6
 
 function App() {
   return (
