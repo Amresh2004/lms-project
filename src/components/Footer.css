@@ -41,3 +41,7 @@
   color: #cbd5e1;
   margin-top: 20px;
 }
+
+.footer-text:hover{
+  text-decoration: underline;
+}

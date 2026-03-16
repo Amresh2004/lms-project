@@ -1,0 +1,14 @@
+.back-home-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin:20px 0 20px 40px;
+  color:#2563eb;
+  text-decoration:none;
+  font-weight:500;
+  font-size:18px;
+}
+
+.back-home-link:hover{
+  text-decoration:underline;
+}
