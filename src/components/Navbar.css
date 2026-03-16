@@ -1,13 +1,15 @@
 .nav-item{
     font-size: larger;
 }
+
+
 .nav-hover{
-    color: black;
+    color: black !important;
     transition: color 0.3s ease;
 }
 
-.nav-hover:hover {
-    color: blue;
+.nav-hover:hover{
+    color: #2563eb !important; /* better blue */
 }
 
 .login-btn1{

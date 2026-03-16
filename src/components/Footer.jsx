@@ -8,7 +8,7 @@ function Footer() {
         <div className="row">
           {/* Column 1 */}
           <div className="col-md-4 mb-4">
-            <h4 className="footer-title">ATSS College</h4>
+            <h4 className="footer-title">ATSS CBSCA College</h4>
             <p className="footer-text">
               Audyogik Tantra Shikshan Sanstha & ATSS College of Business Studies & Computer Application <br />
               Leading institution for Business Studies & Computer Application in
@@ -55,7 +55,7 @@ function Footer() {
         <hr className="footer-line" />
 
         <p className="footer-copy text-center">
-          © 2026 ATSS College. All rights reserved.
+          © 2026 ATSS CBSCA College. All rights reserved.
         </p>
       </div>
     </footer>
