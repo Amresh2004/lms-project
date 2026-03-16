@@ -19,185 +19,213 @@ function Contact() {
 
       {/* Contact Section */}
       <div className="container py-5 bg-light mb-10">
-      <div className="container my-5">
-        <div className="row">
+        <div className="container my-5">
+          <div className="row">
 
-          {/* Left Side */}
-          <div className="col-md-6">
+            {/* Left Side */}
+            <div className="col-md-6">
 
-            <h3 className="fw-bold mb-3">Get in Touch</h3>
+              <h3 className="fw-bold mb-3">Get in Touch</h3>
 
-            <p>
-              Have questions about admissions, courses, or our LMS platform?
-              Reach out to us and we'll be happy to assist you.
-            </p>
-
-
+              <p>
+                Have questions about admissions, courses, or our LMS platform?
+                Reach out to us and we'll be happy to assist you.
+              </p>
 
 
-            <div className="d-flex mb-4 gap-3">
-              <div
-                style={{
-                  width: "55px",
-                  height: "55px",
-                  borderRadius: "16px",
-                  background: "linear-gradient(135deg,#4f8cff,#8b3dff)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                  fontSize: "20px"
-                }}
-              >
-                <i className="bi bi-geo-alt"></i>
-              </div>
-
-              <div className="mb-4">
-                <h5> Address</h5>
-                <p>
-                  ATSS College of Business Studies & Computer Application <br />
-                  Pune, Maharashtra 411001 <br />
-                  India
-                </p>
-              </div>
-            </div>
-
-            <div className="d-flex mb-4 gap-3">
-              <div
-                style={{
-                  width: "55px",
-                  height: "55px",
-                  borderRadius: "16px",
-                  background: "linear-gradient(135deg,#a855f7,#ec4899)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                  fontSize: "20px"
-                }}
-              >
-                <i className="bi bi-telephone"></i>
-              </div>
 
 
-              <div className="mb-4">
-                <h5> Phone</h5>
-                <p>
-                  +91 985 088 6800<br />
-                  Tel: 020-27472079
-                </p>
-              </div>
-            </div>
-
-            <div className="d-flex mb-4 gap-3">
-              <div
-                style={{
-                  width: "55px",
-                  height: "55px",
-                  borderRadius: "16px",
-                  background: "linear-gradient(135deg,#ff7a18,#ff3d00)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                  fontSize: "20px"
-                }}
-              >
-                <i className="bi bi-envelope"></i>
-              </div>
-              <div className="mb-4">
-                <h5> Email</h5>
-                <p>
-                  info@atsscollege.edu <br />
-                  admissions@atsscollege.edu
-                </p>
-              </div>
-            </div>
-
-            <div className="d-flex mb-4 gap-3">
-              <div
-                style={{
-                  width: "55px",
-                  height: "55px",
-                  borderRadius: "16px",
-                  background: "linear-gradient(135deg,#22c55e,#16a34a)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                  fontSize: "20px"
-                }}
-              >
-                <i className="bi bi-clock"></i>
-              </div>
-
-              <div className="mb-4">
-                <h5> Office Hours</h5>
-                <p>
-                  Monday - Friday: 9:00 AM - 6:00 PM <br />
-                  Saturday: 9:00 AM  2:00 PM <br />
-                  Sunday: Closed
-                </p>
-              </div>
-            </div>
-
-          </div>
-
-
-          {/* Right Side Form */}
-
-          <div className="col-md-6 d-flex">
-
-            <div className="card shadow form-box p-4 border-0 w-100 h-75 flex-column">
-
-              <h4 className="fw-bold mb-4">Send us a Message</h4>
-
-              <form className="d-flex flex-column h-80">
-
-                <div className="mb-4">
-                  <label className="form-label">Full Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="form-label">Email Address</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="form-label">Message</label>
-                  <textarea
-                    className="form-control"
-                    rows="4"
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn w-100 text-white round-btn mt-auto"
+              <div className="d-flex mb-4 gap-3">
+                <div
                   style={{
-                    background:
-                      "linear-gradient(90deg,#3b82f6,#a855f7)"
+                    width: "55px",
+                    height: "55px",
+                    borderRadius: "16px",
+                    background: "linear-gradient(135deg,#4f8cff,#8b3dff)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontSize: "20px"
                   }}
                 >
-                  Submit Message
-                </button>
+                  <i className="bi bi-geo-alt"></i>
+                </div>
 
-              </form>
+                <div className="mb-4">
+                  <h5> Address</h5>
+                  <p>
+                    ATSS College of Business Studies & Computer Application <br />
+                    Pune, Maharashtra 411001 <br />
+                    India
+                  </p>
+                </div>
+              </div>
+
+              <div className="d-flex mb-4 gap-3">
+                <div
+                  style={{
+                    width: "55px",
+                    height: "55px",
+                    borderRadius: "16px",
+                    background: "linear-gradient(135deg,#a855f7,#ec4899)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontSize: "20px"
+                  }}
+                >
+                  <i className="bi bi-telephone"></i>
+                </div>
+
+
+                <div className="mb-4">
+                  <h5> Phone</h5>
+                  <p>
+                    +91 985 088 6800<br />
+                    Tel: 020-27472079
+                  </p>
+                </div>
+              </div>
+
+              <div className="d-flex mb-4 gap-3">
+                <div
+                  style={{
+                    width: "55px",
+                    height: "55px",
+                    borderRadius: "16px",
+                    background: "linear-gradient(135deg,#ff7a18,#ff3d00)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontSize: "20px"
+                  }}
+                >
+                  <i className="bi bi-envelope"></i>
+                </div>
+                <div className="mb-4">
+                  <h5> Email</h5>
+                  <p>
+                    info@atsscollege.edu <br />
+                    admissions@atsscollege.edu
+                  </p>
+                </div>
+              </div>
+
+              <div className="d-flex mb-4 gap-3">
+                <div
+                  style={{
+                    width: "55px",
+                    height: "55px",
+                    borderRadius: "16px",
+                    background: "linear-gradient(135deg,#22c55e,#16a34a)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontSize: "20px"
+                  }}
+                >
+                  <i className="bi bi-clock"></i>
+                </div>
+
+                <div className="mb-4">
+                  <h5> Office Hours</h5>
+                  <p>
+                    Monday - Friday: 9:00 AM - 6:00 PM <br />
+                    Saturday: 9:00 AM  2:00 PM <br />
+                    Sunday: Closed
+                  </p>
+                </div>
+              </div>
 
             </div>
+
+
+            {/* Right Side Form */}
+
+            <div className="col-md-6 d-flex">
+
+              <div className="card shadow form-box p-4 border-0 w-100 h-75 flex-column">
+
+                <h4 className="fw-bold mb-4">Send us a Message</h4>
+
+                <form className="d-flex flex-column h-80">
+
+                  <div className="mb-4">
+                    <label className="form-label">Full Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="form-label">Email Address</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="form-label">Message</label>
+                    <textarea
+                      className="form-control"
+                      rows="4"
+                    ></textarea>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn w-100 text-white round-btn mt-auto"
+                    style={{
+                      background:
+                        "linear-gradient(90deg,#3b82f6,#a855f7)"
+                    }}
+                  >
+                    Submit Message
+                  </button>
+
+                </form>
+
+              </div>
+            </div>
           </div>
-
-
-
         </div>
       </div>
+
+
+      {/* Location */}
+
+      <div className="container my-3">
+
+        <h2 className="text-center fw-bold mb-2">Our Location</h2>
+
+        {/* Map Section */}
+        <div className="row justify-content-center mt-2">
+
+          <div className="col-lg-10">
+
+            <div className="shadow rounded overflow-hidden">
+
+              <iframe
+                title="map"
+                src="https://www.google.com/maps?q=Pune,Maharashtra,India&output=embed"
+                width="100%"
+                height="450"
+                style={{ border: 0 }}
+                loading="lazy"
+              ></iframe>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
     </div>
 
