@@ -1,0 +1,40 @@
+.nav-item{
+    font-size: larger;
+}
+.nav-hover{
+    color: black;
+    transition: color 0.3s ease;
+}
+
+.nav-hover:hover {
+    color: blue;
+}
+
+.login-btn {
+    border: 1px solid #3b82f6;
+    color: #2563eb;
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: 500;
+    background-color: white;
+    text-decoration: none;
+}
+
+.login-btn:hover {
+    background-color: rgb(237, 237, 237);
+    border-radius: 25px;
+}
+
+.register-btn {
+    background: linear-gradient(135deg, #4f46e5, #9333ea);
+    border-radius: 13px;
+    padding: 8px 22px;
+    font-weight: 500;
+    color: white;
+    border: none;
+    text-decoration: none;
+}
+
+.register-btn:hover {
+  box-shadow: 0px 4px 12px rgba(66, 66, 183, 0.6);
+}

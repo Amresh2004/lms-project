@@ -1,10 +1,22 @@
-
 import React from 'react'
-import Navbar from './components/Navbar'
+import
 
 function App() {
   return (
-    <div>App</div>
+    <div style={{ marginTop: "80px" }}>
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+
+      <Footer />
+    </div>
   )
 }
 
