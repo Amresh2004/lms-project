@@ -34,15 +34,15 @@ function Footer() {
             <h4 className="footer-title">Contact Info</h4>
 
             <p className="footer-text">
-              Pune, Maharashtra
+              ATSS CBSCA, C2, MIDC, Opp. Niramaya Hospital, Chinchwad Station, Pune - 411019
             </p>
 
-            <p className="footer-text">
-              info@atsscollege.edu
-            </p>
+            <a className="footer-text">
+              admin@atsscollege.edu.in
+            </a>
 
             <p className="footer-text">
-              +91 XXX XXX XXXX
+              +91 9850886800
             </p>
           </div>
 
