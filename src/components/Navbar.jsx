@@ -31,7 +31,7 @@ function Navbar() {
 
           <div>
             <div style={{ fontWeight: "600", fontSize: "20px" }}>
-              ATSS College
+              ATSS CBSCA College
             </div>
 
             <div style={{ fontSize: "14px", color: "#6b7280" }}>

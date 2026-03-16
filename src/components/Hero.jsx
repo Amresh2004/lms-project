@@ -17,11 +17,11 @@ function Hero() {
             {/* Left Content */}
             <div className="col-lg-6">
               <h1 className="hero-title">
-                ATSS College Digital <br /> Learning Platform
+                ATSS CBSCA College Digital Learning Platform
               </h1>
 
               <p className="hero-text">
-                Welcome to ATSS College of Business Studies & Computer
+                Welcome to ATSS CBSCA College of Business Studies & Computer
                 Application's innovative Learning Management System. Access
                 courses, assignments, and resources anytime, anywhere.
               </p>
@@ -31,7 +31,9 @@ function Hero() {
                   Login to LMS <span className="arrow">→</span>
                 </Link>
 
-                <Link className="course-btn" to="/courses">Explore Courses</Link>
+                <Link className="course-btn" to="/courses">
+                  Explore Courses
+                </Link>
               </div>
             </div>
 
@@ -51,10 +53,11 @@ function Hero() {
 
       <section className="why-section">
         <div className="container text-center">
-          <h2 className="why-title">Why Choose ATSS LMS?</h2>
+          <h2 className="why-title">Why Choose ATSS CBSCA College?</h2>
 
           <p className="why-subtitle">
-            Experience modern education with our comprehensive learning platform
+            Experience excellence in education, professional development, and
+            holistic student growth.
           </p>
 
           <div className="row mt-5">
@@ -65,9 +68,14 @@ function Hero() {
                   <FaBookOpen />
                 </div>
 
-                <h4>Quality Education</h4>
+                <br />
 
-                <p>Access comprehensive study materials and resources</p>
+                <h4>Excellence In Teaching Learning Practices</h4>
+
+                <p>
+                  Everything is so easy and seamless that it generates better
+                  performance.
+                </p>
               </div>
             </div>
 
@@ -78,9 +86,14 @@ function Hero() {
                   <FaUserGraduate />
                 </div>
 
-                <h4>Expert Faculty</h4>
+                <br />
 
-                <p>Learn from experienced professors and industry experts</p>
+                <h4>Develop High Quality Professionals</h4>
+
+                <p>
+                  Encouraged to develop creativity and make conceptual learning
+                  very strong.
+                </p>
               </div>
             </div>
 
@@ -91,9 +104,14 @@ function Hero() {
                   <FaAward />
                 </div>
 
-                <h4>Recognized Programs</h4>
+                <br />
 
-                <p>BCA, BBA, and specialized courses</p>
+                <h4>Integrated Approach Towards Learning & Evaluation</h4>
+
+                <p>
+                  Evaluation is not only the assessment of learning but also the
+                  assessment for learning.
+                </p>
               </div>
             </div>
 
@@ -104,9 +122,14 @@ function Hero() {
                   <FaChartLine />
                 </div>
 
-                <h4>Career Growth</h4>
+                <br />
 
-                <p>Build skills for professional success</p>
+                <h4>Connecting With Co-Curricular Activities</h4>
+
+                <p>
+                  Co-curricular activities are an important aspect of overall
+                  grooming of students.
+                </p>
               </div>
             </div>
           </div>
