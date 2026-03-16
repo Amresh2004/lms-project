@@ -1,7 +1,7 @@
 .nav-item{
     font-size: larger;
 }
-.nav-    {
+.nav-hover{
     color: black;
     transition: color 0.3s ease;
 }
