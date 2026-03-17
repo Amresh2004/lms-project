@@ -10,6 +10,7 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Career from './pages/Career';
+import CourseDetails from "./CourseDetails";
 function App() {
   return (
     <div style={{ marginTop: "80px" }}>
@@ -19,6 +20,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<Courses />} />
+        <Route path="/course/:id" element={<CourseDetails />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
