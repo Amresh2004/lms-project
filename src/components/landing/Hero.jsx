@@ -1,5 +1,5 @@
-import "./Hero.css";
-import heroImg from "../assets/atss.jpg"; // add your image here
+import "../landing/style/Hero.css";
+import heroImg from "../../assets/atss.jpg"; // add your image here
 import {
   FaBookOpen,
   FaUserGraduate,

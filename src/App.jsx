@@ -1,24 +1,29 @@
 import React from 'react'
 import { Routes,Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer';
+import Navbar from './components/landing/Navbar'
+import Footer from './components/landing/Footer';
 
-import Home from './pages/Home';
-import About from './pages/About';
-import Courses from './pages/Courses';
-import Contact from './pages/Contact';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Career from './pages/Career';
+
+import Home from './pages/landing/Home';
+import About from './pages/landing/About';
+import Courses from './pages/landing/Courses';
+import Contact from './pages/landing/Contact';
+import Login from './pages/landing/Login';
+import Register from './pages/landing/Register';
+import Career from './pages/landing/Career';
+import CourseDetails from "./pages/landing/CourseDetails";
+
 function App() {
   return (
     <div style={{ marginTop: "80px" }}>
       <Navbar />
 
       <Routes>
+        <Route path="/" element={<Home />} /> 
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<Courses />} />
+        <Route path="/course/:id" element={<CourseDetails />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

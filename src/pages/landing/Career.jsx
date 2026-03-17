@@ -1,7 +1,12 @@
 import React from "react";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import heroImg from "../assets/hero.png";
 import { FaArrowRight } from "react-icons/fa";
+
+
+import heroImg from "../../assets/hero.png";
+import counsellingImg from "../../assets/counselling.png";
 
 
 function Career() {
@@ -56,13 +61,6 @@ function Career() {
                 </span>
               </h1>
 
-              {/* <p className="lead mt-4 text-dark fw-semibold">
-                Empowering ATSS students to master industry-relevant skills,
-                build high-impact projects,
-                and secure placements at global tech giants.
-                Our structured LMS bridges the gap
-                between learning and getting hired.
-              </p> */}
 
               <div className="container my-5">
                 <div
