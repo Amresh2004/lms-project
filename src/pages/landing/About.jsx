@@ -1,15 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react';
 import collegeImg from "../assets/aboutimage.jpg"; // your uploaded image
 import "./About.css";
 import founderImg from "../assets/Founder.png";
 import chairpersonImg from "../assets/chairperson.png";
 import secretaryImg from "../assets/general-secretary.png";
 import principalImg from "../assets/principle.png";
+import React from 'react'
+import collegeImg from "../../assets/aboutimage.jpg"; // your uploaded image
+import "../landing/style/About.css";
+
+
+import founderImg from "../../assets/Founder.png";
+import chairpersonImg from "../../assets/chairperson.png";
+import secretaryImg from "../../assets/general-secretary.png";
+import principalImg from "../../assets/principle.png";
+
 
 
 function About() {
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
   return (
     <>
+
+      
       {/* Top Gradient Header */}
       <div className="about-header text-center text-white d-flex align-items-center justify-content-center">
         <div>
@@ -139,10 +153,10 @@ function About() {
             {/* BCA */}
             <div className="col-md-6">
               <div className="program-card">
-                <span className="badge program-badge badge-blue">3 Years</span>
+                <span className="badge program-badge badge-blue">3-4 Years</span>
 
                 <h4 className="fw-bold mt-3">
-                  Bachelor of Computer Applications (BCA)
+                  Bachelor of Business Administration [BBA]
                 </h4>
 
                 <p>
@@ -155,10 +169,10 @@ function About() {
             {/* BBA */}
             <div className="col-md-6">
               <div className="program-card">
-                <span className="badge program-badge badge-purple">3 Years</span>
+                <span className="badge program-badge badge-purple">3-4 Years</span>
 
                 <h4 className="fw-bold mt-3">
-                  Bachelor of Business Administration (BBA)
+                  Bachelor of Business Administration in Computer Applications [BBA(CA)]
                 </h4>
 
                 <p>
@@ -168,13 +182,45 @@ function About() {
               </div>
             </div>
 
+            {/* Business Specialization */}
+            <div className="col-md-6">
+              <div className="program-card">
+                <span className="badge program-badge badge-green">3-4 Years</span>
+
+                <h4 className="fw-bold mt-3">
+                  Bachelor of Commerce in Business Management [BCom(BM)]
+                </h4>
+
+                <p>
+                  Specialized programs in digital marketing, financial
+                  management, and human resource development.
+                </p>
+              </div>
+            </div>
+
+            {/* Business Specialization */}
+            <div className="col-md-6">
+              <div className="program-card">
+                <span className="badge program-badge badge-green">3-4 Years</span>
+
+                <h4 className="fw-bold mt-3">
+                  Bachelor of Commerce in Computer Application [BCom(CA)]
+                </h4>
+
+                <p>
+                  Specialized programs in digital marketing, financial
+                  management, and human resource development.
+                </p>
+              </div>
+            </div>
+
             {/* Computer Specialization */}
             <div className="col-md-6">
               <div className="program-card">
-                <span className="badge program-badge badge-orange">Varies</span>
+                <span className="badge program-badge badge-orange">3-4 Years</span>
 
                 <h4 className="fw-bold mt-3">
-                  Computer Applications Specialization
+                  Bachelor of Computer Science [BSC(CS)]
                 </h4>
 
                 <p>
@@ -187,10 +233,46 @@ function About() {
             {/* Business Specialization */}
             <div className="col-md-6">
               <div className="program-card">
-                <span className="badge program-badge badge-green">Varies</span>
+                <span className="badge program-badge badge-green">3-4 Years</span>
 
                 <h4 className="fw-bold mt-3">
-                  Business Administration Specialization
+                  Bachelor Of science in Artificial Intelligence & Machine Learning [BSC(AI & ML)]
+                </h4>
+
+                <p>
+                  Specialized programs in digital marketing, financial
+                  management, and human resource development.
+                </p>
+              </div>
+            </div>
+
+            
+
+            
+
+            {/* Business Specialization */}
+            <div className="col-md-6">
+              <div className="program-card">
+                <span className="badge program-badge badge-green">2 Years</span>
+
+                <h4 className="fw-bold mt-3">
+                  Master of Computer science [MSC(CS)]
+                </h4>
+
+                <p>
+                  Specialized programs in digital marketing, financial
+                  management, and human resource development.
+                </p>
+              </div>
+            </div>
+
+            {/* Business Specialization */}
+            <div className="col-md-6">
+              <div className="program-card">
+                <span className="badge program-badge badge-green">2 Years</span>
+
+                <h4 className="fw-bold mt-3">
+                  Master Of Data Science [MSC(DS)]
                 </h4>
 
                 <p>
@@ -261,6 +343,13 @@ function About() {
 
 <section className="management-section py-5">
   <div className="container">
+    <h2 className="text-center fw-bold mb-2">
+  Our Leadership & Management
+</h2>
+
+<p className="text-center text-muted mb-5">
+  Guiding the institution with vision, experience, and excellence
+</p>
     <div className="row g-4">
 
       {/* Founder */}
@@ -283,9 +372,23 @@ function About() {
           </div>
 
           <p className="mt-3">
-            We Are In The First Quarter Of 21st Century. On The Other Hand We Are Finding Out What Is Hidden In The Depth Of Oceans.
-            <span className="read-more"> Read More</span>
-          </p>
+  {expandedIndex === 0
+    ? "We are in the First Quarter of 21st Century. This Century is a century of Knowledge,Management and Technology. On one side we are peeping in universe to multitude of opportunities,  on the other hand we are finding out what is hidden in the depth of oceans."
+    : "On this background, whether you go in cosmos or in the depth of ocean, the accuracy, quality of your product services must be of highest standard.What is the Standard? ISO, DIN, I.S.S these are international, German Indian standards. Similarly in Service sector slowly the standards are also making an imprint .For instance, if the computer is not functioning, a guarantee is given that without two hours it would be repaired.This guarantee is given because manufacturer is sure about Quality. This has created a standard for deviation either on positive side or negative side.This system is now called Six Sigma i.e within one million products part will be defective Naturally engineers started making the process of manufacturing near to perfection This century wherein 'Knowledge' plays a major need devised number of methods to make the process near to perfection.Similarly, imparting education, correction of papers should have least variation and this could be done only by standardizing process of teaching, process of correction so that no injustice is done towards any student.We at ATSS work hard at level to make this process of Education near to perfection."}
+
+  <span
+    className="read-more"
+    onClick={() =>
+      setExpandedIndex(expandedIndex === 0 ? null : 0)
+    }
+  >
+    {expandedIndex === 0 ? " Read More" : " Show Less"}
+  </span>
+</p>
+ 
+
+
+
 
         </div>
       </div>

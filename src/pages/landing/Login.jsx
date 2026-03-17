@@ -1,15 +1,53 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 function Login() {
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
+  const handleChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      const data = await res.json();
+
+      alert(data.message);
+
+      if (data.message === "Login successful") {
+        // store user
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        // redirect
+        window.location.href = "/dashboard";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="container-fluid">
       <div className="row" style={{ minHeight: "100vh" }}>
-
         {/* Left Gradient Section */}
         <div
           className="col-md-6 d-flex flex-column justify-content-center align-items-center text-center text-white"
           style={{
-            background: "linear-gradient(135deg,#3b82f6,#9333ea,#ec4899)"
+            background: "linear-gradient(135deg,#3b82f6,#9333ea,#ec4899)",
           }}
         >
           <div className="mb-4">
@@ -24,7 +62,7 @@ function Login() {
                 justifyContent: "center",
                 color: "#3b82f6",
                 fontSize: "28px",
-                margin: "auto"
+                margin: "auto",
               }}
             >
               🎓
@@ -48,9 +86,10 @@ function Login() {
 
         {/* Right Login Form */}
         <div className="col-md-6 d-flex justify-content-center align-items-center bg-light">
-
-          <div className="card shadow p-4" style={{ width: "400px", borderRadius: "15px" }}>
-
+          <div
+            className="card shadow p-4"
+            style={{ width: "400px", borderRadius: "15px" }}
+          >
             <Link className="mb-3 text-primary text-decoration-none" to="/home">
               ← Back to Home
             </Link>
@@ -60,14 +99,15 @@ function Login() {
               Enter your credentials to access your account
             </p>
 
-            <form>
-
+            <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label className="form-label">Email Address</label>
                 <input
                   type="email"
+                  name="email"
                   className="form-control"
                   placeholder="your.email@atsscollege.edu"
+                  onChange={handleChange}
                 />
               </div>
 
@@ -75,17 +115,24 @@ function Login() {
                 <label className="form-label">Password</label>
                 <input
                   type="password"
+                  name="password"
                   className="form-control"
                   placeholder="Enter your password"
+                  onChange={handleChange}
                 />
               </div>
 
               <div className="mb-3">
                 <label className="form-label">Login As</label>
-                <select className="form-select">
-                  <option>Student</option>
-                  <option>Faculty</option>
-                  <option>Admin</option>
+                <select
+                  className="form-select"
+                  name="role"
+                  onChange={handleChange}
+                >
+                  <option value="">Select Role</option>
+                  <option value="Student">Student</option>
+                  <option value="Faculty">Faculty</option>
+                  <option value="Admin">Admin</option>
                 </select>
               </div>
 
@@ -101,11 +148,12 @@ function Login() {
               </div>
 
               <button
+              type="submit"
                 className="btn w-100 text-white"
                 style={{
                   background: "linear-gradient(135deg,#3b82f6,#9333ea)",
                   borderRadius: "30px",
-                  padding: "10px"
+                  padding: "10px",
                 }}
               >
                 Login
@@ -117,13 +165,9 @@ function Login() {
                   Register Now
                 </Link>
               </p>
-
             </form>
-
           </div>
-
         </div>
-
       </div>
     </div>
   );

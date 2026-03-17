@@ -1,9 +1,7 @@
 
 import React from "react";
-// import heroImg from "./assets/hero.png";
-// import counsellingImg from "./assets/counselling.png";
-import heroImg from "../assets/hero.png";
-import counsellingImg from "../assets/counselling.png";
+import heroImg from "../../assets/hero.png";
+import counsellingImg from "../../assets/counselling.png";
 
 function Career() {
   return (
