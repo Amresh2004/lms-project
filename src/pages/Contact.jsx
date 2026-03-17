@@ -55,9 +55,10 @@ function Contact() {
                 <div className="mb-4">
                   <h5> Address</h5>
                   <p>
-                    ATSS College of Business Studies & Computer Application <br />
-                    Pune, Maharashtra 411001 <br />
-                    India
+                    ATSS CBSCA
+                    C2, MIDC, Opp. Niramaya Hospital, <br />
+                    Chinchwad Station, <br />
+                    Pune 411019. <br />
                   </p>
                 </div>
               </div>
@@ -108,8 +109,8 @@ function Contact() {
                 <div className="mb-4">
                   <h5> Email</h5>
                   <p>
-                    info@atsscollege.edu <br />
-                    admissions@atsscollege.edu
+                    atssitc@yahoo.co.in <br />
+                    admin@atsscollege.edu.in
                   </p>
                 </div>
               </div>
@@ -148,11 +149,11 @@ function Contact() {
 
             <div className="col-md-6 d-flex">
 
-              <div className="card shadow form-box p-4 border-0 w-100 h-75 flex-column">
+              <div className="card shadow p-4 border-0 w-100 h-76 flex-column">
 
                 <h4 className="fw-bold mb-4">Send us a Message</h4>
 
-                <form className="d-flex flex-column h-80">
+                <form className="d-flex flex-column h-76">
 
                   <div className="mb-4">
                     <label className="form-label">Full Name</label>
@@ -169,6 +170,15 @@ function Contact() {
                       className="form-control"
                     />
                   </div>
+
+                  <div className="mb-4">
+                    <label className="form-label">Subject</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                    />
+                  </div>
+
 
                   <div className="mb-4">
                     <label className="form-label">Message</label>
@@ -213,7 +223,7 @@ function Contact() {
 
               <iframe
                 title="map"
-                src="https://www.google.com/maps?q=Pune,Maharashtra,India&output=embed"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.558666985058!2d73.79342727372381!3d18.638910065551585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b84ab759e601%3A0xffed93993c560e40!2sATSS%20College!5e0!3m2!1sen!2sin!4v1773730377736!5m2!1sen!2sin"
                 width="100%"
                 height="450"
                 style={{ border: 0 }}
