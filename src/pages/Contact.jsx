@@ -131,7 +131,7 @@ function Contact() {
                 <h5 className="fw-semibold"> Office Hours</h5>
                 <p className="text-secondary mb-0">
                   Monday - Friday: 9:00 AM - 6:00 PM <br />
-                  Saturday: 9:00 AM  2:00 PM <br />
+                  Saturday: 9:00 AM - 2:00 PM <br />
                   Sunday: Closed
                 </p>
               </div>
