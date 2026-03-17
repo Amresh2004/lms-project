@@ -19,187 +19,187 @@ function Contact() {
 
       {/* Contact Section */}
       <div className="container py-5 bg-light">
-        {/* <div className="container my-5"> */}
-          <div className="row">
+        
+        <div className="row">
 
-            {/* Left Side */}
-            <div className="col-md-6">
+          {/* Left Side */}
+          <div className="col-md-6">
 
-              <h3 className="fw-semibold mb-3">Get in Touch</h3>
+            <h3 className="fw-semibold mb-3">Get in Touch</h3>
 
-              <p className="text-secondary">
-                Have questions about admissions, courses, or our LMS platform?
-                Reach out to us and we'll be happy to assist you.
-              </p>
+            <p className="text-secondary">
+              Have questions about admissions, courses, or our LMS platform?
+              Reach out to us and we'll be happy to assist you.
+            </p>
 
 
 
-{/* Address */}
-              <div className="d-flex mb-4 gap-3">
-                <div
-                  style={{
-                    width: "55px",
-                    height: "55px",
-                    borderRadius: "16px",
-                    background: "linear-gradient(135deg,#4f8cff,#8b3dff)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  <FaMapMarkerAlt size={20} color="white" />
-                </div>
-
-                <div className="mb-4">
-                  <h5 className="fw-semibold"> Address</h5>
-                  <p>
-                    ATSS CBSCA
-                    C2, MIDC, Opp. Niramaya Hospital, <br />
-                    Chinchwad Station, <br />
-                    Pune 411019. <br />
-                  </p>
-                </div>
+            {/* Address */}
+            <div className="d-flex mb-4 gap-3">
+              <div
+                style={{
+                  width: "55px",
+                  height: "55px",
+                  borderRadius: "16px",
+                  background: "linear-gradient(135deg,#4f8cff,#8b3dff)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <FaMapMarkerAlt size={20} color="white" />
               </div>
 
-
-               {/* Phone */}
-              <div className="d-flex mb-4 gap-3">
-                <div
-                  style={{
-                    width: "55px",
-                    height: "55px",
-                    borderRadius: "16px",
-                    background: "linear-gradient(135deg,#a855f7,#ec4899)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                    
-                  }}
-                >
-                  <FaPhoneAlt size={20} color="white" />
-                </div>
-
-
-                <div className="mb-4">
-                  <h5 className="fw-semibold"> Phone</h5>
-                  <p className="text-secondary mb-0">
-                    +91 985 088 6800<br />
-                    Tel: 020-27472079
-                  </p>
-                </div>
+              <div className="mb-4">
+                <h5 className="fw-semibold"> Address</h5>
+                <p>
+                  ATSS CBSCA
+                  C2, MIDC, Opp. Niramaya Hospital, <br />
+                  Chinchwad Station, <br />
+                  Pune 411019. <br />
+                </p>
               </div>
-
-              <div className="d-flex mb-4 gap-3">
-                <div
-                  style={{
-                    width: "55px",
-                    height: "55px",
-                    borderRadius: "16px",
-                    background: "linear-gradient(135deg,#ff7a18,#ff3d00)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  <FaEnvelope size={20} color="white" />
-                </div>
-                <div className="mb-4">
-                  <h5 className="fw-semibold"> Email</h5>
-                  <p className="text-secondary mb-0">
-                    atssitc@yahoo.co.in <br />
-                    admin@atsscollege.edu.in
-                  </p>
-                </div>
-              </div>
-{/* office hour */}
-              <div className="d-flex mb-4 gap-3">
-                <div
-                  style={{
-                    width: "55px",
-                    height: "55px",
-                    borderRadius: "16px",
-                    background: "linear-gradient(135deg,#22c55e,#16a34a)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                   }}
-                >
-                  <FaClock size={20} color="white" />
-                </div>
-
-                <div className="mb-4">
-                  <h5 className="fw-semibold"> Office Hours</h5>
-                  <p className="text-secondary mb-0">
-                    Monday - Friday: 9:00 AM - 6:00 PM <br />
-                    Saturday: 9:00 AM  2:00 PM <br />
-                    Sunday: Closed
-                  </p>
-                </div>
-              </div>
-
             </div>
 
 
-            {/* Right Side Form */}
+            {/* Phone */}
+            <div className="d-flex mb-4 gap-3">
+              <div
+                style={{
+                  width: "55px",
+                  height: "55px",
+                  borderRadius: "16px",
+                  background: "linear-gradient(135deg,#a855f7,#ec4899)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
 
-            <div className="col-md-6 d-flex">
-
-              <div className="card shadow p-4 border-0 w-100 ">
-
-                <h4 className="fw-bold mb-4">Send us a Message</h4>
-
-                <form className="d-flex flex-column">
-
-                  <div className="mb-4">
-                    <label className="form-label fw-medium">Full Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="form-label fw-medium">Email Address</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="form-label fw-medium">Subject</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                    />
-                  </div>
-
-
-                  <div className="mb-4">
-                    <label className="form-label fw-medium">Message</label>
-                    <textarea
-                      className="form-control"
-                      rows="4"
-                    ></textarea>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn w-100 text-white round-pill mt-2"
-                    style={{
-                      background:
-                        "linear-gradient(90deg,#3b82f6,#a855f7)"
-                    }}
-                  >
-                    Submit Message
-                  </button>
-
-                </form>
-
+                }}
+              >
+                <FaPhoneAlt size={20} color="white" />
               </div>
+
+
+              <div className="mb-4">
+                <h5 className="fw-semibold"> Phone</h5>
+                <p className="text-secondary mb-0">
+                  +91 985 088 6800<br />
+                  Tel: 020-27472079
+                </p>
+              </div>
+            </div>
+
+            <div className="d-flex mb-4 gap-3">
+              <div
+                style={{
+                  width: "55px",
+                  height: "55px",
+                  borderRadius: "16px",
+                  background: "linear-gradient(135deg,#ff7a18,#ff3d00)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <FaEnvelope size={20} color="white" />
+              </div>
+              <div className="mb-4">
+                <h5 className="fw-semibold"> Email</h5>
+                <p className="text-secondary mb-0">
+                  atssitc@yahoo.co.in <br />
+                  admin@atsscollege.edu.in
+                </p>
+              </div>
+            </div>
+            {/* office hour */}
+            <div className="d-flex mb-4 gap-3">
+              <div
+                style={{
+                  width: "55px",
+                  height: "55px",
+                  borderRadius: "16px",
+                  background: "linear-gradient(135deg,#22c55e,#16a34a)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <FaClock size={20} color="white" />
+              </div>
+
+              <div className="mb-4">
+                <h5 className="fw-semibold"> Office Hours</h5>
+                <p className="text-secondary mb-0">
+                  Monday - Friday: 9:00 AM - 6:00 PM <br />
+                  Saturday: 9:00 AM - 2:00 PM <br />
+                  Sunday: Closed
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+
+          {/* Right Side Form */}
+
+          <div className="col-md-6 d-flex">
+
+            <div className="card shadow p-4 border-0 w-100 ">
+
+              <h4 className="fw-bold mb-4">Send us a Message</h4>
+
+              <form className="d-flex flex-column">
+
+                <div className="mb-4">
+                  <label className="form-label fw-medium">Full Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="form-label fw-medium">Email Address</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="form-label fw-medium">Subject</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                  />
+                </div>
+
+
+                <div className="mb-4">
+                  <label className="form-label fw-medium">Message</label>
+                  <textarea
+                    className="form-control"
+                    rows="4"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn w-100 text-white round-pill mt-2"
+                  style={{
+                    background:
+                      "linear-gradient(90deg,#3b82f6,#a855f7)"
+                  }}
+                >
+                  Submit Message
+                </button>
+
+              </form>
+
             </div>
           </div>
-        {/* </div> */}
+        </div>
+
       </div>
 
 

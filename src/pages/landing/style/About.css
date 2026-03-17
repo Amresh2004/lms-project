@@ -198,10 +198,10 @@
 .role-badge {
   position: absolute;
   top: 80px;
-  left: 130px;
+  left: 125px;
   background: linear-gradient(135deg, #2563eb, #9333ea);
   color: white;
-  padding: 6px 14px;
+  padding: 4px 10px;
   border-radius: 10px;
   font-size: 12px;
 }
@@ -216,8 +216,18 @@
   border-color: #9333ea transparent transparent transparent;
 }
 
-.read-more {
-  color: #9333ea;
-  font-weight: 600;
-  cursor: pointer;
+
+
+.management-section h2{
+  font-size: 32px;
 }
+
+.management-section p{
+  font-size: 16px;
+}
+
+.read-more { 
+  color: #9333ea; 
+  font-weight: 600; 
+  cursor: pointer;
+ }
