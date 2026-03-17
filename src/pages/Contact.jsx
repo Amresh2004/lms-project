@@ -13,28 +13,28 @@ function Contact() {
           background: "linear-gradient(90deg,#3b82f6,#a855f7)"
         }}
       >
-        <h1 className="fw-bold" >Contact ATSS College</h1>
+        <h1 className="fw-bold display-5" >Contact ATSS College</h1>
         <p className="lead">We're here to help and answer any questions</p>
       </div>
 
       {/* Contact Section */}
-      <div className="container py-5 bg-light mb-10">
-        <div className="container my-5">
+      <div className="container py-5 bg-light">
+        {/* <div className="container my-5"> */}
           <div className="row">
 
             {/* Left Side */}
             <div className="col-md-6">
 
-              <h3 className="fw-bold mb-3">Get in Touch</h3>
+              <h3 className="fw-semibold mb-3">Get in Touch</h3>
 
-              <p>
+              <p className="text-secondary">
                 Have questions about admissions, courses, or our LMS platform?
                 Reach out to us and we'll be happy to assist you.
               </p>
 
 
 
-
+{/* Address */}
               <div className="d-flex mb-4 gap-3">
                 <div
                   style={{
@@ -44,16 +44,14 @@ function Contact() {
                     background: "linear-gradient(135deg,#4f8cff,#8b3dff)",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    color: "white",
-                    fontSize: "20px"
+                    justifyContent: "center"
                   }}
                 >
                   <FaMapMarkerAlt size={20} color="white" />
                 </div>
 
                 <div className="mb-4">
-                  <h5> Address</h5>
+                  <h5 className="fw-semibold"> Address</h5>
                   <p>
                     ATSS CBSCA
                     C2, MIDC, Opp. Niramaya Hospital, <br />
@@ -63,6 +61,8 @@ function Contact() {
                 </div>
               </div>
 
+
+               {/* Phone */}
               <div className="d-flex mb-4 gap-3">
                 <div
                   style={{
@@ -72,9 +72,8 @@ function Contact() {
                     background: "linear-gradient(135deg,#a855f7,#ec4899)",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    color: "white",
-                    fontSize: "20px"
+                    justifyContent: "center"
+                    
                   }}
                 >
                   <FaPhoneAlt size={20} color="white" />
@@ -82,8 +81,8 @@ function Contact() {
 
 
                 <div className="mb-4">
-                  <h5> Phone</h5>
-                  <p>
+                  <h5 className="fw-semibold"> Phone</h5>
+                  <p className="text-secondary mb-0">
                     +91 985 088 6800<br />
                     Tel: 020-27472079
                   </p>
@@ -99,22 +98,20 @@ function Contact() {
                     background: "linear-gradient(135deg,#ff7a18,#ff3d00)",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    color: "white",
-                    fontSize: "20px"
+                    justifyContent: "center"
                   }}
                 >
                   <FaEnvelope size={20} color="white" />
                 </div>
                 <div className="mb-4">
-                  <h5> Email</h5>
-                  <p>
+                  <h5 className="fw-semibold"> Email</h5>
+                  <p className="text-secondary mb-0">
                     atssitc@yahoo.co.in <br />
                     admin@atsscollege.edu.in
                   </p>
                 </div>
               </div>
-
+{/* office hour */}
               <div className="d-flex mb-4 gap-3">
                 <div
                   style={{
@@ -124,17 +121,15 @@ function Contact() {
                     background: "linear-gradient(135deg,#22c55e,#16a34a)",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    color: "white",
-                    fontSize: "20px"
-                  }}
+                    justifyContent: "center"
+                   }}
                 >
                   <FaClock size={20} color="white" />
                 </div>
 
                 <div className="mb-4">
-                  <h5> Office Hours</h5>
-                  <p>
+                  <h5 className="fw-semibold"> Office Hours</h5>
+                  <p className="text-secondary mb-0">
                     Monday - Friday: 9:00 AM - 6:00 PM <br />
                     Saturday: 9:00 AM  2:00 PM <br />
                     Sunday: Closed
@@ -149,14 +144,14 @@ function Contact() {
 
             <div className="col-md-6 d-flex">
 
-              <div className="card shadow p-4 border-0 w-100 h-76 flex-column">
+              <div className="card shadow p-4 border-0 w-100 ">
 
                 <h4 className="fw-bold mb-4">Send us a Message</h4>
 
-                <form className="d-flex flex-column h-76">
+                <form className="d-flex flex-column">
 
                   <div className="mb-4">
-                    <label className="form-label">Full Name</label>
+                    <label className="form-label fw-medium">Full Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -164,7 +159,7 @@ function Contact() {
                   </div>
 
                   <div className="mb-4">
-                    <label className="form-label">Email Address</label>
+                    <label className="form-label fw-medium">Email Address</label>
                     <input
                       type="email"
                       className="form-control"
@@ -172,7 +167,7 @@ function Contact() {
                   </div>
 
                   <div className="mb-4">
-                    <label className="form-label">Subject</label>
+                    <label className="form-label fw-medium">Subject</label>
                     <input
                       type="text"
                       className="form-control"
@@ -181,7 +176,7 @@ function Contact() {
 
 
                   <div className="mb-4">
-                    <label className="form-label">Message</label>
+                    <label className="form-label fw-medium">Message</label>
                     <textarea
                       className="form-control"
                       rows="4"
@@ -190,7 +185,7 @@ function Contact() {
 
                   <button
                     type="submit"
-                    className="btn w-100 text-white round-btn mt-auto"
+                    className="btn w-100 text-white round-pill mt-2"
                     style={{
                       background:
                         "linear-gradient(90deg,#3b82f6,#a855f7)"
@@ -204,18 +199,18 @@ function Contact() {
               </div>
             </div>
           </div>
-        </div>
+        {/* </div> */}
       </div>
 
 
       {/* Location */}
 
-      <div className="container my-3">
+      <div className="container my-5">
 
-        <h2 className="text-center fw-bold mb-2">Our Location</h2>
+        <h2 className="text-center fw-bold mb-4">Our Location</h2>
 
         {/* Map Section */}
-        <div className="row justify-content-center mt-2">
+        <div className="row justify-content-center">
 
           <div className="col-lg-10">
 
