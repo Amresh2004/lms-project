@@ -5,7 +5,7 @@ import "../pages/register.css";
 function Register() {
   return (
     <>
-    <br />
+      <br />
       <div
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh", background: "#f1f5f9" }}
@@ -65,21 +65,23 @@ function Register() {
             <div className="mb-3">
               <label className="form-label">Select Course</label>
               <select className="form-select">
-                <option>BCA - Bachelor of Computer Applications</option>
                 <option>BBA - Bachelor of Business Administration</option>
                 <option>
-                  BBA - Bachelor of Business Administration in Computer
+                  BBA(CA) - Bachelor of Business Administration in Computer
                   Applications
                 </option>
                 <option>BSC(CS) - Bachelor of Computer science</option>
                 <option>
-                  BSC(AI) - Bachelor Of science in Artificial Intelligence
+                  BSC(AI & ML) - Bachelor Of science in Artificial Intelligence & Machine Learning
                 </option>
-                <option>MSC(CS) - Master of computewr science</option>
+                <option>MSC(CS) - Master of Computer science</option>
+                <option>MSC(DS)- Master Of Data Science</option>
                 <option>
                   BCom(BM) - Bachelor of Commerce in Business Management
                 </option>
-                <option>BCom(CA) - Bachelor of Commerce in </option>
+                <option>
+                  BCom(CA) - Bachelor of Commerce in Computer Application
+                </option>
               </select>
             </div>
 
