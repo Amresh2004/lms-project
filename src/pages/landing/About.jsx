@@ -1,11 +1,4 @@
 import React, { useState } from 'react';
-import collegeImg from "../assets/aboutimage.jpg"; // your uploaded image
-import "./About.css";
-import founderImg from "../assets/Founder.png";
-import chairpersonImg from "../assets/chairperson.png";
-import secretaryImg from "../assets/general-secretary.png";
-import principalImg from "../assets/principle.png";
-import React from 'react'
 import collegeImg from "../../assets/aboutimage.jpg"; // your uploaded image
 import "../landing/style/About.css";
 
