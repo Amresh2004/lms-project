@@ -1,5 +1,5 @@
 import React from "react";
-
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock } from "react-icons/fa";
 
 
 function Contact() {
@@ -49,7 +49,7 @@ function Contact() {
                     fontSize: "20px"
                   }}
                 >
-                  <i className="bi bi-geo-alt"></i>
+                  <FaMapMarkerAlt size={20} color="white" />
                 </div>
 
                 <div className="mb-4">
@@ -76,7 +76,7 @@ function Contact() {
                     fontSize: "20px"
                   }}
                 >
-                  <i className="bi bi-telephone"></i>
+                  <FaPhoneAlt size={20} color="white" />
                 </div>
 
 
@@ -103,7 +103,7 @@ function Contact() {
                     fontSize: "20px"
                   }}
                 >
-                  <i className="bi bi-envelope"></i>
+                  <FaEnvelope size={20} color="white" />
                 </div>
                 <div className="mb-4">
                   <h5> Email</h5>
@@ -128,7 +128,7 @@ function Contact() {
                     fontSize: "20px"
                   }}
                 >
-                  <i className="bi bi-clock"></i>
+                  <FaClock size={20} color="white" />
                 </div>
 
                 <div className="mb-4">
