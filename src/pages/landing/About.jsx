@@ -1,6 +1,6 @@
 import React from 'react'
-import collegeImg from "../assets/aboutimage.jpg"; // your uploaded image
-import "./About.css";
+import collegeImg from "../../assets/aboutimage.jpg"; // your uploaded image
+import "../landing/style/About.css";
 
 
 function About() {
