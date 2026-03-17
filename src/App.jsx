@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes,Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer';
+import Navbar from './components/landing/Navbar'
+import Footer from './components/landing/Footer';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -11,6 +11,13 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Career from './pages/Career';
 import CourseDetails from "./CourseDetails";
+import Home from './pages/landing/Home';
+import About from './pages/landing/About';
+import Courses from './pages/landing/Courses';
+import Contact from './pages/landing/Contact';
+import Login from './pages/landing/Login';
+import Register from './pages/landing/Register';
+import Career from './pages/landing/Career';
 function App() {
   return (
     <div style={{ marginTop: "80px" }}>

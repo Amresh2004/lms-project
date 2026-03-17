@@ -1,9 +1,7 @@
 
 import React from "react";
-// import heroImg from "./assets/hero.png";
-// import counsellingImg from "./assets/counselling.png";
-import heroImg from "../assets/hero.png";
-import counsellingImg from "../assets/counselling.png";
+import heroImg from "../../assets/hero.png";
+import counsellingImg from "../../assets/counselling.png";
 
 function Career() {
   return (
@@ -23,7 +21,7 @@ function Career() {
               </h1>
 
               <p className="mt-3">
-                India's top counsellors guide you to find your best
+                Our top counsellors guide you to find your best
                 career path through expert counselling.
               </p>
 
