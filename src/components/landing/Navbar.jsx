@@ -81,7 +81,7 @@ function Navbar() {
 
              <li className="nav-item">
               <Link className="nav-link nav-hover fw-medium" to="/career">
-                Career
+                Placement
               </Link>
             </li>
 
