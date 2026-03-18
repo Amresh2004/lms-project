@@ -7,6 +7,7 @@ import founderImg from "../../assets/Founder.png";
 import chairpersonImg from "../../assets/chairperson.png";
 import secretaryImg from "../../assets/general-secretary.png";
 import principalImg from "../../assets/principle.png";
+import { FaEye, FaBullseye, FaUsers, FaAward } from "react-icons/fa";
 
 
 
@@ -18,75 +19,66 @@ function About() {
 
       
       {/* Top Gradient Header */}
-      <div className="about-header text-center text-white d-flex align-items-center justify-content-center">
+      <div className="about-hero">
+  <div className="about-overlay">
+    <div className="container">
+      <h1 className="about-title">ABOUT COLLEGE</h1>
+
+      <div className="breadcrumb-box">
+        <span>Home</span> / <strong>About College</strong>
+      </div>
+    </div>
+  </div>
+</div>
         <div>
           <h1 className="fw-bold">About ATSS College</h1>
           <p className="lead">
             Excellence in Business Studies & Computer Application
           </p>
         </div>
-      </div>
+  
 
       <section className="about-section py-5">
         <div className="container">
-          <div className="row align-items-center">
+          <div className="container">
 
-            {/* Left Side Content */}
-            <div className="col-lg-6">
-              <h1 className="about-heading fw-bold mb-4">
-                Welcome to ATSS College of Business Studies & Computer Application
-              </h1>
+  <h3 className="section-heading">Introduction</h3>
+  <p className="section-text">
+    Audyogik Tantra Shikshan Sanstha popularity known as ATSS is an education trust
+    established in 1963 and registered under Bombay Public Trust Act 1965 with registration
+    number F-324 dated 16/7/66 and is also registered under Society's Act 1860 with registration
+    number MAH/499/P of 6/7/65.
+  </p>
 
-              <p className="text-muted">
-                <h4>Introduction<br /></h4>
-                Audyogik Tantra Shikshan Sanstha popularity known as ATSS is an education trust
-                established in 1963 and registered under Bombay Public Trust Act 1965 with registration
-                number F-324 dated 16/7/66 and is also registered under Society's Act 1860 with registration
-                number MAH/499/P of 6/7/65.
-              </p>
+  <h3 className="section-heading">The Beginning</h3>
+  <p className="section-text">
+    Deep rooted commitment towards education, strong social sense and focus on creating employable
+    youth have been the pillars of 'Audyogik Tantra Shikshan Sanstha[ATSS]. Since its inception in year
+    1966 when Mr. M.D.Jambhekar, a visionary leader and educationist founded ATSS with the prime focus
+    of giving skill training to the youth of Pimpri-Chinchwad for generation employable manpower for
+    the emerging industries at that time.
+    The trust was supported by various manufacturing industries located in the industrial belt of
+    Pimpri Chinchwad like Atlas Copco, TELCO [present Tata Motors], Forbes Marshall to name a few.
+  </p>
 
-              <p className="text-muted">
-                <h4>The Beginning<br /></h4>
-                Deep rooted commitment towards education, strong social sense and focus on creating employable
-                youth have been the pillars of 'Audyogik Tantra Shikshan Sanstha[ATSS]. Since its inception in year
-                1966 when Mr. M.D.Jambhekar, a visionary leader and educationist founded ATSS with the prime focus
-                of giving skill training to the youth of Pimpri-Chinchwad for generation employable manpower for
-                the emerging industries at that time.
-                The trust was supported by various manufacturing industries located in the industrial belt of
-                Pimpri Chinchwad like Atlas Copco,TELCO[present Tata Motors],Forbes Marshall to name a few
-              </p>
+  <h3 className="section-heading">Growth and Expansion</h3>
+  <p className="section-text">
+    Over the period of last five decades, the trust established other Institutes as a
+    response to the changing needs of Pimpri Chinchwad area. As per the changing times and
+    needs of the industries and society, the trust spread its wings in diversified educational
+    areas in the field of primary education, technical education, computer education and
+    management education.
+  </p>
 
-              <p className="text-muted">
-                <h4>Growth and Expansion<br /></h4>
-                Over the period of last five decades, the trust established other Institutes as a
-                response to the changing needs of Pimpri Chinchwad area. As per the changing times and
-                needs of the industries and society, the true spread its wings in diversified educational
-                areas in the field of primary education, technical education, computer education and
-                management education.
-              </p>
+  <h3 className="section-heading">Different institutes under ATSS</h3>
+  <p className="section-text">
+    The Trust runs various recognized and affiliated institutes namely "Institute of Industrial
+    and Computer Management and Research" [IICMR]; ATSS College of Business Studies and Computer
+    Applications [CBSCA]. ATSS Industrial Training Center [ITC] and City Pride School under two
+    campus operations, one at Pradhikaran, Nigdi and other at Chinchwad.
+  </p>
 
-              <p className="text-muted">
-                <h4>Different institutes under ATSS<br /></h4>
-                The Trust runs various recognized and affiliated institutes namely "Institute of Industrial
-                and Computer Management and Research"[IICMR]; ATSS College of Business Studies and Computer
-                Applications [CBSCA]. ATSS Industrial Training Center[ITC] and City Pride School under two
-                campus operations, one at Pradhikaran,Nigdi and other at Chinchwad.
-              </p>
-
-            </div>
-
-            {/* Right Side Image */}
-            <div className="col-lg-6">
-              <div className="about-img">
-                <img
-                  src={collegeImg}
-                  alt="ATSS College"
-                  className="img-fluid shadow"
-                />
-              </div>
-            </div>
-
-          </div>
+</div>
         </div>
       </section>
 
@@ -100,7 +92,7 @@ function About() {
             <div className="col-lg-6">
               <div className="vision-card">
                 <div className="icon-box vision-icon">
-                  <i className="bi bi-eye"></i>
+                  <FaEye className="icon" />
                 </div>
 
                 <h3 className="fw-bold mt-3">Our Vision</h3>
@@ -117,7 +109,7 @@ function About() {
             <div className="col-lg-6">
               <div className="vision-card">
                 <div className="icon-box mission-icon">
-                  <i className="bi bi-bullseye"></i>
+                 <FaBullseye className="icon" />
                 </div>
 
                 <h3 className="fw-bold mt-3">Our Mission</h3>
@@ -295,7 +287,7 @@ function About() {
               <div className="faculty-card d-flex align-items-start">
 
                 <div className="faculty-icon educator-icon">
-                  <i className="bi bi-people"></i>
+                  <FaUsers className="icon" />
                 </div>
 
                 <div>
@@ -314,7 +306,7 @@ function About() {
               <div className="faculty-card d-flex align-items-start">
 
                 <div className="faculty-icon expert-icon">
-                  <i className="bi bi-award"></i>
+                 <FaAward className="icon" />
                 </div>
 
                 <div>
@@ -482,3 +474,4 @@ function About() {
 
 
 export default About;
+

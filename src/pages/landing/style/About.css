@@ -1,45 +1,58 @@
-/* Header Gradient */
+/* ================= HERO SECTION ================= */
 
-.about-header {
-  height: 170px;
-  background: linear-gradient(90deg, #2563eb, #9333ea);
+.about-hero {
+  background: url("../assets/aboutimage.jpg") center/cover no-repeat;
+  height: 260px;
+  position: relative;
 }
 
-.about-heading{
-  font-size: 36px;
-  line-height: 1.2;
+.about-overlay {
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.9), rgba(147, 51, 234, 0.7));
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
+
+.about-title {
+  color: #facc15;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.breadcrumb-box {
+  margin-top: 20px;
+  display: inline-block;
+  background: #facc15;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* ================= INTRO SECTION ================= */
 
 .about-section {
   background: #f5f6f8;
+  padding-top: 40px;
 }
 
-.about-img {
-  position: relative;
-  margin-left: 90px;
+.section-heading {
+  margin-top: 40px;
+  font-weight: 700;
+  font-size: 26px;
+  background: linear-gradient(90deg, #2563eb, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.about-img img {
-  border-radius: 20px;
-  position: relative;
-  z-index: 2;
+.section-text {
+  margin-top: 10px;
+  color: #333;
+  line-height: 1.9;
+  font-size: 16px;
 }
 
-/* purple background design */
-
-.about-img::before {
-  content: "";
-  position: absolute;
-  top: -12px;
-  left: -12px;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #5b5cf6, #9333ea);
-  border-radius: 20px;
-  z-index: 1;
-}
-
-/* Vision Mission Section */
+/* ================= VISION / MISSION ================= */
 
 .vision-section{
   background:#f5f6f8;
@@ -59,15 +72,14 @@
 }
 
 .icon-box{
-  width:55px;
-  height:55px;
+  width:60px;
+  height:60px;
   display:flex;
   align-items:center;
   justify-content:center;
   border-radius:15px;
   color:white;
   font-size:22px;
-  margin-left:2px;
 }
 
 .vision-icon{
@@ -78,13 +90,11 @@
   background:linear-gradient(135deg,#9333ea,#ec4899);
 }
 
-/* Programs Section */
+/* ================= PROGRAMS ================= */
 
 .programs-section{
   background:#f5f6f8;
 }
-
-/* Card */
 
 .program-card{
   background:white;
@@ -94,16 +104,12 @@
   height:100%;
 }
 
-/* Badge */
-
 .program-badge{
   padding:6px 14px;
   font-size:14px;
   border-radius:20px;
   color:white;
 }
-
-/* Badge Colors */
 
 .badge-blue{
   background:linear-gradient(90deg,#2563eb,#0ea5e9);
@@ -121,13 +127,11 @@
   background:linear-gradient(90deg,#10b981,#059669);
 }
 
-/* Faculty Section */
+/* ================= FACULTY ================= */
 
 .faculty-section{
   background:#f5f6f8;
 }
-
-/* Card */
 
 .faculty-card{
   background:white;
@@ -137,30 +141,27 @@
   gap:20px;
 }
 
-/* Icon */
-
 .faculty-icon{
-  width:90px;
-  height:55px;
+  width:60px;
+  height:60px;
+  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:50%;
   color:white;
   font-size:22px;
 }
 
-/* Icon Colors */
-
 .educator-icon{
-  background:linear-gradient(135deg,#2563eb,#9333ea);
+  background:linear-gradient(135deg,#667eea,#764ba2);
 }
 
 .expert-icon{
-  background:linear-gradient(135deg,#9333ea,#ec4899);
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
 }
 
- /* management */
+/* ================= MANAGEMENT ================= */
+
 .management-section {
   background: #f5f6f8;
 }
@@ -173,23 +174,19 @@
   position: relative;
 }
 
-
 .profile-container {
   width: 104px;
   height: 104px;
   border-radius: 50%;
-  /* padding: -100px; */
   background: linear-gradient(135deg, #2563eb, #9333ea);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Image */
-
 .profile-img {
-  width: 100px;
-  height: 100px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   object-fit: cover;
   background: white;
@@ -216,8 +213,6 @@
   border-color: #9333ea transparent transparent transparent;
 }
 
-
-
 .management-section h2{
   font-size: 32px;
 }
@@ -230,4 +225,4 @@
   color: #9333ea; 
   font-weight: 600; 
   cursor: pointer;
- }
+}
