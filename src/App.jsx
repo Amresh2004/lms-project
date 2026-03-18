@@ -1,8 +1,7 @@
 import React from 'react'
-import { Routes,Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/landing/Navbar'
 import Footer from './components/landing/Footer';
-
 
 import Home from './pages/landing/Home';
 import About from './pages/landing/About';
@@ -19,7 +18,7 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Home />} /> 
+        <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<Courses />} />
