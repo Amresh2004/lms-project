@@ -3,12 +3,6 @@ import heroImg from "../../assets/hero.png";
 import { FaArrowRight } from "react-icons/fa";
 
 
-
-
-
-
-
-
 function Career() {
   const partners = [
     { name: "TCS", initial: "T", bg: "primary-subtle", text: "primary" },
