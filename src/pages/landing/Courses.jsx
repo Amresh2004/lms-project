@@ -11,8 +11,8 @@ function CoursesPage() {
   const courses = [
     {
       id: 1,
-      title: "BCA - Bachelor of Computer Applications",
-      desc: "Comprehensive 3-year program covering programming languages, software engineering, database management, web technologies, and emerging tech trends.",
+      title: "BSC (Cyber Security)",
+      desc: "Comprehensive 3-year program covering network security, ethical hacking, cryptography, and cyber defense strategies.",
       faculty: "Dr. Rajesh Kumar",
       duration: "3 Years",
       color: "linear-gradient(135deg,#3b82f6,#06b6d4)",
@@ -74,7 +74,7 @@ function CoursesPage() {
   },
   {
     id: 8,
-    title: "MSc (Computer Science)",
+    title: "MSC (Computer Science)",
     desc: "Advanced program in software development, cloud computing, AI, and system design.",
     faculty: "Dr. Vikram Patil",
     duration: "2 Years",
@@ -83,12 +83,12 @@ function CoursesPage() {
   },
   {
     id: 9,
-    title: "MSc (Data Science)",
+    title: "MSC (Data Science)",
     desc: "Specialization in machine learning, deep learning, big data analytics, and research.",
     faculty: "Dr. Pooja Mehta",
     duration: "2 Years",
     color: "linear-gradient(135deg,#0ea5e9,#06b6d4)",
-    icon: <FaBrain size={24} color="#fff" />,
+    icon: <MdSchool size={24} color="#fff" />,
   },
   ];
 

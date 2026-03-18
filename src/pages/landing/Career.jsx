@@ -1,10 +1,14 @@
 import React from "react";
 
 
+
 import { FaArrowRight } from "react-icons/fa";
 
 
 import heroImg from "../../assets/hero.png";
+
+
+
 
 
 function Career() {

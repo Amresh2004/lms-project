@@ -4,8 +4,6 @@ import Navbar from './components/landing/Navbar'
 import Footer from './components/landing/Footer';
 
 
-
-
 import Home from './pages/landing/Home';
 import About from './pages/landing/About';
 import Courses from './pages/landing/Courses';

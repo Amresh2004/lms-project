@@ -159,12 +159,12 @@ function Login() {
                 Login
               </button>
 
-              <p className="text-center mt-3">
+              {/* <p className="text-center mt-3">
                 Don't have an account?{" "}
                 <Link className="text-decoration-none" to="/register">
                   Register Now
                 </Link>
-              </p>
+              </p> */}
             </form>
           </div>
         </div>

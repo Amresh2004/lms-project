@@ -64,15 +64,14 @@ function Navbar() {
 
             <li className="nav-item">
               <Link className="nav-link nav-hover fw-medium" to="/about">
-                About ATSS
+                About
               </Link>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link nav-hover fw-medium" to="/courses">
-                Courses
               </Link>
-            </li>
+            </li> */}
 
             <li className="nav-item">
               <Link className="nav-link nav-hover fw-medium" to="/contact">
@@ -96,7 +95,7 @@ function Navbar() {
               </Link>
             </li>
 
-            {/* Register Button */}
+            {/* Register Button
             <li className="nav-item">
               <Link
                 className="register-btn"
@@ -104,7 +103,7 @@ function Navbar() {
               >
                 Register
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>
