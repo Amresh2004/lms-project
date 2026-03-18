@@ -2,10 +2,10 @@ import React from "react";
 import heroImg from "../../assets/hero.png";
 import { FaArrowRight } from "react-icons/fa";
 
-import { FaArrowRight } from "react-icons/fa";
 
 
-import heroImg from "../../assets/hero.png";
+
+
 
 
 
