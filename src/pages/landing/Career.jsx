@@ -1,12 +1,10 @@
 import React from "react";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import heroImg from "../assets/hero.png";
+
 import { FaArrowRight } from "react-icons/fa";
 
 
 import heroImg from "../../assets/hero.png";
-import counsellingImg from "../../assets/counselling.png";
 
 
 function Career() {

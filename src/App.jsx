@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/landing/Navbar'
 import Footer from './components/landing/Footer';
-import CourseDetails from "./CourseDetails";
+
 
 
 
