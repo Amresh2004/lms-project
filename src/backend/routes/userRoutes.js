@@ -32,25 +32,21 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({
-      email: email.toLowerCase().trim()
-    });
-
-    if (!user) {
-      return res.status(400).json({ message: "User not found" });
+    // 🔥 STATIC ADMIN LOGIN
+    if (email === "admin@atsscollege.edu" && password === "admin123") {
+      return res.json({
+        message: "Login successful",
+        user: {
+          name: "Admin",
+          email: "admin@atsscollege.edu",
+          role: "Admin"
+        }
+      });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid password" });
-    }
-
-    const { password: pwd, ...userData } = user._doc;
-
-    res.json({
-      message: "Login successful",
-      user: userData
+    // ❌ If wrong credentials
+    return res.status(400).json({
+      message: "Invalid admin credentials"
     });
 
   } catch (error) {

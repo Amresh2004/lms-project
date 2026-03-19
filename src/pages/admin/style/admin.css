@@ -1,0 +1,143 @@
+.admin-container {
+  display: flex;
+  height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: #f8fafc;
+  padding: 20px;
+  position: fixed;
+  height: 100%;
+}
+
+.logo {
+  margin-bottom: 30px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+
+/* Main Section */
+.main {
+  margin-left: 250px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Topbar */
+.topbar {
+  height: 70px;
+  background: linear-gradient(135deg,#3b82f6,#9333ea);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* Logout */
+.logout-btn {
+  background: white;
+  color: #3b82f6;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Content */
+.content {
+  padding: 20px;
+  background: #f1f5f9;
+  height: calc(100vh - 70px);
+  overflow-y: auto;
+}
+
+/* Cards */
+.cards {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 200px;
+}
+
+.sidebar li.active {
+  background: linear-gradient(135deg,#3b82f6,#9333ea);
+  color: white;
+}
+
+.sidebar li.active a {
+  color: white;
+}
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+.sidebar a {
+  text-decoration: none;
+  color: inherit;
+}
+.sidebar a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Sidebar Links */
+.sidebar a {
+  text-decoration: none;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+/* Icons */
+.icon {
+  font-size: 16px;
+}
+
+/* Hover Effect */
+.sidebar a:hover {
+  background: #e0e7ff;
+  color: #2563eb;
+  transform: translateX(5px);
+}
+
+/* Active */
+.sidebar li.active a {
+  background: linear-gradient(135deg,#3b82f6,#9333ea);
+  color: white;
+}
+
+/* Active Icon */
+.sidebar li.active .icon {
+  color: white;
+}
+.sidebar a:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}

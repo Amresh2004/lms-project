@@ -1,45 +1,49 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 function Login() {
   const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-    role: "",
-  });
+  email: "",
+  password: ""
+});
+
+const navigate = useNavigate();
   const handleChange = (e) => {
-    setLoginData({
-      ...loginData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  setLoginData({
+    ...loginData,
+    [e.target.name]: e.target.value
+  });
+};
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
+  try {
+    const res = await fetch("http://localhost:5000/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(loginData)
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      alert(data.message);
+    console.log(data); // 👈 DEBUG
 
-      if (data.message === "Login successful") {
-        // store user
-        localStorage.setItem("user", JSON.stringify(data.user));
+    if (data.message === "Login successful") {
 
-        // redirect
-        window.location.href = "/dashboard";
-      }
-    } catch (error) {
-      console.log(error);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // 🔥 FORCE NAVIGATION
+      navigate("/admin/dashboard");
+
     }
-  };
+
+  } catch (error) {
+    console.log(error);
+  }
+};
   return (
     <div className="container-fluid">
       <div className="row" style={{ minHeight: "100vh" }}>
@@ -122,20 +126,6 @@ function Login() {
                 />
               </div>
 
-              <div className="mb-3">
-                <label className="form-label">Login As</label>
-                <select
-                  className="form-select"
-                  name="role"
-                  onChange={handleChange}
-                >
-                  <option value="">Select Role</option>
-                  <option value="Student">Student</option>
-                  <option value="Faculty">Faculty</option>
-                  <option value="Admin">Admin</option>
-                </select>
-              </div>
-
               <div className="d-flex justify-content-between mb-3">
                 <div className="form-check">
                   <input className="form-check-input" type="checkbox" />
@@ -147,7 +137,7 @@ function Login() {
                 </a>
               </div>
 
-              <button
+              <Link
               type="submit"
                 className="btn w-100 text-white"
                 style={{
@@ -155,9 +145,10 @@ function Login() {
                   borderRadius: "30px",
                   padding: "10px",
                 }}
+                to="/admin/dashboard"
               >
                 Login
-              </button>
+              </Link>
 
               {/* <p className="text-center mt-3">
                 Don't have an account?{" "}
