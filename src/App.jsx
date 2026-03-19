@@ -10,7 +10,6 @@ import Login from "./pages/landing/Login";
 import Register from "./pages/landing/Register";
 import Career from "./pages/landing/Career";
 import CourseDetails from "./pages/landing/CourseDetails";
-
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import FacultyDashboard from "./pages/faculty/FacultyDashboard";
 import StudentDashboard from "./pages/student/StudentDashboard";

@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaUserGraduate,
@@ -15,92 +14,75 @@ import "../admin/style/admin.css";
 
 function AdminDashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     window.location.href = "/login";
   };
 
-  const location = useLocation();
-
   return (
     <div className="admin-container">
-      {/* Sidebar */}
+
+      {/* SIDEBAR */}
       <div className="sidebar">
         <h4 className="logo">ATSS College</h4>
 
         <ul>
-          <li
-            className={location.pathname === "/admin/dashboard" ? "active" : ""}
-          >
+          <li className={location.pathname === "/admin/dashboard" ? "active" : ""}>
             <Link to="/admin/dashboard">
-              <FaTachometerAlt className="icon" /> Dashboard
+              <FaTachometerAlt /> Dashboard
             </Link>
           </li>
 
-          <li
-            className={location.pathname === "/admin/students" ? "active" : ""}
-          >
+          <li className={location.pathname === "/admin/students" ? "active" : ""}>
             <Link to="/admin/students">
-              <FaUserGraduate className="icon" /> Manage Students
+              <FaUserGraduate /> Students
             </Link>
           </li>
 
           <li className={location.pathname === "/admin/staff" ? "active" : ""}>
             <Link to="/admin/staff">
-              <FaChalkboardTeacher className="icon" /> Manage Staff
+              <FaChalkboardTeacher /> Staff
             </Link>
           </li>
 
-          <li
-            className={location.pathname === "/admin/courses" ? "active" : ""}
-          >
+          <li className={location.pathname === "/admin/courses" ? "active" : ""}>
             <Link to="/admin/courses">
-              <FaBook className="icon" /> Manage Courses
+              <FaBook /> Courses
             </Link>
           </li>
 
-          <li
-            className={
-              location.pathname === "/admin/assignments" ? "active" : ""
-            }
-          >
+          <li className={location.pathname === "/admin/assignments" ? "active" : ""}>
             <Link to="/admin/assignments">
-              <FaClipboardList className="icon" /> Assignments
+              <FaClipboardList /> Assignments
             </Link>
           </li>
 
-          <li
-            className={
-              location.pathname === "/admin/announcements" ? "active" : ""
-            }
-          >
+          <li className={location.pathname === "/admin/announcements" ? "active" : ""}>
             <Link to="/admin/announcements">
-              <FaBullhorn className="icon" /> Announcements
+              <FaBullhorn /> Announcements
             </Link>
           </li>
 
-          <li
-            className={location.pathname === "/admin/reports" ? "active" : ""}
-          >
+          <li className={location.pathname === "/admin/reports" ? "active" : ""}>
             <Link to="/admin/reports">
-              <FaChartBar className="icon" /> Reports
+              <FaChartBar /> Reports
             </Link>
           </li>
 
-          <li
-            className={location.pathname === "/admin/settings" ? "active" : ""}
-          >
+          <li className={location.pathname === "/admin/settings" ? "active" : ""}>
             <Link to="/admin/settings">
-              <FaCog className="icon" /> Settings
+              <FaCog /> Settings
             </Link>
           </li>
         </ul>
       </div>
 
-      {/* Main */}
+      {/* MAIN */}
       <div className="main">
-        {/* Topbar */}
+
+        {/* TOPBAR */}
         <div className="topbar">
           <h5>Welcome Back! {user?.name || "Admin"}</h5>
 
@@ -109,10 +91,11 @@ function AdminDashboard() {
           </button>
         </div>
 
-        {/* Content */}
+        {/* PAGE CONTENT */}
         <div className="content">
           <Outlet />
         </div>
+
       </div>
     </div>
   );
