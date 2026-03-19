@@ -1,12 +1,13 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/atss_lms");
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("MongoDB Connected");
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
   }
 };
 
-export default connectDB;
+module.exports = connectDB; // ✅ THIS LINE IS IMPORTANT
