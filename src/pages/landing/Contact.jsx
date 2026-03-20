@@ -1,5 +1,6 @@
 import React from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock } from "react-icons/fa";
+import { useState } from "react";
 // import React, { useState } from "react";
 import axios from "axios";
 
@@ -25,7 +26,7 @@ function Contact() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/send-mail", formData);
+      await axios.post("http://localhost:5000/api/send-mail", formData);
       alert("Message Sent Successfully");
     } catch (error) {
       alert("Error sending message");
