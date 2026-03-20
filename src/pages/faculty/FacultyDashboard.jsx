@@ -11,7 +11,6 @@ import {
   FaUserCircle
 } from "react-icons/fa";
 
-
 function FacultyDashboard() {
   return (
     <div className="d-flex">
