@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
 
@@ -22,7 +23,7 @@ import Assignments from "./pages/admin/Assignments";
 import Announcements from "./pages/admin/Announcements";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
-import { useLocation } from "react-router-dom";
+
 function App() {
   const location = useLocation();
   const hideLayout = location.pathname.startsWith("/admin");
