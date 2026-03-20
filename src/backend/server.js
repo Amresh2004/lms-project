@@ -5,6 +5,9 @@ import dotenv from "dotenv";
 
 import authRoutes from "./routes/userRoutes.js";
 import mailRoutes from "./routes/mailRoutes.js";
+import studentRoutes from "./routes/studentRoutes.js";
+
+
 
 
 
@@ -16,6 +19,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api", mailRoutes);
+app.use("/api/students", studentRoutes);
 
 // ✅ Routes
 app.use("/api/auth", authRoutes);
