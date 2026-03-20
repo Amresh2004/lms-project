@@ -1,8 +1,36 @@
 import React from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock } from "react-icons/fa";
+// import React, { useState } from "react";
+import axios from "axios";
 
 
 function Contact() {
+   const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+
+  // Handle input change
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // Handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post("http://localhost:5000/send-mail", formData);
+      alert("Message Sent Successfully");
+    } catch (error) {
+      alert("Error sending message");
+    }
+  };
   return (
     <div>
 
@@ -148,13 +176,16 @@ function Contact() {
 
               <h4 className="fw-bold mb-4">Send us a Message</h4>
 
-              <form className="d-flex flex-column">
+              <form className="d-flex flex-column" onSubmit={handleSubmit}>
 
                 <div className="mb-4">
                   <label className="form-label fw-medium">Full Name</label>
                   <input
                     type="text"
+                    name="name"
                     className="form-control"
+                    onChange={handleChange}
+            required
                   />
                 </div>
 
@@ -162,7 +193,10 @@ function Contact() {
                   <label className="form-label fw-medium">Email Address</label>
                   <input
                     type="email"
+                    name="email"
                     className="form-control"
+                     onChange={handleChange}
+            required
                   />
                 </div>
 
@@ -170,7 +204,10 @@ function Contact() {
                   <label className="form-label fw-medium">Subject</label>
                   <input
                     type="text"
+                    name="subject"
                     className="form-control"
+                     onChange={handleChange}
+           
                   />
                 </div>
 
@@ -178,8 +215,11 @@ function Contact() {
                 <div className="mb-4">
                   <label className="form-label fw-medium">Message</label>
                   <textarea
+                  name="message"
                     className="form-control"
                     rows="4"
+                     onChange={handleChange}
+            required
                   ></textarea>
                 </div>
 

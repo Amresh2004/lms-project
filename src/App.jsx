@@ -22,7 +22,6 @@ import Assignments from "./pages/admin/Assignments";
 import Announcements from "./pages/admin/Announcements";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
-
 import { useLocation } from "react-router-dom";
 function App() {
   const location = useLocation();
