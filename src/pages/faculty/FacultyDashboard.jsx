@@ -3,12 +3,7 @@ import {
   FaBook,
   FaUsers,
   FaClipboardList,
-  FaClock,
-  FaTachometerAlt,
-  FaUpload,
-  FaUserGraduate,
-  FaBullhorn,
-  FaUserCircle
+  FaClock,FaTachometerAlt,FaUpload,FaUserGraduate,FaBullhorn, FaUserCircle
 } from "react-icons/fa";
 
 function FacultyDashboard() {
