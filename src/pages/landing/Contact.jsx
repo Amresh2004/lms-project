@@ -1,7 +1,7 @@
 import React from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock } from "react-icons/fa";
 import { useState } from "react";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import axios from "axios";
 
 
