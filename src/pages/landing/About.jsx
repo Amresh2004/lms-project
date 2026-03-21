@@ -20,24 +20,29 @@ function About() {
 
       
       {/* Top Gradient Header */}
-      <div className="about-hero">
+      <div className="about-hero"
+      style={{ backgroundImage: `url(${collegeImg})` }}
+      >
+
   <div className="about-overlay">
     <div className="container">
       <h1 className="about-title">ABOUT COLLEGE</h1>
 
       <div className="breadcrumb-box">
-        <span>Home</span> / <strong>About College</strong>
+         <p className="lead">
+            Excellence in Business Studies & Computer Application
+          </p>
       </div>
     </div>
   </div>
 </div>
-        <div>
+        {/* <div>
           <h1 className="fw-bold">About ATSS College</h1>
           <p className="lead">
             Excellence in Business Studies & Computer Application
           </p>
         </div>
-  
+   */}
 
       <section className="about-section py-5">
         <div className="container">
