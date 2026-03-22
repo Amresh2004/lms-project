@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import collegeImg from "../../assets/aboutimage.jpg"; 
+import collegeImg from "../../assets/aboutimage.jpg";
 import "../landing/style/About.css";
 import founderImg from "../../assets/Founder.png";
 import chairpersonImg from "../../assets/chairperson.png";
@@ -13,8 +13,7 @@ function About() {
   return (
     <>
       <div className="about-hero"
-        style={{ backgroundImage: `url(${collegeImg})` }}
-      >
+        style={{ backgroundImage: `url(${collegeImg})` }}>
 
         <div className="about-overlay">
           <div className="container">
@@ -28,18 +27,10 @@ function About() {
           </div>
         </div>
       </div>
-      {/* <div>
-          <h1 className="fw-bold">About ATSS College</h1>
-          <p className="lead">
-            Excellence in Business Studies & Computer Application
-          </p>
-        </div>
-   */}
 
       <section className="about-section py-5">
-        <div className="container">
+         <div className="container">
           <div className="container">
-
             <div className="row g-4">
 
               {/* Introduction */}
@@ -76,8 +67,6 @@ function About() {
                     to the changing needs of Pimpri Chinchwad area. As per the changing times and needs of the industries and
                     society, the true spread its wings in diversified educational areas in the field of primary education,
                     technical education, computer education and management education.
-
-
                   </p>
                 </div>
               </div>
@@ -94,17 +83,12 @@ function About() {
                   </p>
                 </div>
               </div>
-
             </div>
-
-
-
           </div>
         </div>
       </section>
 
       {/* Vision Mission Section */}
-
       <section className="vision-section py-5">
         <div className="container">
           <div className="row g-4">
@@ -115,9 +99,7 @@ function About() {
                 <div className="icon-box vision-icon">
                   <FaEye className="icon" />
                 </div>
-
                 <h3 className="fw-bold mt-3">Our Vision</h3>
-
                 <p>
                   "To be center for quality education and research, through excellent academic
                   ambience and natural relation with society and industry, with an objective of
@@ -132,9 +114,7 @@ function About() {
                 <div className="icon-box mission-icon">
                   <FaBullseye className="icon" />
                 </div>
-
                 <h3 className="fw-bold mt-3">Our Mission</h3>
-
                 <p>
                   "We, at ATSS regard it as our mission to develop competent professionals &
                   entrepreneurs capable of withstanding and managing the ever-changing scenario
@@ -143,156 +123,127 @@ function About() {
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </section>
-      {/* Programs Offered Section */}
 
+      {/* Programs Offered Section */}
       <section className="programs-section py-5">
         <div className="container">
-
           <h2 className="text-center fw-bold mb-5">Programs Offered</h2>
-
           <div className="row g-4">
 
-            {/* BCA */}
+            {/* BBA */}
             <div className="col-md-6">
               <div className="program-card">
-
-                {/* <span className="badge program-badge badge-blue">3-4 Years</span> */}
                 <span className="program-badge badge-blue">3-4 Years</span>
-
                 <h4 className="fw-bold mt-3">
                   Bachelor of Business Administration [BBA]
                 </h4>
-
                 <p>
-                  {/* Comprehensive program covering programming, software
-                  development, database management, and emerging technologies. */}
                   Dynamic program focusing on management principles, leadership skills, marketing, and business strategy.
                 </p>
               </div>
             </div>
 
-            {/* BBA */}
+            {/* BBA-CA */}
             <div className="col-md-6">
               <div className="program-card">
-                {/* <span className="badge program-badge badge-purple">3-4 Years</span> */}
                 <span className="program-badge badge-purple">3-4 Years</span>
-
                 <h4 className="fw-bold mt-3">
                   Bachelor of Business Administration in Computer Applications [BBA(CA)]
                 </h4>
-
                 <p>
                   Blends business management with computer applications, covering IT tools, software, and business systems.
                 </p>
               </div>
             </div>
 
-            {/* Business Specialization */}
+            {/* BCOM-BM */}
             <div className="col-md-6">
               <div className="program-card">
                 <span className="program-badge badge-orange">3-4 Years</span>
-
                 <h4 className="fw-bold mt-3">
                   Bachelor of Commerce in Business Management [BCom(BM)]
                 </h4>
-
                 <p>
                   Covers business management, finance, marketing, and entrepreneurship for corporate careers.
                 </p>
               </div>
             </div>
 
-            {/* Business Specialization */}
+            {/* BCOM-CA */}
             <div className="col-md-6">
               <div className="program-card">
                 <span className="program-badge badge-green">3-4 Years</span>
-
                 <h4 className="fw-bold mt-3">
                   Bachelor of Commerce in Computer Application [BCom(CA)]
                 </h4>
-
                 <p>
                   Combines commerce with computer applications, including accounting software and IT-based business processes.
                 </p>
               </div>
             </div>
 
-            {/* Computer Specialization */}
+            {/* BSC-CS */}
             <div className="col-md-6">
               <div className="program-card">
                 <span className="program-badge badge-blue">3-4 Years</span>
-
                 <h4 className="fw-bold mt-3">
                   Bachelor of Computer Science [BSC(CS)]
                 </h4>
-
                 <p>
                   Covers core computer science concepts including programming, data structures, and software development.
                 </p>
               </div>
             </div>
 
-            {/* Business Specialization */}
+            {/* BSC-AIML*/}
             <div className="col-md-6">
               <div className="program-card">
                 <span className="program-badge badge-purple">3-4 Years</span>
-
                 <h4 className="fw-bold mt-3">
                   Bachelor Of science in Artificial Intelligence & Machine Learning [BSC(AI & ML)]
                 </h4>
-
                 <p>
                   Specialized program in artificial intelligence and machine learning with real-world data and automation applications.
                 </p>
               </div>
             </div>
 
-
-
-
-
-            {/* Business Specialization */}
+            {/* MSC-CS */}
             <div className="col-md-6">
               <div className="program-card">
                 <span className="program-badge badge-orange">3-4 Years</span>
-
                 <h4 className="fw-bold mt-3">
                   Master of Computer science [MSC(CS)]
                 </h4>
-
                 <p>
                   Advanced study in computer science focusing on software engineering, systems, and emerging technologies.
                 </p>
               </div>
             </div>
 
-            {/* Business Specialization */}
+            {/* MSC-DS*/}
             <div className="col-md-6">
               <div className="program-card">
                 <span className="program-badge badge-green">3-4 Years</span>
-
                 <h4 className="fw-bold mt-3">
                   Master Of Data Science [MSC(DS)]
                 </h4>
-
                 <p>
                   Focuses on data analysis, machine learning, and big data technologies for data-driven decision making
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </section>
+
       {/* Faculty Section */}
 
       <section className="faculty-section py-5">
         <div className="container">
-
           <h2 className="text-center fw-bold mb-2">Our Distinguished Faculty</h2>
           <p className="text-center text-muted mb-5">
             Learn from experienced professors and industry professionals
@@ -303,11 +254,9 @@ function About() {
             {/* Qualified Educators */}
             <div className="col-md-6">
               <div className="faculty-card d-flex align-items-start">
-
                 <div className="faculty-icon educator-icon">
                   <FaUsers className="icon" />
                 </div>
-
                 <div>
                   <h5 className="fw-bold">Qualified Educators</h5>
                   <p>
@@ -315,18 +264,15 @@ function About() {
                     institutions and bring years of industry experience.
                   </p>
                 </div>
-
               </div>
             </div>
 
             {/* Industry Experts */}
             <div className="col-md-6">
               <div className="faculty-card d-flex align-items-start">
-
                 <div className="faculty-icon expert-icon">
                   <FaAward className="icon" />
                 </div>
-
                 <div>
                   <h5 className="fw-bold">Industry Experts</h5>
                   <p>
@@ -334,10 +280,8 @@ function About() {
                     provide practical insights and networking opportunities.
                   </p>
                 </div>
-
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -358,7 +302,6 @@ function About() {
             {/* Founder */}
             <div className="col-md-6">
               <div className="management-card">
-
                 <div className="d-flex align-items-center position-relative">
 
                   <div className="profile-container">
@@ -369,11 +312,8 @@ function About() {
                     <h5 className="fw-bold mb-1">Late Mr. M. D. Jambhekar</h5>
                     <p className="text-muted mb-1">Former Chairman, ATSS Trust</p>
                   </div>
-
                   <span className="role-badge">Founder</span>
-
                 </div>
-
 
                 <p className="mt-3">
                   {expandedIndex === 0
@@ -389,18 +329,12 @@ function About() {
                     {expandedIndex === 0 ? " Show Less" : " Read More"}
                   </span>
                 </p>
-
-
-
-
-
               </div>
             </div>
 
             {/* Chairperson */}
             <div className="col-md-6">
               <div className="management-card">
-
                 <div className="d-flex align-items-center position-relative">
 
                   <div className="profile-container">
@@ -411,9 +345,7 @@ function About() {
                     <h5 className="fw-bold mb-1">Prof.(Dr.) Deepali Sawai</h5>
                     <p className="text-muted mb-1">Chairperson, ATSS Trust</p>
                   </div>
-
                   <span className="role-badge">Chairperson</span>
-
                 </div>
 
                 <p className="mt-3">
@@ -430,14 +362,12 @@ function About() {
                     {expandedIndex === 1 ? " Show Less" : " Read More"}
                   </span>
                 </p>
-
               </div>
             </div>
 
             {/* Secretary */}
             <div className="col-md-6">
               <div className="management-card">
-
                 <div className="d-flex align-items-center position-relative">
 
                   <div className="profile-container">
@@ -448,9 +378,7 @@ function About() {
                     <h5 className="fw-bold mb-1">Dr. Ashwini Kulkarni</h5>
                     <p className="text-muted mb-1">General Secretary, ATSS Trust</p>
                   </div>
-
                   <span className="role-badge">General Secretary</span>
-
                 </div>
 
                 <p className="mt-3">
@@ -467,14 +395,12 @@ function About() {
                     {expandedIndex === 2 ? " Show Less" : " Read More"}
                   </span>
                 </p>
-
               </div>
             </div>
 
             {/* Principal */}
             <div className="col-md-6">
               <div className="management-card">
-
                 <div className="d-flex align-items-center position-relative">
 
                   <div className="profile-container">
@@ -485,9 +411,7 @@ function About() {
                     <h5 className="fw-bold mb-1">Dr. Vishwas Swami</h5>
                     <p className="text-muted mb-1">Principal</p>
                   </div>
-
                   <span className="role-badge">Principal</span>
-
                 </div>
 
                 <p className="mt-3">
@@ -504,23 +428,13 @@ function About() {
                     {expandedIndex === 3 ? " Show Less" : " Read More"}
                   </span>
                 </p>
-
               </div>
             </div>
-
           </div>
         </div>
       </section>
-
-
-
-
-
-
     </>
   );
 }
-
-
 export default About;
 
