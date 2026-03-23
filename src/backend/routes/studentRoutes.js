@@ -95,5 +95,32 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// FORGOT PASSWORD (RESET)
+router.post("/forgot-password", async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+      return res.status(400).json({ message: "All fields required" });
+    }
+
+    const student = await Student.findOne({ email });
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    // update password
+    student.password = newPassword;
+    await student.save();
+
+    res.json({ message: "Password updated successfully ✅" });
+
+  } catch (err) {
+    console.log("FORGOT PASSWORD ERROR:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 export default router;
 

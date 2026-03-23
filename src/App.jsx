@@ -8,6 +8,7 @@ import Home from "./pages/landing/Home";
 import About from "./pages/landing/About";
 import Contact from "./pages/landing/Contact";
 import Login from "./pages/landing/Login";
+import ForgotPassword from "./pages/landing/ForgotPassword";
 import Register from "./pages/landing/Register";
 import Career from "./pages/landing/Career";
 import CourseDetails from "./pages/landing/CourseDetails";
@@ -23,6 +24,7 @@ import Assignments from "./pages/admin/Assignments";
 import Announcements from "./pages/admin/Announcements";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
+
 
 function App() {
   const location = useLocation();
@@ -40,6 +42,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/career" element={<Career />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} /> 
 
         <Route path="/admin" element={<AdminDashboard />}>
           <Route index element={<Dashboard />} />
