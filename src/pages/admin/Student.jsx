@@ -61,43 +61,44 @@ function Student() {
 
   // ✅ SUBMIT FIX
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      let res;
+  try {
+    let url = "http://localhost:5000/api/students";
+    let method = "POST";
 
-      if (editId) {
-        res = await fetch(`http://localhost:5000/api/students/${editId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        });
-      } else {
-        res = await fetch("http://localhost:5000/api/students", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        });
-      }
-
-      // 👇 ADD THIS
-      const data = await res.json();
-      console.log("Response:", data);
-
-      if (!res.ok) {
-        alert(data.message || "Server error");
-        return;
-      }
-
-      setForm({ name: "", email: "", phone: "", course: "" });
-      setEditId(null);
-      setShowForm(false);
-      fetchStudents();
-    } catch (err) {
-      console.log("ERROR:", err);
-      alert("Server not running or API error");
+    if (editId) {
+      url = `http://localhost:5000/api/students/${editId}`;
+      method = "PUT";
     }
-  };
+
+    const res = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+
+    const data = await res.json();
+    console.log("SUBMIT RESPONSE:", data);
+
+    if (!res.ok) {
+      alert(data.message || "Server error");
+      return;
+    }
+
+    // RESET
+    setForm({ name: "", email: "", phone: "", course: "" });
+    setEditId(null);
+    setShowForm(false);
+
+    fetchStudents();
+  } catch (error) {
+    console.log("SUBMIT ERROR:", error);
+    alert("Server not running or API error");
+  }
+};
   return (
     <div className="students-container">
       {/* HEADER */}
