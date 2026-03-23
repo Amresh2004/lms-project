@@ -10,7 +10,7 @@ import {
   FaUser
 } from "react-icons/fa";
 
-function Sidebar() {
+function SideBar() {
   const location = useLocation();
 
   const menu = [
@@ -48,4 +48,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default SideBar;

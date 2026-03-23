@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
-
+import SideBar from "./components/landing/SideBar"
 import Home from "./pages/landing/Home";
 import About from "./pages/landing/About";
 import Contact from "./pages/landing/Contact";
@@ -13,7 +13,7 @@ import Career from "./pages/landing/Career";
 import CourseDetails from "./pages/landing/CourseDetails";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import FacultyDashboard from "./pages/faculty/FacultyDashboard";
-import Sidebar from "./component/Sidebar";
+
 import StudentDashboard from "./pages/student/StudentDashboard";
 
 import Dashboard from "./pages/admin/Dashboard";
@@ -25,12 +25,26 @@ import Announcements from "./pages/admin/Announcements";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
 
+import MyCourses from "./pages/faculty/MyCourses";
+import Assignment from "./pages/faculty/Assignment";
+import Attendance from "./pages/faculty/Attendance";
+import Grades from "./pages/faculty/Grades";
+import Announcement from "./pages/faculty/Announcement";
+import UploadMaterials from "./pages/faculty/UploadMaterials";
+import Profile from "./pages/faculty/Profile";
+import Student from "./pages/faculty/Students";
+
 function App() {
   const location = useLocation();
   const hideLayout = location.pathname.startsWith("/admin");
   return (
     <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
       {!hideLayout && <Navbar />}
+
+      {/* Sidebar */}
+        {hideLayout && <SideBar />}
+
+
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -54,24 +68,26 @@ function App() {
           <Route path="settings" element={<Settings />} />
         </Route>
 
-        <Route path="/faculty/dashboard" element={<FacultyDashboard />}></Route>
+       
 
-        <Route path="/dashboard" element={<FacultyDashboard />} />
-        <Route path="/students" element={<Students />} />
-        <Route path="/courses" element={<MyCourses />} />
-        <Route path="/assignments" element={<Assignments />} />
-        <Route path="/attendance" element={<Attendance />} />
-        <Route path="/announcements" element={<Announcements />} />
-        <Route path="/upload" element={<UploadMaterials />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/grades" element={<Grades />}>
-</Route>
-      
+        <Route path="/faculty/dashboard" element={<FacultyDashboard />}/>
+        
+        <Route path="/faculty/courses" element={<MyCourses />} />
+        <Route path="/faculty/assignments" element={<Assignment />} />
+        <Route path="/faculty/attendance" element={<Attendance />} />
+        <Route path="/faculty/announcements" element={<Announcement />} />
+        <Route path="/faculty/upload" element={<UploadMaterials />} />
+        <Route path="/faculty/profile" element={<Profile />} />
+        <Route path="/faculty/students" element={<Student />} />
+        <Route path="/faculty/grades" element={<Grades />}/>
 
-      <Route path="/student/dashboard" element={<StudentDashboard />} />
-    </Routes>
+        
 
-      { !hideLayout && <Footer /> }
+
+        <Route path="/student/dashboard" element={<StudentDashboard />} />
+      </Routes>
+
+      {!hideLayout && <Footer />}
     </div >
   );
 }
