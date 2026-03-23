@@ -1,50 +1,32 @@
-/* ================= HERO SECTION ================= */
+/* hero section */
 
 .about-hero {
   position: relative;
   height: 350px;
   background-size: cover;
-  /* background-position:95% 62%; */
-   background-position: right -250px center;
-display: flex;
+  background-position: right -250px center;
+  display: flex;
   align-items: center;
-  
 }
-
 
 .about-overlay {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-
-  background: linear-gradient(
-    to right,
-    rgba(79, 124, 240, 0.85),  /* blue (left dark) */
-    rgba(123, 97, 255, 0.85),   /* purple mid */
-    rgba(155, 77, 224, 0.4),    /* lighter purple */
-    rgba(155, 77, 224, 0)       /* transparent (right side) */
-  );
+  background: linear-gradient(to right,
+      rgba(79, 124, 240, 0.85),
+      rgba(123, 97, 255, 0.85),
+      rgba(155, 77, 224, 0.4),
+      rgba(155, 77, 224, 0));
 }
+
 .about-hero .lead {
-  color: #ffffff; 
+  color: #ffffff;
   font-size: 15px;
-  margin-top:-15px;
-  margin-left:-5px;
+  margin-top: -15px;
+  margin-left: -5px;
 }
-
-
-
-
-/* .breadcrumb-box {
-  margin-top: 20px;
-  display: inline-block;
-  background: #facc15;
-  padding: 8px 20px;
-  border-radius: 4px;
-  font-weight: 500;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}  */
 
 .about-title {
   color: #ffffff;
@@ -53,157 +35,153 @@ display: flex;
   margin-bottom: 20px;
 }
 
-
-/* .breadcrumb-box {
-  display: inline-block;
-  background: #f5a000; /* yellow box same */
-  /* padding: 10px 20px;
-  border-radius: 3px;
-  font-weight: 500;
-} */
-
-/* Breadcrumb text */
-/* .breadcrumb-box span {
-  color: #000; */
-
-
-/* .breadcrumb-box strong {
-  color: #000;
-} */ 
-
-
-/* ================= INTRO SECTION ================= */
-
 .about-section {
   background: #f5f6f8;
   padding-top: 40px;
 }
 
-.section-heading {
-  margin-top: 40px;
+/* about info */
+
+.info-heading {
   font-weight: 700;
-  font-size: 26px;
-  background: linear-gradient(90deg, #2563eb, #9333ea);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
 }
 
-.section-text {
-  margin-top: 10px;
-  color: #333;
-  line-height: 1.9;
+.info-card {
+  padding: 25px;
+  border-radius: 15px;
+  position: relative;
+  height: 100%;
+  z-index: 1;
+  background: linear-gradient(135deg,
+      rgba(96, 165, 250, 0.15),
+      rgba(192, 132, 252, 0.12));
+}
+
+.info-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #93c5fd, #d8b4fe);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+}
+
+/* vision-mission */
+
+.vision-section {
+  background: #f5f6f8;
+}
+
+.vision-card {
+  background: #e9ecf3;
+  padding: 23px;
+  border-radius: 20px;
+  height: 100%;
+}
+
+.vision-card p {
+  color: #5a5a5a;
   font-size: 16px;
+  margin-top: 10px;
 }
 
-/* ================= VISION / MISSION ================= */
-
-.vision-section{
-  background:#f5f6f8;
+.icon-box {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  color: white;
+  font-size: 22px;
 }
 
-.vision-card{
-  background:#e9ecf3;
-  padding:40px;
-  border-radius:20px;
-  height:100%;
+.vision-icon {
+  background: linear-gradient(135deg, #2563eb, #9333ea);
 }
 
-.vision-card p{
-  color:#5a5a5a;
-  font-size:16px;
-  margin-top:10px;
+.mission-icon {
+  background: linear-gradient(135deg, #9333ea, #ec4899);
 }
 
-.icon-box{
-  width:60px;
-  height:60px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:15px;
-  color:white;
-  font-size:22px;
+/* programs */
+
+.programs-section {
+  background: #f5f6f8;
 }
 
-.vision-icon{
-  background:linear-gradient(135deg,#2563eb,#9333ea);
+.program-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  height: 100%;
 }
 
-.mission-icon{
-  background:linear-gradient(135deg,#9333ea,#ec4899);
+.program-badge {
+  padding: 4px 10px;
+  font-size: 10px;
+  border-radius: 15px;
+  color: white;
 }
 
-/* ================= PROGRAMS ================= */
-
-.programs-section{
-  background:#f5f6f8;
+.badge-blue {
+  background: linear-gradient(90deg, #2563eb, #0ea5e9);
 }
 
-.program-card{
-  background:white;
-  padding:30px;
-  border-radius:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.08);
-  height:100%;
+.badge-purple {
+  background: linear-gradient(90deg, #9333ea, #ec4899);
 }
 
-.program-badge{
-  padding:6px 14px;
-  font-size:14px;
-  border-radius:20px;
-  color:white;
+.badge-orange {
+  background: linear-gradient(90deg, #f97316, #ef4444);
 }
 
-.badge-blue{
-  background:linear-gradient(90deg,#2563eb,#0ea5e9);
+.badge-green {
+  background: linear-gradient(90deg, #10b981, #059669);
 }
 
-.badge-purple{
-  background:linear-gradient(90deg,#9333ea,#ec4899);
+/* faculty */
+
+.faculty-section {
+  background: #f5f6f8;
 }
 
-.badge-orange{
-  background:linear-gradient(90deg,#f97316,#ef4444);
+.faculty-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  gap: 20px;
 }
 
-.badge-green{
-  background:linear-gradient(90deg,#10b981,#059669);
+.faculty-icon {
+  width: 100px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
 }
 
-/* ================= FACULTY ================= */
-
-.faculty-section{
-  background:#f5f6f8;
+.educator-icon {
+  background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
-.faculty-card{
-  background:white;
-  padding:30px;
-  border-radius:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.08);
-  gap:20px;
+.expert-icon {
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
 }
 
-.faculty-icon{
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  font-size:22px;
-}
-
-.educator-icon{
-  background:linear-gradient(135deg,#667eea,#764ba2);
-}
-
-.expert-icon{
-  background:linear-gradient(135deg,#ff758c,#ff7eb3);
-}
-
-/* ================= MANAGEMENT ================= */
+/* management */
 
 .management-section {
   background: #f5f6f8;
@@ -213,7 +191,7 @@ display: flex;
   background: white;
   padding: 25px;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   position: relative;
 }
 
@@ -228,8 +206,8 @@ display: flex;
 }
 
 .profile-img {
-  width: 96px;
-  height: 96px;
+  width: 98px;
+  height: 98px;
   border-radius: 50%;
   object-fit: cover;
   background: white;
@@ -256,16 +234,97 @@ display: flex;
   border-color: #9333ea transparent transparent transparent;
 }
 
-.management-section h2{
+.management-section h2 {
   font-size: 32px;
 }
 
-.management-section p{
+.management-section p {
   font-size: 16px;
 }
 
-.read-more { 
-  color: #9333ea; 
-  font-weight: 600; 
+.read-more {
+  color: #9333ea;
+  font-weight: 600;
   cursor: pointer;
+}
+
+/* responsive */
+
+@media (max-width: 992px) {
+  .about-hero {
+    height: auto;
+    padding: 80px 0;
+    background-position: center;
+  }
+
+  .about-title {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .about-hero .lead {
+    text-align: center;
+    margin-left: 0;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-section .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .profile-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-img {
+    width: 74px;
+    height: 74px;
+  }
+
+  .role-badge {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .management-card .d-flex {
+    flex-direction: column;
+    align-items: center !important;
+    text-align: center;
+  }
+
+  .management-card .ms-4 {
+    margin-left: 0 !important;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-title {
+    font-size: 26px;
+  }
+
+  .program-card {
+    padding: 20px;
+  }
+
+  .vision-card {
+    padding: 20px;
+  }
+
+  .faculty-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .faculty-icon {
+    margin-bottom: 10px;
+  }
 }
