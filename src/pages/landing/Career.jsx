@@ -1,98 +1,177 @@
 import React from "react";
+import heroImg from "../../assets/hero.png";
+import { FaArrowRight } from "react-icons/fa";
 
+import { useEffect, useState, useRef } from "react";
 
+import {  FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-
+import { Bar } from "react-chartjs-2";
+import "chart.js/auto";
+import { useNavigate } from "react-router-dom";
 
 
 
 function Career() {
-  const partners = [
-    { name: "TCS", initial: "T", bg: "primary-subtle", text: "primary" },
-    { name: "Infosys", initial: "I", bg: "secondary-subtle", text: "secondary" },
-    { name: "Wipro", initial: "W", bg: "danger-subtle", text: "danger" },
-    { name: "HCLTech", initial: "H", bg: "success-subtle", text: "success" },
-    { name: "Accenture", initial: "A", bg: "info-subtle", text: "info" },
-    { name: "Cognizant", initial: "C", bg: "primary-subtle", text: "primary" },
-    { name: "IBM", initial: "I", bg: "secondary-subtle", text: "secondary" },
-    { name: "Microsoft", initial: "M", bg: "success-subtle", text: "success" },
-    { name: "Amazon", initial: "A", bg: "warning-subtle", text: "warning" },
-    { name: "Google", initial: "G", bg: "danger-subtle", text: "danger" },
+  const navigate = useNavigate();
+
+  // 📊 STATS
+  const stats = [
+    { value: 70, label: "Placement Rate", suffix: "%" },
+    { value: 8.5, label: "Highest Package", suffix: " LPA" },
+    { value: 4.5, label: "Average Package", suffix: " LPA" },
+    { value: 30, label: "Recruiting Companies", suffix: "+" }
   ];
 
-  const steps = [
-    { id: 1, title: "Enrollment", desc: "Join our career track program." },
-    { id: 2, title: "Training", desc: "Master skills with industry experts." },
-    { id: 3, title: "Live Projects", desc: "Build a strong GitHub portfolio." },
-    { id: 4, title: "Interview Prep", desc: "Mock interviews & resume building." },
-    { id: 5, title: "Placement", desc: "Get hired at a top company." },
+  // 🏢 COMPANIES
+  const partners = [
+    { name: "TCS" },
+    { name: "Infosys" },
+    { name: "Wipro" },
+    { name: "HCLTech" },
+    { name: "Accenture" },
+    { name: "Cognizant" },
+    { name: "IBM" },
+    { name: "Microsoft" },
+    { name: "Amazon" },
+    { name: "Google" },
   ];
+
+  // 🎯 STEPS
+  const steps = [
+    { id: 1, title: "Enrollment" },
+    { id: 2, title: "Training" },
+    { id: 3, title: "Projects" },
+    { id: 4, title: "Interview" },
+    { id: 5, title: "Placement" },
+  ];
+
+  // 🔢 COUNTER
+  const [counts, setCounts] = useState(stats.map(() => 0));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCounts(prev =>
+        prev.map((c, i) => {
+          const target = stats[i].value;
+          if (c < target) return Math.min(c + target / 40, target);
+          return c;
+        })
+      );
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  // 📊 GRAPH
+  const chartData = {
+    labels: ["2021", "2022", "2023", "2024", "2025"],
+    datasets: [
+      {
+        label: "Placement %",
+        data: [45, 55, 60, 65, 70],
+        backgroundColor: "rgba(13,110,253,0.6)"
+      }
+    ]
+  };
+
+  // 🎠 CAROUSEL
+  const [index, setIndex] = useState(0);
+  const visibleCards = 1;
+
+  // duplicate first items for smooth infinite loop
+  const extendedPartners = [
+    ...partners,
+    ...partners.slice(0, visibleCards),
+  ];
+
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const intervalRef = useRef(null);
+
+  // ▶ AUTO SLIDE
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setIndex((prev) => prev + 1);
+    }, 4000);
+
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
+  // 🔁 RESET FOR INFINITE LOOP
+  useEffect(() => {
+    if (index === partners.length) {
+      setTimeout(() => {
+        setIsTransitioning(false); // remove animation
+        setIndex(0);               // jump back
+
+        setTimeout(() => {
+          setIsTransitioning(true); // restore animation
+        }, 50);
+      }, 1000); // match transition duration
+    }
+  }, [index, partners.length]);
+
   return (
     <div>
 
-      {/* HERO SECTION */}
-      <section
-        className="d-flex align-items-center"
+
+      < section className="d-flex align-items-center"
         style={{
           minHeight: "100vh",
-          background: "linear-gradient(135deg, #dbeafe, #e9d5ff)"
-        }}
-      >
+          background: "linear-gradient(135deg,#dbeafe,#e9d5ff)"
+        }}>
         <div className="container">
-          <div className="row align-items-center text-center text-md-start">
+          <div className="row align-items-center">
 
-            {/* LEFT TEXT */}
             <div className="col-md-6">
-              <h1 className="display-4 fw-bold">
-                Build Your Career{" "}<br />
-                <span className="text-primary">With  </span>
-
-                <span
-                  style={{
-                    background: "linear-gradient(to right, #6366f1, #9333ea)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent"
-                  }}
-                >
-                  Us
+              <h1 className="fw-bold display-4">
+                Build Your Career <br />
+                <span style={{
+                  background: "linear-gradient(to right,#6366f1,#9333ea)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent"
+                }}>
+                  With Confidence
                 </span>
               </h1>
 
+              <p className="mb-0 fs-5 fw-semibold">
+                Empowering students to master industry-relevant skills, build high-impact projects,
+                and secure placements at global tech giants. Our structured LMS bridges the gap between
+                learning and getting hired.
+              </p>
 
-              <div className="container my-5">
-                <div
-                  className="p-4 text-center shadow"
-                  style={{
-                    background: "linear-gradient(135deg, #6366f1, #9333ea)",
-                    color: "white",
-                    borderRadius: "20px",
-                    animation: "fadeInUp 1s ease-in-out"
-                  }}
-                >
-                  <p className="mb-0 fs-5 fw-semibold">
-                    Empowering students to master industry-relevant skills, build high-impact projects,
-                    and secure placements at global tech giants. Our structured LMS bridges the gap between
-                    learning and getting hired.
-                  </p>
-                </div>
 
-                {/* Animation Keyframes */}
-                <style>
-                  {`
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    `}
-                </style>
-              </div>
+
+
+              {/* ✅ SIMPLE BUTTON */}
+              <button
+                onClick={() => navigate("/register")}
+                style={{
+                  background: "linear-gradient(90deg, #6a11cb, #8e2de2)",
+                  color: "#fff",
+                  border: "2px solid #fff",
+                  padding: "12px 28px",
+                  fontSize: "18px",
+                  fontWeight: "500",
+                  borderRadius: "50px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  marginTop: "30px"
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.transform = "scale(1.05)";
+                  e.target.style.boxShadow = "0 0 15px rgba(142, 45, 226, 0.6)";
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.transform = "scale(1)";
+                  e.target.style.boxShadow = "none";
+                }}
+              >
+                Register Now <span style={{ marginLeft: "10px" }}>→</span>
+              </button>
             </div>
+
+
 
             {/* RIGHT IMAGE */}
             <div className="col-md-6 text-center mt-4 mt-md-0">
@@ -108,224 +187,125 @@ function Career() {
         </div>
       </section>
 
-      {/* MASTER SKILLS SECTION */}
-      <section className="py-5 bg-light">
+      {/* 📊 PLACEMENT CARDS */}
+      <section className="py-5 bg-light text-center">
         <div className="container">
+          <h2 className="mb-5">Placement Statistics</h2>
 
-          {/* Heading */}
-          <div className="text-center mb-5">
-            <h2 className="fw-bold">Master In-Demand Skills</h2>
-            <p className="text-muted">
-              Our curriculum is constantly updated to align with what top tech companies are actively hiring for.
-            </p>
-          </div>
-
-          {/* DATA */}
-          {(() => {
-            const skillsData = [
-              {
-                title: "Frontend Development",
-                color: "primary",
-                skills: [
-                  { name: "React / Next.js", level: 30 },
-                  { name: "TypeScript", level: 85 },
-                  { name: "Tailwind CSS", level: 95 },
-                  { name: "HTML/CSS/JS", level: 100 },
-                ],
-              },
-              {
-                title: "Backend Development",
-                color: "success",
-                skills: [
-                  { name: "Node.js / Express", level: 85 },
-                  { name: "Python / Django", level: 80 },
-                  { name: "REST APIs", level: 90 },
-                  { name: "PostgreSQL / MongoDB", level: 85 },
-                ],
-              },
-            ];
-
-            return (
-              <div className="row g-4">
-                {skillsData.map((category, index) => (
-                  <div className="col-md-6" key={index}>
-                    <div className="p-4 shadow rounded bg-white h-100">
-
-                      <h4 className="fw-bold mb-4">{category.title}</h4>
-
-                      {category.skills.map((skill, i) => (
-                        <div className="mb-3" key={i}>
-                          <div className="d-flex justify-content-between">
-                            <span>{skill.name}</span>
-                            <span>{skill.level}%</span>
-                          </div>
-
-                          <div className="progress">
-                            <div
-                              className={`progress-bar bg-${category.color}`}
-                              role="progressbar"
-                              style={{ width: `${skill.level}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      ))}
-
-                    </div>
-                  </div>
-                ))}
-              </div>
-            );
-          })()}
-
-        </div>
-      </section>
-      {/* WHY COMPANIES HIRE SECTION */}
-      <section className="py-5 bg-light">
-        <div className="container">
-          <div className="row align-items-center g-5">
-
-            {/* LEFT CONTENT */}
-            <div className="col-md-6">
-
-              <h2 className="fw-bold mb-3">
-                Why Top Companies <br /> Hire From Us
-              </h2>
-
-              <p className="text-muted mb-4">
-                We bridge the gap between academic education and industry
-                requirements. Our graduates are productive from day one.
-              </p>
-
-              {/* FEATURES */}
-              {[
-                {
-                  title: "Pre-vetted Skilled Candidates",
-                  desc: "Every candidate undergoes rigorous assessments and builds a portfolio of real-world projects before being recommended."
-                },
-                {
-                  title: "Industry-Ready Graduates",
-                  desc: "Trained on the exact tech stacks and Agile workflows your engineering teams use today."
-                },
-                {
-                  title: "Zero Hiring Cost",
-                  desc: "Our platform partners with you directly to fulfill your hiring needs without massive agency fees."
-                }
-              ].map((item, index) => (
-                <div className="d-flex mb-4" key={index}>
-                  <div className="me-3">
-                    <span className="badge bg-primary rounded-circle p-3">✓</span>
-                  </div>
-                  <div>
-                    <h5 className="fw-bold">{item.title}</h5>
-                    <p className="text-muted mb-0">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-
-            </div>
-
-            {/* RIGHT TESTIMONIALS */}
-            <div className="col-md-6">
-
-              {[
-                {
-                  text: "The candidates we've hired from EduPro LMS have consistently outperformed traditional university recruits in practical coding tests. They come in knowing Git, Docker, and React deeply.",
-                  name: "Michelle Kwan",
-                  role: "VP of Engineering, TechFlow"
-                },
-                {
-                  text: "Finding good Data Scientists is hard. Finding Data Scientists who also understand deployment and business logic is rare. EduPro provides exactly that rare talent.",
-                  name: "James Rodriguez",
-                  role: "Director of Data, AnalyticsCorp"
-                }
-              ].map((t, i) => (
+          <div className="row g-4">
+            {stats.map((s, i) => (
+              <div className="col-md-3" key={i}>
                 <div
-                  key={i}
-                  className="p-4 mb-4 shadow rounded bg-white"
-                  style={{
-                    borderLeft: i === 0 ? "5px solid #0d6efd" : "5px solid #6f42c1"
-                  }}
-                >
-                  <p className="fst-italic">"{t.text}"</p>
-
-                  <div className="d-flex align-items-center mt-3">
-                    <div
-                      className="rounded-circle bg-secondary me-3"
-                      style={{ width: "50px", height: "50px" }}
-                    ></div>
-
-                    <div>
-                      <h6 className="mb-0 fw-bold">{t.name}</h6>
-                      <small className="text-muted">{t.role}</small>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-            </div>
-
-          </div>
-        </div>
-      </section>
-      {/* hiringcomp */}
-      <section className="py-5 text-center">
-        <div className="container">
-
-          <span className="badge bg-primary-subtle text-primary px-3 py-2 mb-3">
-            250+ Companies
-          </span>
-
-          <h2 className="fw-bold mb-2">Our Top Hiring Partners</h2>
-          <p className="text-muted mb-5">
-            Join our alumni network at top tech companies
-          </p>
-
-          <div className="row g-4 justify-content-center">
-            {partners.map((c, i) => (
-              <div className="col-6 col-md-4"
-                style={{ flex: "0 0 20%", maxWidth: "20%" }}
-                key={i}>
-                <div className={`p-4 rounded shadow-sm bg-${c.bg} text-center`}
-                  style={{
-                    minHeight: "160px",
-                    cursor: "pointer",
-                    transition: "all 0.2s ease"
-                  }}
+                  className="p-4 bg-white shadow rounded"
+                  style={{ transition: "0.3s", cursor: "pointer" }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-5px)";
-                    e.currentTarget.style.boxShadow = "0 10px 20px rgba(0,0,0,0.08)";
+                    e.currentTarget.style.transform = "translateY(-10px)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "";
                   }}
                 >
-
-                  <div
-                    className={`rounded-circle bg-white mx-auto mb-2 d-flex align-items-center justify-content-center text-${c.text}`}
-                    style={{ width: "50px", height: "50px", transition: "transform 0.3s ease" }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "scale(1.1)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "scale(1)";
-                    }}
-                  >
-                    <strong>{c.initial}</strong>
-                  </div>
-
-                  <h6 className={`fw-bold m-0 text-${c.text}`}>
-                    {c.name}
-                  </h6>
-
+                  <h2 className="text-primary">
+                    {counts[i].toFixed(1)}{s.suffix}
+                  </h2>
+                  <p className="mt-2">{s.label}</p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
+
+      {/* 📈 GRAPH */}
+      <section className="py-5 text-center">
+        <h2 className="mb-4">Placement Growth</h2>
+
+        <div
+          style={{
+            maxWidth: "650px",
+            margin: "auto",
+            background: "#ffffff",
+            borderRadius: "20px",
+            padding: "25px",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+            transition: "all 0.3s ease",
+            cursor: "pointer"
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "translateY(-8px)";
+            e.currentTarget.style.boxShadow = "0 20px 40px rgba(0,0,0,0.15)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.1)";
+          }}
+        >
+          <Bar data={chartData} />
+        </div>
+      </section>
+
+      {/* 🏢 CAROUSEL */}
+      <section className="py-5 text-center"
+        style={{ backgroundColor: "#f3f0ff" }} // light purple
+      >
+        <h2 className="mb-4">Top Hiring Partners</h2>
+
+        <div className="d-flex justify-content-center align-items-center gap-3">
+
+          {/* LEFT BUTTON */}
+          <button
+            className="btn btn-tranparent"
+
+            onClick={() => setIndex((prev) => Math.max(prev - 1, 0))}
+          >
+            <FaChevronLeft />
+          </button>
+
+          {/* CAROUSEL VIEW */}
+          <div style={{ width: "80%", overflow: "hidden" }}>
+            <div
+              className="d-flex"
+              style={{
+                transform: `translateX(-${index * 100}%)`,
+                transition: isTransitioning
+                  ? "1.5s cubic-bezier(0.22, 1, 0.36, 1)"
+                  : "none"
+              }}
+            >
+              {extendedPartners.map((c, i) => (
+                <div key={i} style={{ minWidth: "100%", padding: "10px" }}>
+                  <div
+                    className="shadow rounded bg-light text-center fw-bold"
+                    style={{
+                      padding: "60px",
+                      fontSize: "28px",
+                      height: "500px",        // 👈 ADD THIS
+                      display: "flex",        // 👇 to center content nicely
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "0.3s"
+                    }}
+
+                  >
+                    {c.name}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT BUTTON */}
+          <button
+            className="btn btn-tranparent"
+
+            onClick={() => setIndex((prev) => prev + 1)}
+          >
+            <FaChevronRight />
+          </button>
+
+        </div>
+      </section>
 
       <section className="py-5 bg-light">
         <div className="container">
@@ -399,7 +379,8 @@ function Career() {
           </div>
         </div>
       </section>
-    </div>
+
+    </div >
   );
 }
 

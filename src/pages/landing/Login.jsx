@@ -4,46 +4,37 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 function Login() {
   const [loginData, setLoginData] = useState({
-  email: "",
-  password: ""
-});
-
-const navigate = useNavigate();
-  const handleChange = (e) => {
-  setLoginData({
-    ...loginData,
-    [e.target.name]: e.target.value
+    email: "",
+    password: "",
   });
-};
-  const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  try {
-    const res = await fetch("http://localhost:5000/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(loginData)
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
     });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    const data = await res.json();
+    // ✅ STATIC LOGIN CHECK
+    if (
+      loginData.email === "admin@gmail.com" &&
+      loginData.password === "123456"
+    ) {
+      // Save user
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email: "admin@gmail.com", role: "admin" }),
+      );
 
-    console.log(data); // 👈 DEBUG
-
-    if (data.message === "Login successful") {
-
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      // 🔥 FORCE NAVIGATION
+      // Redirect
       navigate("/admin/dashboard");
-
+    } else {
+      alert("Invalid credentials");
     }
-
-  } catch (error) {
-    console.log(error);
-  }
-};
+  };
   return (
     <div className="container-fluid">
       <div className="row" style={{ minHeight: "100vh" }}>
@@ -137,18 +128,17 @@ const navigate = useNavigate();
                 </a>
               </div>
 
-              <Link
-              type="submit"
+              <button
+                type="submit"
                 className="btn w-100 text-white"
                 style={{
                   background: "linear-gradient(135deg,#3b82f6,#9333ea)",
                   borderRadius: "30px",
                   padding: "10px",
                 }}
-                to="/admin/dashboard"
               >
                 Login
-              </Link>
+              </button>
 
               {/* <p className="text-center mt-3">
                 Don't have an account?{" "}

@@ -145,7 +145,7 @@ function Register() {
                     onChange={handleChange}
                     required
                   />
-                  {errors.name && <small className="text-danger">{errors.name}</small>}
+                  {errors.email && <small className="text-danger">{errors.email}</small>}
                 </div>
 
                 <div className="col-md-6 mb-3">
