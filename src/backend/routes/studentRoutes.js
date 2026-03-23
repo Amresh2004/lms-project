@@ -14,21 +14,22 @@ router.get("/", async (req, res) => {
 });
 
 // ADD student
+// ADD student
 router.post("/", async (req, res) => {
   try {
-    const { name, email, phone, course } = req.body;
+    const { name, email, password, course } = req.body;
 
-    // ✅ Validation
-    if (!name || !email || !phone || !course) {
+    // ✅ FIXED VALIDATION
+    if (!name || !email || !password || !course) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const student = new Student({
       name,
       email,
-      phone,
+      password, // ✅ added
       course,
-      status: "Active"
+      status: "Active",
     });
 
     await student.save();
@@ -40,7 +41,6 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 // UPDATE student
 router.put("/:id", async (req, res) => {
   try {
@@ -61,4 +61,39 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// LOGIN student
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // check fields
+    if (!email || !password) {
+      return res.status(400).json({ message: "All fields required" });
+    }
+
+    // find student
+    const student = await Student.findOne({ email });
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    // check password
+    if (student.password !== password) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+
+    // success
+    res.json({
+      message: "Login successful",
+      student,
+    });
+
+  } catch (err) {
+    console.log("LOGIN ERROR:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 export default router;
+

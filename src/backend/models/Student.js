@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const studentSchema = new mongoose.Schema({
   name: String,
   email: String,
-  phone: String,
+  password: String, // ✅ must exist
   course: String,
   status: {
     type: String,
