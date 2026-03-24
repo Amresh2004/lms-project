@@ -37,19 +37,19 @@ function AdminDashboard() {
 
           <li className={location.pathname === "/admin/students" ? "active" : ""}>
             <Link to="/admin/students">
-              <FaUserGraduate /> Students
+              <FaUserGraduate /> Manage Students
             </Link>
           </li>
 
-          <li className={location.pathname === "/admin/staff" ? "active" : ""}>
-            <Link to="/admin/staff">
-              <FaChalkboardTeacher /> Staff
+          <li className={location.pathname === "/admin/faculty" ? "active" : ""}>
+            <Link to="/admin/faculty">
+              <FaChalkboardTeacher /> Manage Faculty
             </Link>
           </li>
 
           <li className={location.pathname === "/admin/courses" ? "active" : ""}>
             <Link to="/admin/courses">
-              <FaBook /> Courses
+              <FaBook /> Manage Courses
             </Link>
           </li>
 
