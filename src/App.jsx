@@ -93,52 +93,6 @@ function App() {
         </Route>
 
         <Route path="/faculty/dashboard" element={<FacultyDashboard />} />
-
-
-        <Route path="/faculty/dashboard" element={<ProtectedRoute>
-              <Layout>
-                <FacultyDashboard />
-              </Layout>
-            </ProtectedRoute>}/>
-        
-        <Route path="/faculty/courses" element={<ProtectedRoute>
-              <Layout>
-                <MyCourses />
-              </Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/assignments" element={<ProtectedRoute>
-              <Layout>
-                <Assignment />
-              </Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/attendance" element={<ProtectedRoute>
-              <Layout>
-                <Attendance />
-              </Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/announcements" element={<ProtectedRoute>
-              {/* <Layout>
-                <StudentsFaculty />
-              </Layout> */}
-            </ProtectedRoute>} />
-        <Route path="/faculty/upload" element={<ProtectedRoute>
-              <Layout><UploadMaterials /></Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/profile" element={<ProtectedRoute>
-              <Layout><Profile /></Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/students" element={<ProtectedRoute>
-              <Layout><Student /></Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/grades" element={ <ProtectedRoute>
-              <Layout>
-                <Grades />
-              </Layout>
-            </ProtectedRoute>}/>
-
-        
-
-
         <Route path="/faculty/courses" element={<MyCourses />} />
         <Route path="/faculty/assignments" element={<Assignment />} />
         <Route path="/faculty/attendance" element={<Attendance />} />
