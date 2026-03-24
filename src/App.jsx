@@ -1,9 +1,16 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+
+
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
-import SideBar from "./components/landing/SideBar"
+// import SideBar from "./components/landing/SideBar"
+import Layout from "./components/common/Layout";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+
+
+
 import Home from "./pages/landing/Home";
 import About from "./pages/landing/About";
 import Contact from "./pages/landing/Contact";
@@ -36,13 +43,16 @@ import Student from "./pages/faculty/Students";
 
 function App() {
   const location = useLocation();
-  const hideLayout = location.pathname.startsWith("/admin");
+  const hideLayout = location.pathname.startsWith("/admin") ||
+    location.pathname.startsWith("/faculty") ||
+    location.pathname.startsWith("/student");
+
   return (
     <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
       {!hideLayout && <Navbar />}
 
       {/* Sidebar */}
-        {hideLayout && <SideBar />}
+        {/* {hideLayout && <SideBar />} */}
 
 
 
@@ -70,16 +80,46 @@ function App() {
 
        
 
-        <Route path="/faculty/dashboard" element={<FacultyDashboard />}/>
+        <Route path="/faculty/dashboard" element={<ProtectedRoute>
+              <Layout>
+                <FacultyDashboard />
+              </Layout>
+            </ProtectedRoute>}/>
         
-        <Route path="/faculty/courses" element={<MyCourses />} />
-        <Route path="/faculty/assignments" element={<Assignment />} />
-        <Route path="/faculty/attendance" element={<Attendance />} />
-        <Route path="/faculty/announcements" element={<Announcement />} />
-        <Route path="/faculty/upload" element={<UploadMaterials />} />
-        <Route path="/faculty/profile" element={<Profile />} />
-        <Route path="/faculty/students" element={<Student />} />
-        <Route path="/faculty/grades" element={<Grades />}/>
+        <Route path="/faculty/courses" element={<ProtectedRoute>
+              <Layout>
+                <MyCourses />
+              </Layout>
+            </ProtectedRoute>} />
+        <Route path="/faculty/assignments" element={<ProtectedRoute>
+              <Layout>
+                <Assignment />
+              </Layout>
+            </ProtectedRoute>} />
+        <Route path="/faculty/attendance" element={<ProtectedRoute>
+              <Layout>
+                <Attendance />
+              </Layout>
+            </ProtectedRoute>} />
+        <Route path="/faculty/announcements" element={<ProtectedRoute>
+              <Layout>
+                <StudentsFaculty />
+              </Layout>
+            </ProtectedRoute>} />
+        <Route path="/faculty/upload" element={<ProtectedRoute>
+              <Layout><UploadMaterials /></Layout>
+            </ProtectedRoute>} />
+        <Route path="/faculty/profile" element={<ProtectedRoute>
+              <Layout><Profile /></Layout>
+            </ProtectedRoute>} />
+        <Route path="/faculty/students" element={<ProtectedRoute>
+              <Layout><Student /></Layout>
+            </ProtectedRoute>} />
+        <Route path="/faculty/grades" element={ <ProtectedRoute>
+              <Layout>
+                <Grades />
+              </Layout>
+            </ProtectedRoute>}/>
 
         
 
