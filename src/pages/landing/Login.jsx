@@ -1,7 +1,6 @@
-import React from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+
 function Login() {
   const [loginData, setLoginData] = useState({
     email: "",
@@ -9,36 +8,74 @@ function Login() {
   });
 
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setLoginData({
       ...loginData,
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ STATIC LOGIN CHECK
+    // ✅ 1. ADMIN LOGIN (STATIC)
     if (
       loginData.email === "admin@gmail.com" &&
       loginData.password === "123456"
     ) {
-      // Save user
       localStorage.setItem(
         "user",
-        JSON.stringify({ email: "admin@gmail.com", role: "admin" }),
+        JSON.stringify({ email: "admin@gmail.com", role: "admin" })
       );
 
-      // Redirect
       navigate("/admin/dashboard");
-    } else {
-      alert("Invalid credentials");
+      return;
+    }
+
+    // ✅ 2. STUDENT LOGIN (DATABASE)
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/students/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginData),
+        }
+      );
+
+      const data = await res.json();
+      console.log("LOGIN:", data);
+
+      if (!res.ok) {
+        alert(data.message || "Invalid credentials");
+        return;
+      }
+
+      // ✅ Save student
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...data.student, role: "student" })
+      );
+
+      alert("Student Login Successful ✅");
+
+      // ✅ Redirect student dashboard
+      navigate("/student/dashboard");
+
+    } catch (err) {
+      console.log(err);
+      alert("Server error");
     }
   };
+
   return (
     <div className="container-fluid">
       <div className="row" style={{ minHeight: "100vh" }}>
-        {/* Left Gradient Section */}
+        
+        {/* LEFT */}
         <div
           className="col-md-6 d-flex flex-column justify-content-center align-items-center text-center text-white"
           style={{
@@ -65,10 +102,8 @@ function Login() {
           </div>
 
           <h2 className="fw-bold">Welcome to ATSS College LMS</h2>
-
           <p className="mt-3">
-            Access your courses, assignments, and learning materials anytime,
-            anywhere
+            Access your courses, assignments, and learning materials anytime
           </p>
 
           <img
@@ -79,7 +114,7 @@ function Login() {
           />
         </div>
 
-        {/* Right Login Form */}
+        {/* RIGHT */}
         <div className="col-md-6 d-flex justify-content-center align-items-center bg-light">
           <div
             className="card shadow p-4"
@@ -103,6 +138,7 @@ function Login() {
                   className="form-control"
                   placeholder="your.email@atsscollege.edu"
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -114,18 +150,8 @@ function Login() {
                   className="form-control"
                   placeholder="Enter your password"
                   onChange={handleChange}
+                  required
                 />
-              </div>
-
-              <div className="d-flex justify-content-between mb-3">
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" />
-                  <label className="form-check-label">Remember me</label>
-                </div>
-
-                <a href="#" className="text-decoration-none">
-                  Forgot Password?
-                </a>
               </div>
 
               <button
@@ -139,16 +165,10 @@ function Login() {
               >
                 Login
               </button>
-
-              {/* <p className="text-center mt-3">
-                Don't have an account?{" "}
-                <Link className="text-decoration-none" to="/register">
-                  Register Now
-                </Link>
-              </p> */}
             </form>
           </div>
         </div>
+
       </div>
     </div>
   );

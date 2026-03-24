@@ -3,12 +3,12 @@ import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 
 function Student() {
   const [students, setStudents] = useState([]);
-  const [showForm, setShowForm] = useState(false); // ✅ NEW
+  const [showForm, setShowForm] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "",
+    password: "", // ✅ added
     course: "",
   });
 
@@ -21,12 +21,12 @@ function Student() {
     setStudents(data);
   };
 
-  //Edit
+  // EDIT
   const handleEdit = (student) => {
     setForm({
       name: student.name,
       email: student.email,
-      phone: student.phone,
+      password: student.password || "", // ✅ added
       course: student.course,
     });
 
@@ -34,15 +34,12 @@ function Student() {
     setShowForm(true);
   };
 
-  //delete
+  // DELETE
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/students/${id}`, {
+      await fetch(`http://localhost:5000/api/students/${id}`, {
         method: "DELETE",
       });
-
-      const data = await res.json();
-      console.log("DELETE:", data);
 
       fetchStudents();
     } catch (err) {
@@ -59,48 +56,50 @@ function Student() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ✅ SUBMIT FIX
+  // SUBMIT
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    let url = "http://localhost:5000/api/students";
-    let method = "POST";
+    try {
+      let url = "http://localhost:5000/api/students";
+      let method = "POST";
 
-    if (editId) {
-      url = `http://localhost:5000/api/students/${editId}`;
-      method = "PUT";
+      if (editId) {
+        url = `http://localhost:5000/api/students/${editId}`;
+        method = "PUT";
+      }
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+      console.log("SUBMIT RESPONSE:", data);
+
+      if (!res.ok) {
+        alert(data.message || "Server error");
+        return;
+      }
+
+      // RESET
+      setForm({ name: "", email: "", password: "", course: "" });
+      setEditId(null);
+      setShowForm(false);
+
+      fetchStudents();
+    } catch (error) {
+      console.log("SUBMIT ERROR:", error);
+      alert("Server not running or API error");
     }
+  };
 
-    const res = await fetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-
-    const data = await res.json();
-    console.log("SUBMIT RESPONSE:", data);
-
-    if (!res.ok) {
-      alert(data.message || "Server error");
-      return;
-    }
-
-    // RESET
-    setForm({ name: "", email: "", phone: "", course: "" });
-    setEditId(null);
-    setShowForm(false);
-
-    fetchStudents();
-  } catch (error) {
-    console.log("SUBMIT ERROR:", error);
-    alert("Server not running or API error");
-  }
-};
   return (
     <div className="students-container">
+      
       {/* HEADER */}
       <div className="students-header">
         <div>
@@ -108,13 +107,12 @@ function Student() {
           <p>View and manage all student records</p>
         </div>
 
-        {/* ✅ BUTTON ONLY OPENS FORM */}
         <button className="add-btn" onClick={() => setShowForm(true)}>
           <FaPlus /> Add Student
         </button>
       </div>
 
-      {/* ✅ CONDITIONAL FORM */}
+      {/* FORM */}
       {showForm && (
         <form className="student-form" onSubmit={handleSubmit}>
           <input
@@ -124,6 +122,7 @@ function Student() {
             onChange={handleChange}
             required
           />
+
           <input
             name="email"
             placeholder="Email"
@@ -131,13 +130,17 @@ function Student() {
             onChange={handleChange}
             required
           />
+
+          {/* ✅ PASSWORD FIELD */}
           <input
-            name="phone"
-            placeholder="Phone"
-            value={form.phone}
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
             onChange={handleChange}
             required
           />
+
           <input
             name="course"
             placeholder="Course"
@@ -160,7 +163,6 @@ function Student() {
               <th>Name</th>
               <th>Course</th>
               <th>Email</th>
-              <th>Phone</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -172,7 +174,6 @@ function Student() {
                 <td>{s.name}</td>
                 <td>{s.course}</td>
                 <td>{s.email}</td>
-                <td>{s.phone}</td>
                 <td>{s.status || "Active"}</td>
 
                 <td>
@@ -191,6 +192,7 @@ function Student() {
           </tbody>
         </table>
       </div>
+
     </div>
   );
 }

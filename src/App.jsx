@@ -5,11 +5,15 @@ import { useLocation } from "react-router-dom";
 
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
+
 // import SideBar from "./components/landing/SideBar"
 import Layout from "./components/common/Layout";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
 
+
+
+import SideBar from "./components/landing/SideBar";
 
 import Home from "./pages/landing/Home";
 import About from "./pages/landing/About";
@@ -43,18 +47,27 @@ import Student from "./pages/faculty/Students";
 
 function App() {
   const location = useLocation();
+
   const hideLayout = location.pathname.startsWith("/admin") ||
     location.pathname.startsWith("/faculty") ||
     location.pathname.startsWith("/student");
 
+ 
+
+
   return (
     <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
       {!hideLayout && <Navbar />}
+      {!hideLayout1 && <Navbar />}
 
       {/* Sidebar */}
+
         {/* {hideLayout && <SideBar />} */}
 
 
+
+      {hideLayout && <SideBar />}
+      {hideLayout1 && <SideBar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -78,7 +91,8 @@ function App() {
           <Route path="settings" element={<Settings />} />
         </Route>
 
-       
+        <Route path="/faculty/dashboard" element={<FacultyDashboard />} />
+
 
         <Route path="/faculty/dashboard" element={<ProtectedRoute>
               <Layout>
@@ -124,11 +138,22 @@ function App() {
         
 
 
+        <Route path="/faculty/courses" element={<MyCourses />} />
+        <Route path="/faculty/assignments" element={<Assignment />} />
+        <Route path="/faculty/attendance" element={<Attendance />} />
+        <Route path="/faculty/announcements" element={<Announcement />} />
+        <Route path="/faculty/upload" element={<UploadMaterials />} />
+        <Route path="/faculty/profile" element={<Profile />} />
+        <Route path="/faculty/students" element={<Student />} />
+        <Route path="/faculty/grades" element={<Grades />} />
+
+
         <Route path="/student/dashboard" element={<StudentDashboard />} />
       </Routes>
 
       {!hideLayout && <Footer />}
-    </div >
+      {/* {!hideLayout1 && <Footer />} */}
+    </div>
   );
 }
 
