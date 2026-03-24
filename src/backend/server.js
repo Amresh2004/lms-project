@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import studentRoutes from "./routes/studentRoutes.js"; // ✅ ADD THIS
+import facultyRoutes from "./routes/facultyRoutes.js";
 
+console.log("Faculty Routes Loaded:", facultyRoutes);
 dotenv.config();
 
 const app = express();
@@ -16,6 +18,7 @@ connectDB();
 
 // ✅ ADD ROUTE
 app.use("/api/students", studentRoutes);
+app.use("/api/faculty",facultyRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server running 🚀");
