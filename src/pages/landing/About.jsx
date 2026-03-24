@@ -214,7 +214,7 @@ function About() {
             {/* MSC-CS */}
             <div className="col-md-6">
               <div className="program-card">
-                <span className="program-badge badge-orange">3-4 Years</span>
+                <span className="program-badge badge-orange">2 Years</span>
                 <h4 className="fw-bold mt-3">
                   Master of Computer science [MSC(CS)]
                 </h4>
@@ -227,7 +227,7 @@ function About() {
             {/* MSC-DS*/}
             <div className="col-md-6">
               <div className="program-card">
-                <span className="program-badge badge-green">3-4 Years</span>
+                <span className="program-badge badge-green">2 Years</span>
                 <h4 className="fw-bold mt-3">
                   Master Of Data Science [MSC(DS)]
                 </h4>
@@ -417,7 +417,7 @@ function About() {
                 <p className="mt-3">
                   {expandedIndex === 3
                     ? "Dear students, As you begin your academic journey that will define your career in the coming years, it gives me immense pleasure to welcome you to this great ATSS family. It is a great honour for me to serve as the principal of the Audyogik Tantra Shikshan Sanstha's College of Business Studies & Computer Applications because it is one of the significant duties I am carrying out to groom students who will be India's future leaders.Audyogik Tantra Shikshan Sanstha's College of Business Studies & Computer Applications, popularly known as ATSS CBSCA, consists of academicians, administrators, and support staff, all of whom are dedicated to ensuring that you achieve your goals. College is affiliated to Savitribai Phule Pune University, accreted by NAAC and UGC recognized under 2(F) & 12(B). ATSS CBSCA is amongst the most popular colleges in PCMC which is committed to quality education.curricular activities & annual events. With a deep-rooted sense of social responsibility, the college feels committed to being an important part of society and conducts various extension and outreach activities on regular basis. For developing a healthy body and healthy mind sports, meditation, and yoga are integrated in our regular schedule. My best wishes to all the students of ATSS CBSCA."
-                    : "Dear students, as you begin your academic journey that will define your career in the coming years, we are delighted to welcome you to the ATSS family."}
+                    : "Dear students, as you begin your journey that will define your career in the coming years, we are delighted to welcome you to the ATSS family."}
 
                   <span
                     className="read-more"

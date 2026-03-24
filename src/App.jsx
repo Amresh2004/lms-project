@@ -6,14 +6,14 @@ import { useLocation } from "react-router-dom";
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
 
-// import SideBar from "./components/landing/SideBar"
+import SideBar from "./components/landing/SideBar"
 import Layout from "./components/common/Layout";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
 
 
 
-import SideBar from "./components/landing/SideBar";
+
 
 import Home from "./pages/landing/Home";
 import About from "./pages/landing/About";
@@ -45,6 +45,7 @@ import UploadMaterials from "./pages/faculty/UploadMaterials";
 import Profile from "./pages/faculty/Profile";
 import Student from "./pages/faculty/Students";
 
+
 function App() {
   const location = useLocation();
 
@@ -58,7 +59,7 @@ function App() {
   return (
     <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
       {!hideLayout && <Navbar />}
-      {!hideLayout1 && <Navbar />}
+     
 
       {/* Sidebar */}
 
@@ -67,7 +68,7 @@ function App() {
 
 
       {hideLayout && <SideBar />}
-      {hideLayout1 && <SideBar />}
+     
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -116,9 +117,9 @@ function App() {
               </Layout>
             </ProtectedRoute>} />
         <Route path="/faculty/announcements" element={<ProtectedRoute>
-              <Layout>
+              {/* <Layout>
                 <StudentsFaculty />
-              </Layout>
+              </Layout> */}
             </ProtectedRoute>} />
         <Route path="/faculty/upload" element={<ProtectedRoute>
               <Layout><UploadMaterials /></Layout>
