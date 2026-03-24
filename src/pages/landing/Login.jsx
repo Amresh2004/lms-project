@@ -166,8 +166,8 @@ function Login() {
                 Login
               </button>
               <Link to="/forgot-password" className="text-decoration-none">
-  Forgot Password?
-</Link>
+                 Forgot Password?
+              </Link>
             </form>
           </div>
         </div>
