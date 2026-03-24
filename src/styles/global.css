@@ -1,0 +1,16 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9fafb;
+}
+
+/* COMMON BUTTON */
+.btn-custom {
+  background: linear-gradient(90deg,#3b82f6,#a855f7);
+  color: white;
+  border-radius: 50px;
+  border: none;
+}
+
+.btn-custom:hover {
+  opacity: 0.9;
+}

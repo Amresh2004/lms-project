@@ -16,10 +16,11 @@ function Login() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // ✅ 1. ADMIN LOGIN (STATIC)
+  try {
+    // 🔹 1. ADMIN LOGIN (STATIC)
     if (
       loginData.email === "admin@gmail.com" &&
       loginData.password === "123456"
@@ -33,43 +34,56 @@ function Login() {
       return;
     }
 
-    // ✅ 2. STUDENT LOGIN (DATABASE)
-    try {
-      const res = await fetch(
-        "http://localhost:5000/api/students/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(loginData),
-        }
-      );
+    // 🔹 2. STUDENT LOGIN
+    let res = await fetch("http://localhost:5000/api/students/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    });
 
+    if (res.ok) {
       const data = await res.json();
-      console.log("LOGIN:", data);
 
-      if (!res.ok) {
-        alert(data.message || "Invalid credentials");
-        return;
-      }
-
-      // ✅ Save student
       localStorage.setItem(
         "user",
         JSON.stringify({ ...data.student, role: "student" })
       );
 
-      alert("Student Login Successful ✅");
-
-      // ✅ Redirect student dashboard
       navigate("/student/dashboard");
-
-    } catch (err) {
-      console.log(err);
-      alert("Server error");
+      return;
     }
-  };
+
+    // 🔹 3. FACULTY LOGIN
+    res = await fetch("http://localhost:5000/api/faculty/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...data.faculty, role: "faculty" })
+      );
+
+      navigate("/faculty/dashboard");
+      return;
+    }
+
+    // ❌ INVALID
+    alert("Invalid email or password");
+
+  } catch (error) {
+    console.log(error);
+    alert("Server error");
+  }
+};
 
   return (
     <div className="container-fluid">

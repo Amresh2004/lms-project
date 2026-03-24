@@ -1,126 +1,107 @@
 import React from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import {
+  FaTachometerAlt,
+  FaUserGraduate,
+  FaChalkboardTeacher,
   FaBook,
-  FaUsers,
   FaClipboardList,
-  FaClock,FaTachometerAlt,FaUpload,FaUserGraduate,FaBullhorn, FaUserCircle
+  FaBullhorn,
+  FaChartBar,
+  FaCog,
 } from "react-icons/fa";
+import "../faculty/style/faculty.css";
 
 function FacultyDashboard() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const location = useLocation();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    window.location.href = "/login";
+  };
+
   return (
-    <div className="d-flex">
+    <div className="admin-container">
 
-      {/* Sidebar */}
-      <div
-        className="text-white p-3"
-        style={{
-          width: "250px",
-          minHeight: "100vh",
-          background: "#1e293b"
-        }}
-      >
-        <h5 className="fw-bold mb-4">🎓 ATSS College</h5>
+      {/* SIDEBAR */}
+      <div className="sidebar">
+        <h4 className="logo">ATSS College</h4>
 
-        <ul className="nav flex-column gap-3">
-          <li className="nav-item text-white">
-            <FaTachometerAlt /> Dashboard
+        <ul>
+
+          <li className={location.pathname.includes("/faculty/dashboard") ? "active" : ""}>
+            <Link to="/faculty/dashboard">
+              <FaTachometerAlt /> Dashboard
+            </Link>
           </li>
-          <li className="nav-item">
-            <FaBook /> My Courses
+
+          <li className={location.pathname.includes("/faculty/courses") ? "active" : ""}>
+            <Link to="/faculty/courses">
+              <FaUserGraduate /> My Courses
+            </Link>
           </li>
-          <li className="nav-item">
-            <FaUpload /> Upload Materials
+
+          <li className={location.pathname.includes("/faculty/upload") ? "active" : ""}>
+            <Link to="/faculty/upload">
+              <FaChalkboardTeacher /> Upload Material
+            </Link>
           </li>
-          <li className="nav-item">
-            <FaClipboardList /> Assignments
+
+          <li className={location.pathname.includes("/faculty/assignments") ? "active" : ""}>
+            <Link to="/faculty/assignments">
+              <FaBook /> Assignment
+            </Link>
           </li>
-          <li className="nav-item">
-            <FaUserGraduate /> Students
+
+          <li className={location.pathname.includes("/faculty/submissions") ? "active" : ""}>
+            <Link to="/faculty/submissions">
+              <FaClipboardList /> Submissions
+            </Link>
           </li>
-          <li className="nav-item">
-            <FaBullhorn /> Announcements
+
+          <li className={location.pathname.includes("/faculty/attendance") ? "active" : ""}>
+            <Link to="/faculty/attendance">
+              <FaBullhorn /> Attendance
+            </Link>
           </li>
-          <li className="nav-item">
-            <FaUserCircle /> Profile
+
+          <li className={location.pathname.includes("/faculty/grades") ? "active" : ""}>
+            <Link to="/faculty/grades">
+              <FaChartBar /> Grades
+            </Link>
           </li>
+
+          <li className={location.pathname.includes("/faculty/announcements") ? "active" : ""}>
+            <Link to="/faculty/announcements">
+              <FaCog /> Announcements
+            </Link>
+          </li>
+
+          <li className={location.pathname.includes("/faculty/profile") ? "active" : ""}>
+            <Link to="/faculty/profile"> {/* ✅ FIXED */}
+              <FaCog /> Profile
+            </Link>
+          </li>
+
         </ul>
       </div>
 
-      {/* Main Content */}
-      <div className="p-4 w-100 bg-light">
+      {/* MAIN */}
+      <div className="main">
 
-        {/* Header */}
-        <h2 className="fw-bold">Faculty Dashboard</h2>
-        <p className="text-muted">
-          Welcome, Dr. Rajesh Kumar! Manage your courses and students.
-        </p>
+        {/* TOPBAR */}
+        <div className="topbar">
+          <h5>Welcome Back! {user?.name || "Faculty"}</h5>
 
-        {/* Stats Cards */}
-        <div className="row g-4 mt-3">
-
-          <div className="col-md-3">
-            <div className="card shadow border-0 p-3">
-              <FaBook size={25} className="text-primary mb-2" />
-              <h3>6</h3>
-              <p>Courses Assigned</p>
-            </div>
-          </div>
-
-          <div className="col-md-3">
-            <div className="card shadow border-0 p-3">
-              <FaUsers size={25} className="text-purple mb-2" />
-              <h3>234</h3>
-              <p>Students Enrolled</p>
-            </div>
-          </div>
-
-          <div className="col-md-3">
-            <div className="card shadow border-0 p-3">
-              <FaClipboardList size={25} className="text-primary mb-2" />
-              <h3>18</h3>
-              <p>Assignments Created</p>
-            </div>
-          </div>
-
-          <div className="col-md-3">
-            <div className="card shadow border-0 p-3">
-              <FaClock size={25} className="text-warning mb-2" />
-              <h3>45</h3>
-              <p>Pending Submissions</p>
-            </div>
-          </div>
-
+          <button onClick={handleLogout} className="logout-btn">
+            Logout ⏻
+          </button>
         </div>
 
-        {/* Courses Section */}
-        <h4 className="mt-5 fw-bold">My Courses</h4>
-
-        <div className="row g-4 mt-2">
-
-          <div className="col-md-4">
-            <div className="card shadow border-0 p-3">
-              <h6 className="text-muted">BCA301</h6>
-              <h5 className="fw-bold">Data Structures & Algorithms</h5>
-              <p className="text-muted">Semester 3 • 45 students</p>
-            </div>
-          </div>
-
-          <div className="col-md-4">
-            <div className="card shadow border-0 p-3">
-              <h6 className="text-muted">BCA202</h6>
-              <h5 className="fw-bold">Object Oriented Programming</h5>
-              <p className="text-muted">Semester 2 • 52 students</p>
-            </div>
-          </div>
-
-          <div className="col-md-4">
-            <div className="card shadow border-0 p-3">
-              <h6 className="text-muted">BCA401</h6>
-              <h5 className="fw-bold">Database Management Systems</h5>
-              <p className="text-muted">Semester 4 • 38 students</p>
-            </div>
-          </div>
-
+        {/* CONTENT */}
+        <div className="content">
+          <Outlet />
         </div>
 
       </div>

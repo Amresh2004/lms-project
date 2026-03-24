@@ -1,9 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const auth = require("../middleware/authMiddleware");
+import express from "express";
+import auth from "../middleware/authMiddleware.js";
+import Student from "../models/Student.js";
+import Course from "../models/Course.js";
 
-const Student = require("../models/Student");
-const Course = require("../models/Course");
+const router = express.Router();
 
 router.get("/", auth, async (req, res) => {
   try {
@@ -44,4 +44,4 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
