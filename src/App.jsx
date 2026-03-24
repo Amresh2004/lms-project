@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
-import SideBar from "./components/landing/SideBar"
+import SideBar from "./components/landing/SideBar";
 import Home from "./pages/landing/Home";
 import About from "./pages/landing/About";
 import Contact from "./pages/landing/Contact";
@@ -37,14 +37,16 @@ import Student from "./pages/faculty/Students";
 function App() {
   const location = useLocation();
   const hideLayout = location.pathname.startsWith("/admin");
+  const hideLayout1 = location.pathname.startsWith("/student");
+
   return (
     <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
       {!hideLayout && <Navbar />}
+      {!hideLayout1 && <Navbar />}
 
       {/* Sidebar */}
-        {hideLayout && <SideBar />}
-
-
+      {hideLayout && <SideBar />}
+      {hideLayout1 && <SideBar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -68,10 +70,8 @@ function App() {
           <Route path="settings" element={<Settings />} />
         </Route>
 
-       
+        <Route path="/faculty/dashboard" element={<FacultyDashboard />} />
 
-        <Route path="/faculty/dashboard" element={<FacultyDashboard />}/>
-        
         <Route path="/faculty/courses" element={<MyCourses />} />
         <Route path="/faculty/assignments" element={<Assignment />} />
         <Route path="/faculty/attendance" element={<Attendance />} />
@@ -79,16 +79,14 @@ function App() {
         <Route path="/faculty/upload" element={<UploadMaterials />} />
         <Route path="/faculty/profile" element={<Profile />} />
         <Route path="/faculty/students" element={<Student />} />
-        <Route path="/faculty/grades" element={<Grades />}/>
-
-        
-
+        <Route path="/faculty/grades" element={<Grades />} />
 
         <Route path="/student/dashboard" element={<StudentDashboard />} />
       </Routes>
 
       {!hideLayout && <Footer />}
-    </div >
+      {/* {!hideLayout1 && <Footer />} */}
+    </div>
   );
 }
 
