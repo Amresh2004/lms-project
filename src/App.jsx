@@ -38,7 +38,7 @@ import StudentMyCourses from "./pages/student/MyCourses";
 import StudentAssignment from "./pages/student/Assignments";
 import StudentAttendance from "./pages/student/Attendance";
 import StudentGrades from "./pages/student/Grades";
-import StudentUploadMaterials from "./pages/student/UploadMaterials";
+import StudentUploadMaterials from "./pages/student/Materials";
 import StudentProfile from "./pages/student/Profile";
 
 function App() {
