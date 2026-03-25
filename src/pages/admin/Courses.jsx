@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../admin/style/courses.css";
 
 function Courses() {
 
@@ -55,18 +56,16 @@ function Courses() {
 
       {/* ================= DEPARTMENT TABLE ================= */}
       {!selectedDept && (
-        <div className="table-responsive bg-white rounded shadow-sm">
 
-          <table className="table align-middle mb-0">
+          <div className="table-responsive bg-white rounded shadow-sm reduce-right-width">
+        
+           
+              <table className="table align-middle mb-0 custom-table">
 
-            <thead style={{
-              background: "linear-gradient(90deg, #2563eb, #9333ea)",
-              color: "#fff"
-            }}>
+            <thead className="custom-table-header">
               <tr>
                 <th>Department</th>
-                <th>Subjects</th>
-                <th>Action</th>
+                <th className="text-center">Action</th>
               </tr>
             </thead>
 
@@ -74,8 +73,7 @@ function Courses() {
               {departments.map((dept, index) => (
                 <tr key={index}>
                   <td>{dept.name}</td>
-                  <td>{dept.subjectsCount}</td>
-                  <td>
+                  <td className="text-center">
                     <button
                       className="btn btn-sm btn-primary"
                       onClick={() => setSelectedDept(dept)}
