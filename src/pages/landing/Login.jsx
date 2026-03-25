@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
+import Button from "../../components/common_files/Button";
+import Modal from "../../components/common_files/Modal";
 function Login() {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
-
+  const [showPopup, setShowPopup] = useState(false);
+  const [userRole, setUserRole] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,79 +18,97 @@ function Login() {
     });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    // 🔹 1. ADMIN LOGIN (STATIC)
-    if (
-      loginData.email === "admin@gmail.com" &&
-      loginData.password === "123456"
-    ) {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ email: "admin@gmail.com", role: "admin" })
-      );
+    try {
+      // 🔹 1. ADMIN LOGIN (STATIC)
+      if (
+        loginData.email === "admin@gmail.com" &&
+        loginData.password === "123456"
+      ) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ email: "admin@gmail.com", role: "admin" })
+        );
 
+        // navigate("/admin/dashboard");
+        setUserRole("admin");
+        setShowPopup(true);
+        return;
+      }
+
+      // 🔹 2. STUDENT LOGIN
+      let res = await fetch("http://localhost:5000/api/students/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...data.student, role: "student" })
+        );
+
+        //navigate("/student/dashboard");
+        setUserRole("student");
+        setShowPopup(true);
+        return;
+      }
+
+      // 🔹 3. FACULTY LOGIN
+      res = await fetch("http://localhost:5000/api/faculty/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...data.faculty, role: "faculty" })
+        );
+
+        //navigate("/faculty/dashboard");
+        setUserRole("faculty");
+        setShowPopup(true);
+        return;
+      }
+
+      // ❌ INVALID
+      alert("Invalid email or password");
+
+    } catch (error) {
+      console.log(error);
+      alert("Server error");
+    }
+  };
+  // ✅ Popup button click → redirect
+  const handleRedirect = () => {
+    setShowPopup(false);
+
+    if (userRole === "admin") {
       navigate("/admin/dashboard");
-      return;
-    }
-
-    // 🔹 2. STUDENT LOGIN
-    let res = await fetch("http://localhost:5000/api/students/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginData),
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ ...data.student, role: "student" })
-      );
-
+    } else if (userRole === "student") {
       navigate("/student/dashboard");
-      return;
-    }
-
-    // 🔹 3. FACULTY LOGIN
-    res = await fetch("http://localhost:5000/api/faculty/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginData),
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ ...data.faculty, role: "faculty" })
-      );
-
+    } else if (userRole === "faculty") {
       navigate("/faculty/dashboard");
-      return;
     }
-
-    // ❌ INVALID
-    alert("Invalid email or password");
-
-  } catch (error) {
-    console.log(error);
-    alert("Server error");
-  }
-};
+  };
 
   return (
     <div className="container-fluid">
       <div className="row" style={{ minHeight: "100vh" }}>
-        
+
         {/* LEFT */}
         <div
           className="col-md-6 d-flex flex-column justify-content-center align-items-center text-center text-white"
@@ -168,25 +188,31 @@ const handleSubmit = async (e) => {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="btn w-100 text-white"
-                style={{
-                  background: "linear-gradient(135deg,#3b82f6,#9333ea)",
-                  borderRadius: "30px",
-                  padding: "10px",
-                }}
-              >
-                Login
-              </button>
+              
+
+              <Button text="Login" htmlType="submit" style={{ width: "350px" }} />
               <Link to="/forgot-password" className="text-decoration-none">
-                 Forgot Password?
+                Forgot Password?
               </Link>
             </form>
           </div>
         </div>
 
       </div>
+      {/* ✅ POPUP MODAL */}
+      <Modal
+        isOpen={showPopup}
+        onClose={() => setShowPopup(false)}
+        title="Login Successful 🎉"
+      >
+        <p>You have logged in successfully.</p>
+
+        <Button
+          text="Go to Dashboard"
+          onClick={handleRedirect}
+          style={{ marginTop: "15px", width: "100%" }}
+        />
+      </Modal>
     </div>
   );
 }
