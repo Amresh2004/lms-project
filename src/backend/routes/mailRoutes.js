@@ -22,7 +22,7 @@ router.post("/send-mail", async (req, res) => {
     // ✅ Mail options
     const mailOptions = {
       from: email,
-      to: "yourgmail@gmail.com", // 👉 where you want to receive
+      to: "amreshwarad1234@gmail.com", // 👉 where you want to receive
       subject: subject || "New Contact Message",
       html: `
         <h3>New Message from Contact Form</h3>
