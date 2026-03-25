@@ -1,6 +1,9 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
 
@@ -55,6 +58,7 @@ function App() {
 
   return (
     <>
+    <ToastContainer />
       {!hideLayout && <Navbar />}
 
       <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
