@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaKey, FaEnvelope , FaLock} from "react-icons/fa";
+import { FaKey, FaEnvelope, FaLock, FaCheckCircle } from "react-icons/fa";
+
+import { Modal, Button } from "react-bootstrap";
 
 function ForgotPassword() {
   const [form, setForm] = useState({
@@ -9,6 +11,7 @@ function ForgotPassword() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const navigate = useNavigate();
 
@@ -40,14 +43,19 @@ function ForgotPassword() {
         return;
       }
 
-      alert("Password updated successfully ✅");
-      navigate("/login");
+      // alert("Password updated successfully ✅");
+      // navigate("/login");
+      setShowPopup(true);
     } catch (err) {
       console.log(err);
       alert("Server error");
     } finally {
       setLoading(false);
     }
+  };
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    navigate("/login");
   };
 
   return (
@@ -113,7 +121,7 @@ function ForgotPassword() {
                 </label>
                 <div className="input-group">
                   <span className="input-group-text bg-white border-end-0 rounded-start-4">
-                   <FaKey size={18} color="#facc15" />
+                    <FaKey size={18} color="#facc15" />
                   </span>
                   <input
                     type="password"
@@ -154,13 +162,44 @@ function ForgotPassword() {
             <button
               type="button"
               className="btn btn-link text-decoration-none mt-3 fw-semibold"
-              onClick={() => navigate("/login")}
+              onClick={() =>
+                //  setShowPopup(false);
+                navigate("/login")}
             >
               ← Back to Login
             </button>
           </div>
         </div>
       </div>
+      {/* Success Popup */}
+      <Modal show={showPopup} onHide={handleClosePopup} centered>
+        <Modal.Header closeButton className="border-0 pb-0">
+          <Modal.Title className="fw-bold text-primary text-center w-100">
+            Password Updated
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body className="text-center pt-2">
+          <FaCheckCircle size={60} color="#22c55e" />
+          <h5 className="mt-3 fw-bold">Success!</h5>
+          <p className="text-muted mb-0">
+            Your password has been updated successfully.
+          </p>
+        </Modal.Body>
+
+        <Modal.Footer className="border-0 justify-content-center">
+          <Button
+            onClick={handleClosePopup}
+            className="rounded-pill px-4"
+            style={{
+              background: "linear-gradient(135deg, #0d6efd, #6f42c1)",
+              border: "none",
+            }}
+          >
+            Go to Login
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
