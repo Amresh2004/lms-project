@@ -1,9 +1,9 @@
 import Hero from "../../components/landing/Hero";
 
-function Home(){
+function Home() {
   return (
     <>
-      <Hero/>
+      <Hero />
     </>
   )
 }

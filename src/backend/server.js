@@ -20,6 +20,7 @@ connectDB();
 app.use("/api/students", studentRoutes);
 app.use("/api/faculty",facultyRoutes);
 
+
 app.get("/", (req, res) => {
   res.send("Server running 🚀");
 });
