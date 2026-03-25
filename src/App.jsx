@@ -6,14 +6,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
 
-// import SideBar from "./components/landing/SideBar"
-import Layout from "./components/common/Layout";
-import ProtectedRoute from "./components/common/ProtectedRoute";
 
-
-
-
-import SideBar from "./components/landing/SideBar";
 
 import Home from "./pages/landing/Home";
 import About from "./pages/landing/About";
@@ -52,22 +45,14 @@ function App() {
     location.pathname.startsWith("/faculty") ||
     location.pathname.startsWith("/student");
 
- 
+
 
 
   return (
     <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
       {!hideLayout && <Navbar />}
-      {!hideLayout1 && <Navbar />}
-
-      {/* Sidebar */}
-
-        {/* {hideLayout && <SideBar />} */}
-
-
-
       {hideLayout && <SideBar />}
-      {hideLayout1 && <SideBar />}
+
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -92,52 +77,6 @@ function App() {
         </Route>
 
         <Route path="/faculty/dashboard" element={<FacultyDashboard />} />
-
-
-        <Route path="/faculty/dashboard" element={<ProtectedRoute>
-              <Layout>
-                <FacultyDashboard />
-              </Layout>
-            </ProtectedRoute>}/>
-        
-        <Route path="/faculty/courses" element={<ProtectedRoute>
-              <Layout>
-                <MyCourses />
-              </Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/assignments" element={<ProtectedRoute>
-              <Layout>
-                <Assignment />
-              </Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/attendance" element={<ProtectedRoute>
-              <Layout>
-                <Attendance />
-              </Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/announcements" element={<ProtectedRoute>
-              <Layout>
-                <StudentsFaculty />
-              </Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/upload" element={<ProtectedRoute>
-              <Layout><UploadMaterials /></Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/profile" element={<ProtectedRoute>
-              <Layout><Profile /></Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/students" element={<ProtectedRoute>
-              <Layout><Student /></Layout>
-            </ProtectedRoute>} />
-        <Route path="/faculty/grades" element={ <ProtectedRoute>
-              <Layout>
-                <Grades />
-              </Layout>
-            </ProtectedRoute>}/>
-
-        
-
-
         <Route path="/faculty/courses" element={<MyCourses />} />
         <Route path="/faculty/assignments" element={<Assignment />} />
         <Route path="/faculty/attendance" element={<Attendance />} />
@@ -152,7 +91,7 @@ function App() {
       </Routes>
 
       {!hideLayout && <Footer />}
-      {/* {!hideLayout1 && <Footer />} */}
+
     </div>
   );
 }
