@@ -32,7 +32,7 @@ function Login() {
           JSON.stringify({ email: "admin@gmail.com", role: "admin" })
         );
 
-        // navigate("/admin/dashboard");
+        
         setUserRole("admin");
         setShowPopup(true);
         return;
@@ -55,7 +55,7 @@ function Login() {
           JSON.stringify({ ...data.student, role: "student" })
         );
 
-        //navigate("/student/dashboard");
+      
         setUserRole("student");
         setShowPopup(true);
         return;
@@ -78,7 +78,7 @@ function Login() {
           JSON.stringify({ ...data.faculty, role: "faculty" })
         );
 
-        //navigate("/faculty/dashboard");
+      
         setUserRole("faculty");
         setShowPopup(true);
         return;

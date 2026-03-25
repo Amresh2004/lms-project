@@ -43,8 +43,7 @@ function ForgotPassword() {
         return;
       }
 
-      // alert("Password updated successfully ✅");
-      // navigate("/login");
+    
       setShowPopup(true);
     } catch (err) {
       console.log(err);
@@ -163,7 +162,7 @@ function ForgotPassword() {
               type="button"
               className="btn btn-link text-decoration-none mt-3 fw-semibold"
               onClick={() =>
-                //  setShowPopup(false);
+               
                 navigate("/login")}
             >
               ← Back to Login
