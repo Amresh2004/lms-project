@@ -301,3 +301,68 @@ td {
   cursor: pointer;
   color: red;
 }
+
+.custom-card {
+  border: none;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.chart-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.chart-icon.blue {
+  background: linear-gradient(135deg,#3b82f6,#9333ea);
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #eee;
+  cursor: pointer;
+}
+
+.tabs button:hover {
+  background: #ddd;
+}
+
+.custom-card input,
+.custom-card select {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.custom-card label {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
