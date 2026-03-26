@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import studentRoutes from "./routes/studentRoutes.js"; // ✅ ADD THIS
 import facultyRoutes from "./routes/facultyRoutes.js";
+import settingsRoutes from "./routes/settingsRoutes.js";
 
 console.log("Faculty Routes Loaded:", facultyRoutes);
 dotenv.config();
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/settings", settingsRoutes);
 
 // DB
 connectDB();

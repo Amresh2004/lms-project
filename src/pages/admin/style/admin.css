@@ -301,3 +301,38 @@ td {
   cursor: pointer;
   color: red;
 }
+
+/* admin-setting */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #eee;
+  cursor: pointer;
+}
+
+.tabs button:hover {
+  background: #ddd;
+}
+
+.custom-card input,
+.custom-card select {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.custom-card label {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
