@@ -44,6 +44,39 @@
 
 .custom-table th:first-child,
 .custom-table td:first-child {
-  border-right: 2px solid blanchedalmond;
+  border-right: 1px solid lightgray;
+  width: 75%;  
   
 }
+
+.semester-card {
+  position: relative;
+  border-radius: 12px;
+  background: white;
+  z-index: 1;
+}
+
+/* Gradient Border */
+.semester-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px; /* border thickness */
+  border-radius: 12px;
+  background: linear-gradient(90deg, #2563eb, #9333ea);
+  
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  z-index: -1;
+}
+/* 
+.small-btn {
+  padding: 1px 5px;
+  font-size: 5px;
+  border-radius: 5px;
+} */
+
