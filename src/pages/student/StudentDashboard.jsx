@@ -23,62 +23,99 @@ function StudentDashboard() {
 
   return (
     <div className="admin-container">
-
       {/* SIDEBAR */}
       <div className="sidebar">
         <h4 className="logo">ATSS College</h4>
 
         <ul>
-
-          <li className={location.pathname.includes("/student/dashboard") ? "active" : ""}>
+          <li
+            className={
+              location.pathname.includes("/student/dashboard") ? "active" : ""
+            }
+          >
             <Link to="/student/dashboard">
               <FaTachometerAlt /> Dashboard
             </Link>
           </li>
 
-          <li className={location.pathname.includes("/student/courses") ? "active" : ""}>
+          <li
+            className={
+              location.pathname.includes("/student/courses") ? "active" : ""
+            }
+          >
             <Link to="/student/courses">
               <FaUserGraduate /> My Courses
             </Link>
           </li>
 
-          <li className={location.pathname.includes("/student/material") ? "active" : ""}>
+          <li
+            className={
+              location.pathname.includes("/student/material") ? "active" : ""
+            }
+          >
             <Link to="/student/material">
               <FaChalkboardTeacher /> Study Material
             </Link>
           </li>
 
-          <li className={location.pathname.includes("/faculty/assignments") ? "active" : ""}>
+          <li
+            className={
+              location.pathname.includes("/student/assignments") ? "active" : ""
+            }
+          >
             <Link to="/student/assignments">
               <FaBook /> Assignment
             </Link>
           </li>
 
-
-          <li className={location.pathname.includes("/faculty/attendance") ? "active" : ""}>
+          <li
+            className={
+              location.pathname.includes("/student/attendance") ? "active" : ""
+            }
+          >
             <Link to="/student/attendance">
               <FaBullhorn /> Attendance
             </Link>
           </li>
 
-          <li className={location.pathname.includes("/faculty/grades") ? "active" : ""}>
+          <li
+            className={
+              location.pathname.includes("/student/announcements")
+                ? "active"
+                : ""
+            }
+          >
+            <Link to="/student/announcements">
+              <FaBullhorn /> Announcements
+            </Link>
+          </li>
+
+          <li
+            className={
+              location.pathname.includes("/student/grades") ? "active" : ""
+            }
+          >
             <Link to="/student/grades">
               <FaChartBar /> Grades
             </Link>
           </li>
 
-          <li className={location.pathname.includes("/faculty/profile") ? "active" : ""}>
-            <Link to="/student/profile"> {/* ✅ FIXED */}
+          <li
+            className={
+              location.pathname.includes("/student/profile") ? "active" : ""
+            }
+          >
+            <Link to="/student/profile">
+              {" "}
+              {/* ✅ FIXED */}
               <FaCog /> Profile
             </Link>
           </li>
-
         </ul>
       </div>
 
       {/* MAIN */}
       <div className="main">
-
         {/* TOPBAR */}
         <div className="topbar">
           <h5>Welcome Back! {user?.name || "Faculty"}</h5>
@@ -92,7 +129,6 @@ function StudentDashboard() {
         <div className="content">
           <Outlet />
         </div>
-
       </div>
     </div>
   );

@@ -1,0 +1,147 @@
+.announcement-page {
+  padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+  font-family: "Poppins", sans-serif;
+}
+
+/* HEADER */
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.top-section h2 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.top-section p {
+  color: #666;
+}
+
+/* BUTTON */
+.create-btn {
+  background: linear-gradient(45deg, #4f46e5, #9333ea);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.create-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+}
+
+/* FORM CARD (GLASS EFFECT) */
+.form-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* INPUTS */
+.form-card input,
+.form-card textarea,
+.form-card select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  outline: none;
+  transition: 0.2s;
+}
+
+.form-card input:focus,
+.form-card textarea:focus,
+.form-card select:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.2);
+}
+
+/* TEXTAREA */
+.form-card textarea {
+  height: 60px;
+  resize: none;
+}
+
+/* ADD BUTTON */
+.form-card button {
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.form-card button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(34, 197, 94, 0.4);
+}
+
+
+.announcement-card {
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+  margin-top: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* HOVER EFFECT */
+.announcement-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* CARD HEADER */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* TITLE */
+.card-top h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.meta {
+  color: gray;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.edit {
+  color: blue;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.delete {
+  color: red;
+  cursor: pointer;
+}
+.empty-message span {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  color: #999;
+}

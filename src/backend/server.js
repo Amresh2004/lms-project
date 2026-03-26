@@ -6,6 +6,8 @@ import studentRoutes from "./routes/studentRoutes.js"; // ✅ ADD THIS
 import facultyRoutes from "./routes/facultyRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
 
+import announcementRoutes from "./routes/announcementRoutes.js";
+
 console.log("Faculty Routes Loaded:", facultyRoutes);
 dotenv.config();
 
@@ -21,6 +23,8 @@ connectDB();
 // ✅ ADD ROUTE
 app.use("/api/students", studentRoutes);
 app.use("/api/faculty",facultyRoutes);
+
+app.use("/api/announcements", announcementRoutes);
 
 
 app.get("/", (req, res) => {

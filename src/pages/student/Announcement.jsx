@@ -24,7 +24,7 @@ function Announcement() {
             <h3>{item.title}</h3>
 
             <div className="meta">
-              📅 {new Date(item.date).toLocaleString()} | 👥 {item.audience}
+              📅 {new Date(item.date).toLocaleString()}
             </div>
 
             <p>{item.message}</p>

@@ -1,142 +1,184 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import "../admin/style/announcment.css";
+import { toast } from "react-toastify";
 
-function Announcements() {
-  const [data, setData] = useState([]);
+const API = "http://localhost:5000/api/announcements";
+
+function Announcement() {
+  const [list, setList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState(null);
 
   const [form, setForm] = useState({
     title: "",
-    description: "",
-    audience: "",
+    message: "",
+    audience: "All Students",
   });
 
-  // FETCH
-  const fetchData = async () => {
-    const res = await fetch("http://localhost:5000/api/announcements");
-    const result = await res.json();
-    setData(result);
-  };
-
+  // ✅ FETCH DATA FROM DB
   useEffect(() => {
     fetchData();
   }, []);
 
-  // CHANGE
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const fetchData = () => {
+    axios
+      .get(API)
+      .then((res) => {
+        setList(res.data);
+      })
+      .catch((err) => console.log(err));
   };
 
-  // EDIT
+  // ✅ HANDLE INPUT
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = () => {
+    if (!form.title || !form.message) {
+      return toast.error("Fill all fields ⚠️");
+    }
+
+    if (editId) {
+      axios
+        .put(`${API}/${editId}`, form)
+        .then(() => {
+          toast.success("Updated successfully ✏️");
+          fetchData();
+          resetForm();
+        })
+        .catch((err) => toast.error("Update failed ❌"));
+    } else {
+      axios
+        .post(API, form)
+        .then(() => {
+          toast.success("Announcement added 🚀");
+          fetchData();
+          resetForm();
+        })
+        .catch((err) => toast.error("Add failed ❌"));
+    }
+  };
+
+  // ✅ DELETE
+  const handleDelete = (id) => {
+    if (!window.confirm("Delete this announcement?")) return;
+
+    axios.delete(`${API}/${id}`).then(() => {
+      toast.success("Deleted successfully 🗑️");
+      fetchData();
+    });
+  };
+
+  // ✅ EDIT
   const handleEdit = (item) => {
-    setForm(item);
+    toast.info("Editing announcement ✏️");
+
+    setForm({
+      title: item.title,
+      message: item.message,
+      audience: item.audience,
+    });
+
     setEditId(item._id);
     setShowForm(true);
   };
 
-  // DELETE
-  const handleDelete = async (id) => {
-    await fetch(`http://localhost:5000/api/announcements/${id}`, {
-      method: "DELETE",
+  // ✅ RESET FORM
+  const resetForm = () => {
+    setForm({
+      title: "",
+      message: "",
+      audience: "All Students",
     });
-    fetchData();
-  };
-
-  // SUBMIT
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    let url = "http://localhost:5000/api/announcements";
-    let method = "POST";
-
-    if (editId) {
-      url += `/${editId}`;
-      method = "PUT";
-    }
-
-    await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-
-    setForm({ title: "", description: "", audience: "" });
     setEditId(null);
     setShowForm(false);
-    fetchData();
   };
 
   return (
-    <div className="students-container">
+    <div className="announcement-page">
       {/* HEADER */}
-      <div className="students-header">
+      <div className="top-section">
         <div>
           <h2>Announcements</h2>
-          <p>Create and manage announcements</p>
+          <p>Create and manage college announcements</p>
         </div>
 
-        <button className="add-btn" onClick={() => setShowForm(true)}>
+        <button className="create-btn" onClick={() => setShowForm(!showForm)}>
           <FaPlus /> Create Announcement
         </button>
       </div>
 
       {/* FORM */}
       {showForm && (
-        <form className="student-form" onSubmit={handleSubmit}>
+        <div className="form-card">
           <input
             name="title"
             placeholder="Title"
             value={form.title}
             onChange={handleChange}
-            required
           />
 
-          <input
-            name="audience"
-            placeholder="Audience (All / BCA)"
-            value={form.audience}
+          <textarea
+            name="message"
+            placeholder="Message"
+            value={form.message}
             onChange={handleChange}
-            required
           />
 
-          <input
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-            required
-          />
+          <select name="audience" value={form.audience} onChange={handleChange}>
+            <option>All Students</option>
+            <option>BBA Students</option>
+            <option>BBA(CA) Students</option>
+            <option>BCOM(BM) Students</option>
+            <option>BCOM(CA) Students</option>
+            <option>BSC(CS) Students</option>
+            <option>BSC(AI & ML) Students</option>
+            <option>MSC(CS) Students</option>
+            <option>MSC(DS) Students</option>
+          </select>
 
-          <button className="add-btn">
-            {editId ? "Update" : "Add"}
-          </button>
-        </form>
+          <button onClick={handleSubmit}>{editId ? "Update" : "Add"}</button>
+        </div>
       )}
 
       {/* LIST */}
-      {data.map((item) => (
-        <div key={item._id} className="table-box" style={{ marginBottom: "15px" }}>
-          <h4>{item.title}</h4>
-          <p>
-            📅 {new Date(item.date).toDateString()} | 👥 {item.audience}
-          </p>
-          <p>{item.description}</p>
+      {list.length === 0 ? (
+        <p className="empty-message">
+          📭 No announcements yet <br />
+          <span>Add your first announcement 🚀</span>
+        </p>
+      ) : (
+        list.map((item) => (
+          <div key={item._id} className="announcement-card">
+            <div className="card-top">
+              <h3>{item.title}</h3>
 
-          <div>
-            <FaEdit
-              onClick={() => handleEdit(item)}
-              style={{ cursor: "pointer", marginRight: "10px" }}
-            />
-            <FaTrash
-              onClick={() => handleDelete(item._id)}
-              style={{ cursor: "pointer", color: "red" }}
-            />
+              <div>
+                <FaEdit className="edit" onClick={() => handleEdit(item)} />
+                <FaTrash
+                  className="delete"
+                  onClick={() => handleDelete(item._id)}
+                />
+              </div>
+            </div>
+
+            <div className="meta">
+              📅 {new Date(item.date).toLocaleString()} | 🕒{" "}
+              {new Date(item.date).toLocaleTimeString()} | 👥 {item.audience}
+            </div>
+
+            <p>{item.message}</p>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }
 
-export default Announcements;
+export default Announcement;

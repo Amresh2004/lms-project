@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
@@ -19,8 +20,6 @@ import ForgotPassword from "./pages/landing/ForgotPassword";
 import CourseDetails from "./pages/landing/CourseDetails";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import FacultyDashboard from "./pages/faculty/FacultyDashboard";
-
-import StudentDashboard from "./pages/student/StudentDashboard";
 
 import Dashboard from "./pages/admin/Dashboard";
 import Students from "./pages/admin/Student";
@@ -40,12 +39,14 @@ import UploadMaterials from "./pages/faculty/UploadMaterials";
 import Profile from "./pages/faculty/Profile";
 import Student from "./pages/faculty/Students";
 
+import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentMyCourses from "./pages/student/MyCourses";
 import StudentAssignment from "./pages/student/Assignments";
 import StudentAttendance from "./pages/student/Attendance";
 import StudentGrades from "./pages/student/Grades";
 import StudentUploadMaterials from "./pages/student/Materials";
 import StudentProfile from "./pages/student/Profile";
+import StudentAnnouncement from "./pages/student/Announcement";
 
 function App() {
   const location = useLocation();
@@ -56,7 +57,7 @@ function App() {
     location.pathname.startsWith("/student");
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       {!hideLayout && <Navbar />}
       <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
         {/* Sidebar */}
@@ -73,7 +74,6 @@ function App() {
           <Route path="/career" element={<Career />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
 
-
           <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
@@ -84,9 +84,15 @@ function App() {
             <Route path="announcements" element={<Announcements />} />
             <Route path="reports" element={<Reports />} />
             <Route path="settings" element={<Settings />} />
+            <Route
+              path="/admin/*"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-
-          <Route path="/student/dashboard" element={<StudentDashboard />} />
 
           <Route path="/faculty" element={<FacultyDashboard />}>
             <Route index element={<MyCourses />} />
@@ -99,6 +105,14 @@ function App() {
             <Route path="students" element={<Student />} />
             <Route path="grades" element={<Grades />} />
             <Route path="profile" element={<Profile />} />
+            <Route
+              path="/faculty/*"
+              element={
+                <ProtectedRoute role="faculty">
+                  <FacultyDashboard />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
           <Route path="/student" element={<StudentDashboard />}>
@@ -107,9 +121,18 @@ function App() {
             <Route path="courses" element={<StudentMyCourses />} />
             <Route path="assignments" element={<StudentAssignment />} />
             <Route path="attendance" element={<StudentAttendance />} />
+            <Route path="announcements" element={<StudentAnnouncement />} />
             <Route path="material" element={<StudentUploadMaterials />} />
             <Route path="grades" element={<StudentGrades />} />
             <Route path="profile" element={<StudentProfile />} />
+            <Route
+              path="/student/*"
+              element={
+                <ProtectedRoute role="student">
+                  <StudentDashboard />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </div>

@@ -54,11 +54,7 @@ function FacultyDashboard() {
             </Link>
           </li>
 
-          <li className={location.pathname.includes("/faculty/submissions") ? "active" : ""}>
-            <Link to="/faculty/submissions">
-              <FaClipboardList /> Submissions
-            </Link>
-          </li>
+          
 
           <li className={location.pathname.includes("/faculty/attendance") ? "active" : ""}>
             <Link to="/faculty/attendance">
