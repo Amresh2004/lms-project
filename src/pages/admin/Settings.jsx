@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"; // ✅ correct place
 
 function Settings() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -22,10 +23,19 @@ function Settings() {
     });
   };
 
-  const handleSave = () => {
-    console.log(form);
-    alert("Settings Saved ✅");
-  };
+
+const handleSave = async () => {
+  try {
+    console.log("Sending Data:", form); // 🔍 debug
+
+    await axios.post("http://localhost:5000/api/settings", form);
+
+    alert("Saved successfully ✅");
+  } catch (error) {
+    console.error(error);
+    alert("Error saving settings ❌");
+  }
+}
 
   return (
     <div className="students-container">
