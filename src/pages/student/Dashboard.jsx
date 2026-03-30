@@ -33,7 +33,7 @@ const Dashboard = () => {
 
             <h2 className="fw-bold">6</h2>
             <p className="text-muted mb-0">Courses Assigned</p>
-          </div>
+          </div>   
         </div>
 
         {/* Card 2 */}
