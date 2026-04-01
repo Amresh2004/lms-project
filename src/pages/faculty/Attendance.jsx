@@ -78,8 +78,6 @@ const Attendance = () => {
     setEditId(r._id);
   };
 
-  const presentCount = records.filter((r) => r.status === "Present").length;
-  const absentCount = records.filter((r) => r.status === "Absent").length;
 
   // Chart Data
   // const presentCount = records.filter(r => r.status === "Present").length;
