@@ -1,26 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { Pie } from "react-chartjs-2";
 import "chart.js/auto";
+import axios from "axios";
 
 const Attendance = () => {
   const [records, setRecords] = useState([]);
   const [form, setForm] = useState({
-    name: "",
+    studentId: "",
+    subject: "",
     date: "",
-    status: "Present"
+    status: "Present",
   });
   const [editId, setEditId] = useState(null);
 
-  // Load data
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("attendance"));
-    if (saved) setRecords(saved);
-  }, []);
+  const [students, setStudents] = useState([]);
 
-  // Save data
+  // Load data
+  const API = "http://localhost:5000/api/attendance";
+
   useEffect(() => {
-    localStorage.setItem("attendance", JSON.stringify(records));
-  }, [records]);
+    axios
+      .get("http://localhost:5000/api/students")
+      .then((res) => setStudents(res.data));
+  }, []);
+  const fetchData = async () => {
+    const res = await axios.get(API);
+    setRecords(res.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // Input change
   const handleChange = (e) => {
@@ -28,37 +38,48 @@ const Attendance = () => {
   };
 
   // Add / Update
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name || !form.date) {
+    if (!form.studentId || !form.subject || !form.date || !form.status) {
       alert("Fill all fields");
       return;
     }
 
-    if (editId) {
-      const updated = records.map((r) =>
-        r.id === editId ? { ...form, id: editId } : r
-      );
-      setRecords(updated);
-      setEditId(null);
-    } else {
-      setRecords([...records, { ...form, id: Date.now() }]);
-    }
+    try {
+      if (editId) {
+        await axios.put(`${API}/update/${editId}`, form);
+      } else {
+        await axios.post(`${API}/add`, form);
+      }
 
-    setForm({ name: "", date: "", status: "Present" });
+      fetchData();
+
+      setForm({ name: "", date: "", status: "Present" });
+      setEditId(null);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // Delete
-  const handleDelete = (id) => {
-    setRecords(records.filter((r) => r.id !== id));
+  const handleDelete = async (id) => {
+    await axios.delete(`${API}/delete/${id}`);
+    fetchData();
   };
 
   // Edit
   const handleEdit = (r) => {
-    setForm(r);
-    setEditId(r.id);
+    setForm({
+      name: r.name,
+      date: r.date,
+      status: r.status,
+    });
+    setEditId(r._id);
   };
+
+  const presentCount = records.filter((r) => r.status === "Present").length;
+  const absentCount = records.filter((r) => r.status === "Absent").length;
 
   // Chart Data
   // const presentCount = records.filter(r => r.status === "Present").length;
@@ -76,21 +97,36 @@ const Attendance = () => {
 
   return (
     <div className="container-fluid">
-
       <h3 className="fw-bold">Attendance</h3>
       <p className="text-muted">Manage student attendance</p>
 
       {/* FORM */}
       <form onSubmit={handleSubmit} className="card p-4 shadow-sm mb-4">
         <div className="row g-3">
+          <div className="col-md-3">
+            <select
+              name="studentId"
+              className="form-select"
+              value={form.studentId}
+              onChange={handleChange}
+            >
+              <option value="">Select Student</option>
+
+              {students.map((s) => (
+                <option key={s._id} value={s._id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className="col-md-3">
             <input
               type="text"
-              name="name"
-              placeholder="Student Name"
+              name="subject"
+              placeholder="Subject"
               className="form-control"
-              value={form.name}
+              value={form.subject}
               onChange={handleChange}
             />
           </div>
@@ -122,7 +158,6 @@ const Attendance = () => {
               {editId ? "Update" : "Add"}
             </button>
           </div>
-
         </div>
       </form>
 
@@ -141,32 +176,24 @@ const Attendance = () => {
         <table className="table table-bordered">
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Student Name</th>
+              <th>Subject</th>
               <th>Date</th>
-              <th>Status</th>
+              <th>Attendance Status</th>
               <th>Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {records.length === 0 && (
-              <tr>
-                <td colSpan="4" className="text-center">
-                  No records
-                </td>
-              </tr>
-            )}
-
             {records.map((r) => (
-              <tr key={r.id}>
-                <td>{r.name}</td>
+              <tr key={r._id}>
+                <td>{r.studentId?.name}</td>
+                <td>{r.subject}</td>
                 <td>{r.date}</td>
                 <td>
                   <span
                     className={`badge ${
-                      r.status === "Present"
-                        ? "bg-success"
-                        : "bg-danger"
+                      r.status === "Present" ? "bg-success" : "bg-danger"
                     }`}
                   >
                     {r.status}
@@ -182,19 +209,16 @@ const Attendance = () => {
 
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(r.id)}
+                    onClick={() => handleDelete(r._id)}
                   >
                     Delete
                   </button>
                 </td>
               </tr>
             ))}
-
           </tbody>
         </table>
-
       </div>
-
     </div>
   );
 };

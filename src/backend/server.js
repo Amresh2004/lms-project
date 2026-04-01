@@ -6,6 +6,8 @@ import studentRoutes from "./routes/studentRoutes.js"; // ✅ ADD THIS
 import facultyRoutes from "./routes/facultyRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
 
+import attendanceRoutes from "./routes/attendanceRoutes.js";
+
 
 import announcementRoutes from "./routes/announcementRoutes.js";
 
@@ -27,6 +29,7 @@ connectDB();
 app.use("/api/students", studentRoutes);
 app.use("/api/faculty",facultyRoutes);
 app.use("/api/announcements", announcementRoutes);
+app.use("/api/attendance", attendanceRoutes);
 
 
 
