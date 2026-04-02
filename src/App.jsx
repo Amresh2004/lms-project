@@ -8,7 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import Navbar from "./components/landing/Navbar";
 import Footer from "./components/landing/Footer";
-import SideBar from "./components/landing/SideBar";
+// import SideBar from "./components/landing/SideBar";
 
 import Home from "./pages/landing/Home";
 import About from "./pages/landing/About";
@@ -17,7 +17,10 @@ import Login from "./pages/landing/Login";
 import Register from "./pages/landing/Register";
 import Career from "./pages/landing/Career";
 import ForgotPassword from "./pages/landing/ForgotPassword";
-import CourseDetails from "./pages/landing/CourseDetails";
+
+// ✅ Renamed to avoid conflict
+import CourseDetailsLanding from "./pages/landing/CourseDetails";
+
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import FacultyDashboard from "./pages/faculty/FacultyDashboard";
 
@@ -30,6 +33,7 @@ import Announcements from "./pages/admin/Announcements";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
 
+// Faculty
 import MyCourses from "./pages/faculty/MyCourses";
 import Assignment from "./pages/faculty/Assignment";
 import Attendance from "./pages/faculty/Attendance";
@@ -39,8 +43,10 @@ import UploadMaterials from "./pages/faculty/UploadMaterials";
 import Profile from "./pages/faculty/Profile";
 import Student from "./pages/faculty/Students";
 
+// Student
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentMyCourses from "./pages/student/MyCourses";
+import CourseDetailsStudent from "./pages/student/CourseDetails";
 import StudentAssignment from "./pages/student/Assignments";
 import StudentAttendance from "./pages/student/Attendance";
 import StudentGrades from "./pages/student/Grades";
@@ -55,25 +61,28 @@ function App() {
     location.pathname.startsWith("/admin") ||
     location.pathname.startsWith("/faculty") ||
     location.pathname.startsWith("/student");
+
   return (
     <>
       <ToastContainer />
-      {!hideLayout && <Navbar />}
-      <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
-        {/* Sidebar */}
-        {/* {hideLayout && <SideBar />} */}
 
+      {/* Navbar */}
+      {!hideLayout && <Navbar />}
+
+      <div style={{ marginTop: hideLayout ? "0px" : "80px" }}>
         <Routes>
+          {/* Landing Pages */}
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/course/:id" element={<CourseDetails />} />
+          <Route path="/course/:id" element={<CourseDetailsLanding />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/career" element={<Career />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
 
+          {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
@@ -84,8 +93,9 @@ function App() {
             <Route path="announcements" element={<Announcements />} />
             <Route path="reports" element={<Reports />} />
             <Route path="settings" element={<Settings />} />
+
             <Route
-              path="/admin/*"
+              path="*"
               element={
                 <ProtectedRoute role="admin">
                   <AdminDashboard />
@@ -94,6 +104,7 @@ function App() {
             />
           </Route>
 
+          {/* Faculty Routes */}
           <Route path="/faculty" element={<FacultyDashboard />}>
             <Route index element={<MyCourses />} />
             <Route path="dashboard" element={<MyCourses />} />
@@ -105,8 +116,9 @@ function App() {
             <Route path="students" element={<Student />} />
             <Route path="grades" element={<Grades />} />
             <Route path="profile" element={<Profile />} />
+
             <Route
-              path="/faculty/*"
+              path="*"
               element={
                 <ProtectedRoute role="faculty">
                   <FacultyDashboard />
@@ -115,18 +127,24 @@ function App() {
             />
           </Route>
 
+          {/* Student Routes */}
           <Route path="/student" element={<StudentDashboard />}>
             <Route index element={<StudentMyCourses />} />
             <Route path="dashboard" element={<StudentMyCourses />} />
             <Route path="courses" element={<StudentMyCourses />} />
+
+            {/* ✅ Fixed route */}
+            <Route path="course/:id" element={<CourseDetailsStudent />} />
+
             <Route path="assignments" element={<StudentAssignment />} />
             <Route path="attendance" element={<StudentAttendance />} />
             <Route path="announcements" element={<StudentAnnouncement />} />
             <Route path="material" element={<StudentUploadMaterials />} />
             <Route path="grades" element={<StudentGrades />} />
             <Route path="profile" element={<StudentProfile />} />
+
             <Route
-              path="/student/*"
+              path="*"
               element={
                 <ProtectedRoute role="student">
                   <StudentDashboard />
@@ -136,6 +154,8 @@ function App() {
           </Route>
         </Routes>
       </div>
+
+      {/* Footer */}
       {!hideLayout && <Footer />}
     </>
   );
