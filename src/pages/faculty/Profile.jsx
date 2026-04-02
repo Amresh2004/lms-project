@@ -1,363 +1,173 @@
-import React, { useState, useRef, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { FaTrash, FaCamera } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "../student/style/profile.css";
+import { Link } from "react-router-dom";
+import { Button } from "antd";
+const API = "http://localhost:5000/api/students";
 
-const FacultyProfile = () => {
-  const defaultImage =
-    "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+const Profile = () => {
+  // ✅ GET USER FROM LOCAL STORAGE
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const userId = storedUser?._id;
 
-  const fileInputRef = useRef();
+  // ✅ STATE
+  const [user, setUser] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
-  // Load from localStorage
-  // const [faculty, setFaculty] = useState(() => {
-  //   const saved = localStorage.getItem("facultyProfile");
-  //   return saved
-  //     ? JSON.parse(saved)
-  //     : {
-  //         firstName: "",
-  //         lastName: "",
-  //         dob: "",
-  //         phone: "",
-  //         email: "",
-  //         qualification: "",
-  //         department: "",
-  //         designation: "",
-  //         employeeId: "",
-  //         joiningDate: "",
-  //         image: "",
-  //       };
-  // });
-  const [faculty, setFaculty] = useState(() => {
-  const saved = localStorage.getItem("facultyProfile");
-
-  if (saved) {
-    const parsed = JSON.parse(saved);
-
-    return {
-      ...parsed,
-      image: parsed.image && parsed.image !== "null" ? parsed.image : "",
-    };
-  }
-
-  return {
-    firstName: "",
-    lastName: "",
-    dob: "",
-    phone: "",
-    email: "",
-    qualification: "",
-    department: "",
-    designation: "",
-    employeeId: "",
-    joiningDate: "",
-    image: "",
+  // ✅ FETCH DATA
+  const fetchProfile = async () => {
+    try {
+      const res = await axios.get(`${API}/profile/${userId}`);
+      setUser(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
-});
 
-  const [tempData, setTempData] = useState(faculty);
-  const [isEdit, setIsEdit] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [showPasswordToast, setShowPasswordToast] = useState(false);
-
-  const [passwordData, setPasswordData] = useState({
-    oldPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-
-  // Sync tempData
   useEffect(() => {
-    setTempData(faculty);
-  }, [faculty]);
+    if (userId) fetchProfile();
+  }, [userId]);
 
-  // ---------------- HANDLERS ----------------
+  // ✅ HANDLE CHANGE
   const handleChange = (e) => {
-    setTempData({ ...tempData, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // ✅ FIXED IMAGE UPLOAD (Base64)
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        setTempData({
-          ...tempData,
-          image: reader.result, // ✅ base64 stored
-        });
-      };
-
-      reader.readAsDataURL(file);
+  // ✅ UPDATE
+  const handleUpdate = async () => {
+    try {
+      await axios.put(`${API}/profile/update/${userId}`, user);
+      setEditMode(false);
+      fetchProfile();
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const handleDeleteImage = () => {
-    setTempData({ ...tempData, image: "" });
-  };
-
-  const handleUpdate = () => {
-    setFaculty(tempData);
-    localStorage.setItem("facultyProfile", JSON.stringify(tempData));
-
-    setIsEdit(false);
-
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 2000);
-  };
-
-  const handleCancel = () => {
-    setTempData(faculty);
-    setIsEdit(false);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
-  };
-
-  const handlePasswordUpdate = () => {
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
-    setShowPasswordModal(false);
-
-    setShowPasswordToast(true);
-    setTimeout(() => setShowPasswordToast(false), 2000);
-  };
-
-  // ---------------- UI ----------------
   return (
-    <div className="bg-light min-vh-100">
+    <div className="container py-4">
+      <h2 className="fw-bold">My Profile</h2>
+      <p className="text-muted">Manage your personal information</p>
 
-      {/* HEADER */}
-      <div className="d-flex justify-content-between align-items-center px-4 py-3 bg-white shadow-sm">
-        <h2
-          style={{
-            background: "linear-gradient(to right, #2563eb, #9333ea)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          {faculty.firstName ? `Hiii ${faculty.firstName}!` : "Hiii User!"}
-        </h2>
+      <div className="row mt-4">
+        {/* LEFT CARD */}
+        <div className="col-md-4">
+          <div className="card text-center p-4 shadow-sm">
+            <div className="profile-avatar">👤</div>
 
-        <button
-          className="btn text-white"
-          onClick={() => {
-            setTempData(faculty);
-            setIsEdit(true);
-          }}
-          style={{
-            background: "linear-gradient(to right, #2563eb, #9333ea)",
-            borderRadius: "50px",
-          }}
-        >
-          + Update Information
-        </button>
-      </div>
+            <h4 className="mt-3">{user.name || "No Name"}</h4>
+            <p className="text-primary">{user.rollNumber || "-"}</p>
+            <p>{user.semester || "-"}</p>
 
-      {/* MAIN */}
-      <div className="container-fluid mt-4 d-flex justify-content-center">
-        <div style={{ maxWidth: "500px", width: "100%" }}>
-
-          {/* PROFILE IMAGE */}
-          <div className="text-center mb-4 position-relative">
-            <img
-              // src={tempData.image || defaultImage}
-              src={
-  tempData.image && tempData.image !== "null"
-    ? tempData.image
-    : defaultImage
-}
-              alt="profile"
-              className="rounded-circle shadow"
-              style={{ width: "140px", height: "140px", objectFit: "cover" }}
-            />
-
-            {isEdit && (
-              <div
-                className="position-absolute d-flex gap-2"
-                style={{
-                  bottom: "10px",
-                  right: "calc(50% - 70px)",
-                  transform: "translateX(100%)",
-                }}
-              >
-                <div
-                  onClick={() => fileInputRef.current.click()}
-                  style={{
-                    background:
-                      "linear-gradient(to right, #2563eb, #9333ea)",
-                    borderRadius: "50%",
-                    padding: "12px",
-                    cursor: "pointer",
-                  }}
-                >
-                  <FaCamera color="white" />
-                </div>
-
-                {tempData.image && (
-                  <div
-                    onClick={handleDeleteImage}
-                    style={{
-                      background: "red",
-                      borderRadius: "50%",
-                      padding: "12px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <FaTrash color="white" />
-                  </div>
-                )}
-              </div>
-            )}
-
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImage}
-              className="d-none"
-            />
-          </div>
-
-          {/* PERSONAL DETAILS */}
-          <div className="bg-white p-4 rounded shadow-sm mb-3">
-            <h5 className="fw-bold mb-3">Personal Details</h5>
-
-            {[
-              { label: "First Name", name: "firstName" },
-              { label: "Last Name", name: "lastName" },
-              { label: "DOB", name: "dob" },
-              { label: "Mobile Number", name: "phone" },
-              { label: "Email", name: "email" },
-            ].map((field) => (
-              <div key={field.name} className="mb-3">
-                <label>{field.label}</label>
-                <input
-                  name={field.name}
-                  value={tempData[field.name]}
-                  onChange={handleChange}
-                  disabled={!isEdit}
-                  className="form-control"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* PROFESSIONAL DETAILS */}
-          <div className="bg-white p-4 rounded shadow-sm mb-3">
-            <h5 className="fw-bold mb-3">Professional Details</h5>
-
-            {[
-              { label: "Qualification", name: "qualification" },
-              { label: "Department", name: "department" },
-              { label: "Designation", name: "designation" },
-              { label: "Employee ID", name: "employeeId" },
-              { label: "Joining Date", name: "joiningDate" },
-            ].map((field) => (
-              <div key={field.name} className="mb-3">
-                <label>{field.label}</label>
-                <input
-                  name={field.name}
-                  value={tempData[field.name]}
-                  onChange={handleChange}
-                  disabled={!isEdit}
-                  className="form-control"
-                />
-              </div>
-            ))}
-
-            <div
-              className="form-control mb-3 text-primary"
-              style={{ cursor: "pointer", backgroundColor: "#f8f9fa" }}
-              onClick={() => setShowPasswordModal(true)}
+            <button
+              className="btn btn-primary mt-2"
+              onClick={() => setEditMode(!editMode)}
             >
-              Change Password
-            </div>
+              {editMode ? "Cancel" : "Edit Profile"}
+            </button>
           </div>
+        </div>
 
-          {/* BUTTONS */}
-          {isEdit && (
-            <div className="d-flex gap-3 mb-3">
-              <button
-                onClick={handleUpdate}
-                className="btn text-white w-50"
-                style={{
-                  background:
-                    "linear-gradient(to right, #2563eb, #9333ea)",
-                }}
-              >
-                Update
-              </button>
+        {/* RIGHT FORM */}
+        <div className="col-md-8">
+          <div className="card p-4 shadow-sm">
+            <h5 className="mb-3">Personal Information</h5>
 
-              <button
-                onClick={handleCancel}
-                className="btn btn-secondary w-50"
-              >
-                Cancel
-              </button>
+            <div className="row g-3">
+              <div className="col-md-6">
+                <label>Full Name</label>
+                <input
+                  name="name"
+                  value={user.name || ""}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                  className="form-control"
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label>Roll Number</label>
+                <input
+                  name="rollNumber"
+                  value={user.rollNumber || ""}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                  className="form-control"
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label>Email</label>
+                <input
+                  name="email"
+                  value={user.email || ""}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                  className="form-control"
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label>Phone</label>
+                <input
+                  name="phone"
+                  value={user.phone || ""}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                  className="form-control"
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label>Course</label>
+                <input
+                  name="course"
+                  value={user.course || ""}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                  className="form-control"
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label>Semester</label>
+                <input
+                  name="semester"
+                  value={user.semester || ""}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                  className="form-control"
+                />
+              </div>
+
+              <div className="col-12">
+                <label>Address</label>
+                <input
+                  name="address"
+                  value={user.address || ""}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                  className="form-control"
+                />
+              </div>
             </div>
-          )}
+
+            {/* SAVE BUTTON */}
+            {editMode && (
+              <button className="btn btn-success mt-3" onClick={handleUpdate}>
+                Save Changes
+              </button>
+            )}
+                <br />
+            {/* <Button text="Login" htmlType="submit" style={{ width: "350px" }} /> */}
+            <Link to="/forgot-password" className="text-decoration-none">
+              Forgot Password?
+            </Link>
+          </div>
         </div>
       </div>
-
-      {/* PASSWORD MODAL */}
-      {showPasswordModal && (
-        <div className="modal d-block" style={{ background: "#00000080" }}>
-          <div className="modal-dialog">
-            <div className="modal-content p-3">
-              <h5>Change Password</h5>
-
-              <input type="password" name="oldPassword" placeholder="Old Password"
-                className="form-control mb-2" onChange={handlePasswordChange} />
-
-              <input type="password" name="newPassword" placeholder="New Password"
-                className="form-control mb-2" onChange={handlePasswordChange} />
-
-              <input type="password" name="confirmPassword" placeholder="Confirm Password"
-                className="form-control mb-3" onChange={handlePasswordChange} />
-
-              <button className="btn btn-primary w-100" onClick={handlePasswordUpdate}>
-                Update Password
-              </button>
-
-              <button className="btn btn-secondary w-100 mt-2"
-                onClick={() => setShowPasswordModal(false)}>
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* PROFILE TOAST */}
-      {showToast && (
-        <div style={{ position: "fixed", top: "90px", right: "20px" }}>
-          <div className="bg-success text-white px-4 py-2 rounded shadow">
-            Profile updated!
-          </div>
-        </div>
-      )}
-
-      {/* PASSWORD TOAST */}
-      {showPasswordToast && (
-        <div style={{ position: "fixed", top: "90px", right: "20px" }}>
-          <div
-            className="text-white px-4 py-2 rounded shadow"
-            style={{
-              background: "green",
-            }}
-          >
-            Password updated!
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default FacultyProfile;
+export default Profile;
