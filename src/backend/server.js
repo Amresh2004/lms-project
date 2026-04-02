@@ -9,6 +9,7 @@ import settingsRoutes from "./routes/settingsRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 
 
+
 import announcementRoutes from "./routes/announcementRoutes.js";
 
 console.log("Faculty Routes Loaded:", facultyRoutes);
@@ -30,6 +31,7 @@ app.use("/api/students", studentRoutes);
 app.use("/api/faculty",facultyRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/attendance", attendanceRoutes);
+
 
 
 
