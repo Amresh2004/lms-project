@@ -19,7 +19,7 @@ import Career from "./pages/landing/Career";
 import ForgotPassword from "./pages/landing/ForgotPassword";
 import CourseDetails from "./pages/landing/CourseDetails";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import FacultyDashboard from "./pages/faculty/FacultyDashboard";
+
 
 import Dashboard from "./pages/admin/Dashboard";
 import Students from "./pages/admin/Student";
@@ -30,6 +30,7 @@ import Announcements from "./pages/admin/Announcements";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
 
+import FacultyDashboard from "./pages/faculty/FacultyDashboard";
 import MyCourses from "./pages/faculty/MyCourses";
 import Assignment from "./pages/faculty/Assignment";
 import Attendance from "./pages/faculty/Attendance";
@@ -39,12 +40,14 @@ import UploadMaterials from "./pages/faculty/UploadMaterials";
 import Profile from "./pages/faculty/Profile";
 import Student from "./pages/faculty/Students";
 
+
+
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentMyCourses from "./pages/student/MyCourses";
 import StudentAssignment from "./pages/student/Assignments";
 import StudentAttendance from "./pages/student/Attendance";
 import StudentGrades from "./pages/student/Grades";
-import StudentUploadMaterials from "./pages/student/Materials";
+import Materials from "./pages/student/Materials";
 import StudentProfile from "./pages/student/Profile";
 import StudentAnnouncement from "./pages/student/Announcement";
 
@@ -93,18 +96,19 @@ function App() {
               }
             />
           </Route>
+<Route path="/faculty" element={<FacultyDashboard />}>
+  <Route index element={<MyCourses />} />
+  <Route path="dashboard" element={<MyCourses />} />
+  <Route path="courses" element={<MyCourses />} />
+  <Route path="assignments" element={<Assignment />} />
+  <Route path="attendance" element={<Attendance />} />
+  <Route path="announcements" element={<Announcement />} />
+  <Route path="upload" element={<UploadMaterials />} />
+  <Route path="students" element={<Student />} />
+  <Route path="grades" element={<Grades />} />
+  <Route path="profile" element={<Profile />} />
 
-          <Route path="/faculty" element={<FacultyDashboard />}>
-            <Route index element={<MyCourses />} />
-            <Route path="dashboard" element={<MyCourses />} />
-            <Route path="courses" element={<MyCourses />} />
-            <Route path="assignments" element={<Assignment />} />
-            <Route path="attendance" element={<Attendance />} />
-            <Route path="announcements" element={<Announcement />} />
-            <Route path="upload" element={<UploadMaterials />} />
-            <Route path="students" element={<Student />} />
-            <Route path="grades" element={<Grades />} />
-            <Route path="profile" element={<Profile />} />
+          
             <Route
               path="/faculty/*"
               element={
@@ -122,7 +126,7 @@ function App() {
             <Route path="assignments" element={<StudentAssignment />} />
             <Route path="attendance" element={<StudentAttendance />} />
             <Route path="announcements" element={<StudentAnnouncement />} />
-            <Route path="material" element={<StudentUploadMaterials />} />
+            <Route path="material" element={<Materials />} />
             <Route path="grades" element={<StudentGrades />} />
             <Route path="profile" element={<StudentProfile />} />
             <Route

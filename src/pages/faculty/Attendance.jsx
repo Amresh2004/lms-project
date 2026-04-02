@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Pie } from "react-chartjs-2";
+// import { Pie } from "react-chartjs-2";
 import "chart.js/auto";
 
 const Attendance = () => {
