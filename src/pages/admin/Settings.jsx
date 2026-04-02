@@ -8,8 +8,6 @@ function Settings() {
     name: "",
     email: "",
     phone: "",
-    collegeName: "",
-    academicYear: "",
     darkMode: false,
     emailNotif: true,
     assignmentNotif: true,
@@ -47,7 +45,6 @@ const handleSave = async () => {
       <div className="tabs">
         <button onClick={() => setActiveTab("profile")}>Profile</button>
         <button onClick={() => setActiveTab("security")}>Security</button>
-        <button onClick={() => setActiveTab("system")}>System</button>
         <button onClick={() => setActiveTab("notifications")}>Notifications</button>
         <button onClick={() => setActiveTab("appearance")}>Appearance</button>
       </div>
@@ -81,7 +78,7 @@ const handleSave = async () => {
               onChange={handleChange}
             />
 
-            <input type="file" />
+          
 
             <button className="add-btn" onClick={handleSave}>
               Save Changes
@@ -112,32 +109,6 @@ const handleSave = async () => {
           </>
         )}
 
-        {/* SYSTEM */}
-        {activeTab === "system" && (
-          <>
-            <h3>System Settings</h3>
-
-            <input
-              name="collegeName"
-              placeholder="College Name"
-              value={form.collegeName}
-              onChange={handleChange}
-            />
-
-            <input
-              name="academicYear"
-              placeholder="Academic Year"
-              value={form.academicYear}
-              onChange={handleChange}
-            />
-
-            <input type="file" />
-
-            <button className="add-btn" onClick={handleSave}>
-              Save System
-            </button>
-          </>
-        )}
 
         {/* NOTIFICATIONS */}
         {activeTab === "notifications" && (
