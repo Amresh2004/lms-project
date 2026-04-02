@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import studentRoutes from "./routes/studentRoutes.js"; // ✅ ADD THIS
 import facultyRoutes from "./routes/facultyRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
+import courseRoutes from "./routes/courseRoutes.js";
 
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 
@@ -31,6 +32,7 @@ app.use("/api/students", studentRoutes);
 app.use("/api/faculty",facultyRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/attendance", attendanceRoutes);
+app.use("/api/course", courseRoutes);
 
 
 
