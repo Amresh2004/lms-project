@@ -1,0 +1,188 @@
+.upload-page {
+    min-height: 100vh;
+    background: #f3f4f6;
+    padding-bottom: 30px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.page-heading h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.page-heading p {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 18px;
+}
+
+.main-card,
+.side-card,
+.tip-card {
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.main-card {
+    background: #ffffff;
+}
+
+.side-card {
+    background: #ffffff;
+}
+
+.tip-card {
+    border-radius: 16px;
+    background: linear-gradient(90deg, #a020f0, #ff1493);
+    color: white;
+}
+
+.side-title,
+.tip-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+form label {
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.custom-input {
+    height: 52px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    box-shadow: none !important;
+}
+
+.custom-input:focus {
+    border-color: #c026d3;
+    box-shadow: 0 0 0 0.12rem rgba(192, 38, 211, 0.2) !important;
+}
+
+.textarea-box {
+    min-height: 90px !important;
+    resize: none;
+    padding-top: 12px;
+}
+
+.upload-box {
+    min-height: 160px;
+    border: 2px dashed #d1d5db;
+    border-radius: 14px;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s ease;
+    padding: 20px;
+}
+
+.upload-box:hover {
+    border-color: #c026d3;
+    background: #fcf5ff;
+}
+
+.active-drag {
+    border-color: #c026d3;
+    background: #f9e8ff;
+}
+
+.upload-icon {
+    font-size: 2.8rem;
+    color: #9ca3af;
+    margin-bottom: 10px;
+}
+
+.upload-text {
+    font-size: 1rem;
+    color: #475569;
+    margin-bottom: 4px;
+}
+
+.upload-subtext {
+    color: #6b7280;
+    font-size: 0.88rem;
+}
+
+.selected-file {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #334155;
+    background: #f1f5f9;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+.upload-btn {
+    height: 48px;
+    border-radius: 12px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #8a2be2, #ff1493);
+}
+
+.upload-btn:hover {
+    background: linear-gradient(90deg, #7b1fe0, #e01183) !important;
+}
+
+.format-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    color: #334155;
+    font-size: 0.97rem;
+}
+
+.format-icon {
+    font-size: 1rem;
+}
+
+.pdf {
+    color: #ef4444;
+}
+
+.video {
+    color: #a855f7;
+}
+
+.ppt {
+    color: #f97316;
+}
+
+.text {
+    color: #3b82f6;
+}
+
+.tip-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+@media (max-width: 991px) {
+    .page-heading h2 {
+        font-size: 1.7rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .page-heading h2 {
+        font-size: 1.45rem;
+    }
+
+    .custom-input {
+        height: 48px;
+    }
+
+    .upload-box {
+        min-height: 140px;
+    }
+}

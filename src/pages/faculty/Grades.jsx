@@ -18,8 +18,8 @@ const Grade = () => {
   const getGrade = (marks) => {
     if (marks >= 90) return "A+";
     if (marks >= 75) return "A";
-    if (marks >= 60) return "B";
-    if (marks >= 50) return "C";
+    if (marks >= 50) return "B";
+    if (marks >= 35) return "C";
     return "F";
   };
 

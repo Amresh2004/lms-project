@@ -1,0 +1,47 @@
+import mongoose from "mongoose";
+
+const materialSchema = new mongoose.Schema(
+  {
+    course: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    description: {
+      type: String,
+      default: "",
+    },
+    materialType: {
+      type: String,
+      required: true,
+    },
+    fileUrl: {
+      type: String,
+      default: "",
+    },
+    fileName: {
+      type: String,
+      default: "",
+    },
+    videoUrl: {
+      type: String,
+      default: "",
+    },
+    facultyEmail: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
+    
+  },
+  { timestamps: true }
+);
+
+const Materials = mongoose.model("Materials", materialSchema);
+
+export default Materials;
