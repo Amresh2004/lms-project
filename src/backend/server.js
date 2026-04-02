@@ -18,7 +18,8 @@ import courseRoutes from "./routes/courseRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 
 
-import announcementRoutes from "./routes/announcementRoutes.js";
+
+
 
 console.log("Faculty Routes Loaded:", facultyRoutes);
 
@@ -40,14 +41,12 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/settings", settingsRoutes);
 app.use("/api/materials", materialsRoutes);
 app.use("/api/students", studentRoutes);
-
-app.use("/api/faculty", facultyRoutes);
-
 app.use("/api/faculty",facultyRoutes);
-
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/course", courseRoutes);
+
+
 
 
 app.get("/", (req, res) => {

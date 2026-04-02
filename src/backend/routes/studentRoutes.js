@@ -95,6 +95,39 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// ✅ GET STUDENT PROFILE (by ID)
+router.get("/profile/:id", async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.json(student);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error fetching profile" });
+  }
+});
+
+
+// ✅ UPDATE STUDENT PROFILE
+router.put("/profile/update/:id", async (req, res) => {
+  try {
+    const updatedStudent = await Student.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+
+    res.json(updatedStudent);
+  } catch (err) {
+    res.status(500).json({ message: "Update failed" });
+  }
+});
+
 // FORGOT PASSWORD (RESET)
 router.post("/forgot-password", async (req, res) => {
   try {
