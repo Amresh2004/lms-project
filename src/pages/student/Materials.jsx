@@ -212,12 +212,12 @@ export default function Materials() {
                       </>
                     ) : null}
 
-                    <Button
+                    {/* <Button
                       variant="danger"
                       onClick={() => handleDelete(item._id)}
                     >
                       Delete
-                    </Button>
+                    </Button> */}
 
 
 

@@ -58,6 +58,7 @@ const upload = multer({
     limits: { fileSize: 500 * 1024 * 1024 },
 });
 
+// Upload material (file OR video link OR both)
 router.post("/upload", (req, res) => {
     upload.single("file")(req, res, async function (err) {
         try {
@@ -158,37 +159,37 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
-    try {
-        const material = await Materials.findById(req.params.id);
+// router.delete("/:id", async (req, res) => {
+//     try {
+//         const material = await Materials.findById(req.params.id);
 
-        if (!material) {
-            return res.status(404).json({
-                success: false,
-                message: "Material not found",
-            });
-        }
+//         if (!material) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: "Material not found",
+//             });
+//         }
 
-        if (material.fileName) {
-            const filePath = path.join(uploadDir, material.fileName);
-            if (fs.existsSync(filePath)) {
-                fs.unlinkSync(filePath);
-            }
-        }
+//         if (material.fileName) {
+//             const filePath = path.join(uploadDir, material.fileName);
+//             if (fs.existsSync(filePath)) {
+//                 fs.unlinkSync(filePath);
+//             }
+//         }
 
-        await Materials.findByIdAndDelete(req.params.id);
+//         await Materials.findByIdAndDelete(req.params.id);
 
-        return res.status(200).json({
-            success: true,
-            message: "Material deleted successfully",
-        });
-    } catch (error) {
-        console.error("Delete material error:", error);
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-        });
-    }
-});
+//         return res.status(200).json({
+//             success: true,
+//             message: "Material deleted successfully",
+//         });
+//     } catch (error) {
+//         console.error("Delete material error:", error);
+//         return res.status(500).json({
+//             success: false,
+//             message: "Server error",
+//         });
+//     }
+// });
 
 export default router;

@@ -125,11 +125,11 @@ form label {
     height: 48px;
     border-radius: 12px;
     font-weight: 700;
-    background: linear-gradient(90deg, #8a2be2, #ff1493);
+    background: linear-gradient(135deg,#3b82f6,#9333ea);
 }
 
 .upload-btn:hover {
-    background: linear-gradient(90deg, #7b1fe0, #e01183) !important;
+    background: linear-gradient(135deg, #3b82f6,#9333ea) !important;
 }
 
 .format-item {
@@ -161,11 +161,11 @@ form label {
     color: #3b82f6;
 }
 
-.tip-text {
+/* .tip-text {
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 0;
-}
+} */
 
 @media (max-width: 991px) {
     .page-heading h2 {
@@ -184,5 +184,22 @@ form label {
 
     .upload-box {
         min-height: 140px;
+        border: 2px dashed #cfd8dc;
+        border-radius: 12px;
+        padding: 24px;
+        text-align: center;
+        cursor: pointer;
+        background: #fafafa;
+        transition: 0.3s ease;
+    }
+
+    .upload-box:hover {
+        background: #f3f6f9;
+    }
+
+
+    .active-drag {
+        border-color: #0d6efd;
+        background: #eef5ff;
     }
 }

@@ -5,6 +5,7 @@ const materialSchema = new mongoose.Schema(
     course: {
       type: String,
       required: true,
+        trim: true,
     },
     title: {
       type: String,
@@ -14,10 +15,12 @@ const materialSchema = new mongoose.Schema(
     description: {
       type: String,
       default: "",
+        trim: true,
     },
     materialType: {
       type: String,
       required: true,
+        trim: true,
     },
     fileUrl: {
       type: String,
@@ -30,6 +33,7 @@ const materialSchema = new mongoose.Schema(
     videoUrl: {
       type: String,
       default: "",
+      trim: true,
     },
     facultyEmail: {
       type: String,
