@@ -90,7 +90,7 @@ router.post("/upload", (req, res) => {
                     });
                 }
 
-                const material = await Materials.create({
+                const saved = await Materials.create({
                     course,
                     title,
                     description,
@@ -101,10 +101,12 @@ router.post("/upload", (req, res) => {
                     fileUrl: "",
                 });
 
+                console.log("SAVED VIDEO LINK =>", saved);
+
                 return res.status(201).json({
                     success: true,
                     message: "Video link saved successfully",
-                    material,
+                    material: saved,
                 });
             }
 
@@ -117,21 +119,21 @@ router.post("/upload", (req, res) => {
                 });
             }
 
-            const material = await Materials.create({
+            const saved = await Materials.create({
                 course,
                 title,
                 description,
                 materialType,
                 facultyEmail,
-                fileName: req.file.filename,
-                fileUrl: `/uploads/materials/${req.file.filename}`,
-                videoUrl: "",
+                fileName: req.file ? req.file.filename : "",
+                fileUrl: req.file ? `/uploads/materials/${req.file.filename}` : "",
+                videoUrl: videoUrl || "",
             });
 
             return res.status(201).json({
                 success: true,
                 message: "Material uploaded successfully",
-                material,
+                material: saved,
             });
         } catch (error) {
             console.error("Upload error full:", error);
@@ -146,10 +148,10 @@ router.post("/upload", (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const materials = await Materials.find().sort({ createdAt: -1 });
-
+        console.log("FETCHED MATERIALS COUNT =>", materials.length);
         return res.status(200).json({
             success: true,
-            materials,
+            material: materials,
         });
     } catch (error) {
         console.error("Fetch materials error:", error);

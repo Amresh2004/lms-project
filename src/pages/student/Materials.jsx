@@ -38,8 +38,9 @@ export default function Materials() {
       const data = await response.json();
 
       if (data.success) {
-        setMaterials(data.materials || []);
-        setFilteredMaterials(data.materials || []);
+        const allMaterials = data.materials || [];
+        setMaterials(allMaterials);
+        setFilteredMaterials(allMaterials);
       } else {
         alert(data.message || "Failed to fetch materials");
       }
@@ -65,45 +66,45 @@ export default function Materials() {
     }
   }, [selectedCourse, materials]);
 
-  const handleDelete = async (id) => {
-    try {
-      const confirmDelete = window.confirm("Are you sure you want to delete this material?");
-      if (!confirmDelete) return;
+  // const handleDelete = async (id) => {
+  //   try {
+  //     const confirmDelete = window.confirm("Are you sure you want to delete this material?");
+  //     if (!confirmDelete) return;
 
-      const response = await fetch(`${API_BASE}/api/materials/${id}`, {
-        method: "DELETE",
-      });
+  //     const response = await fetch(`${API_BASE}/api/materials/${id}`, {
+  //       method: "DELETE",
+  //     });
 
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await response.text();
-        console.error("Invalid delete response:", text);
-        throw new Error("Server error while deleting");
-      }
+  //     const contentType = response.headers.get("content-type");
+  //     if (!contentType || !contentType.includes("application/json")) {
+  //       const text = await response.text();
+  //       console.error("Invalid delete response:", text);
+  //       throw new Error("Server error while deleting");
+  //     }
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.success) {
-        const updatedMaterials = materials.filter((item) => item._id !== id);
-        setMaterials(updatedMaterials);
+  //     if (data.success) {
+  //       const updatedMaterials = materials.filter((item) => item._id !== id);
+  //       setMaterials(updatedMaterials);
 
-        if (selectedCourse === "All Courses") {
-          setFilteredMaterials(updatedMaterials);
-        } else {
-          setFilteredMaterials(
-            updatedMaterials.filter((item) => item.course === selectedCourse)
-          );
-        }
+  //       if (selectedCourse === "All Courses") {
+  //         setFilteredMaterials(updatedMaterials);
+  //       } else {
+  //         setFilteredMaterials(
+  //           updatedMaterials.filter((item) => item.course === selectedCourse)
+  //         );
+  //       }
 
-        alert("Material deleted successfully");
-      } else {
-        alert(data.message || "Delete failed");
-      }
-    } catch (error) {
-      console.error("Delete error:", error);
-      alert(error.message || "Something went wrong while deleting");
-    }
-  };
+  //       alert("Material deleted successfully");
+  //     } else {
+  //       alert(data.message || "Delete failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Delete error:", error);
+  //     alert(error.message || "Something went wrong while deleting");
+  //   }
+  // };
 
   const courses = ["All Courses", ...new Set(materials.map((item) => item.course))];
 
@@ -156,7 +157,8 @@ export default function Materials() {
                       <span className="me-2">{item.course}</span>
                       <span className="me-2">• {item.materialType}</span>
                       <span className="me-2">
-                        •{" "} {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "No date"}
+                        •{" "}
+                        {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "No date"}
                       </span>
                     </div>
                     <div style={{ fontSize: "14px" }}>
@@ -178,6 +180,7 @@ export default function Materials() {
                           src={getYoutubeEmbedUrl(item.videoUrl)}
                           title="Video Player"
                           allowFullScreen
+                          style={{ border: "none", borderRadius: "12px" }}
                         ></iframe>
                       ) : (
                         <a href={item.videoUrl} target="_blank" rel="noreferrer">
@@ -185,30 +188,37 @@ export default function Materials() {
                         </a>
                       )
                     ) : item.materialType === "Video File" && item.fileUrl ? (
-                      <video width="320" height="200" controls>
+                      <video
+                        width="320"
+                        height="200"
+                        controls
+                        style={{ borderRadius: "12px" }}
+                      >
+
                         <source src={`${API_BASE}${item.fileUrl}`} />
                         Your browser does not support the video tag.
                       </video>
                     ) : item.fileUrl ? (
 
                       <>
+                        <div className="d-flex gap-2 flex-wrap">
+                          <Button
+                            variant="primary"
+                            href={`${API_BASE}${item.fileUrl}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            View
+                          </Button>
 
-                        <Button
-                          variant="primary"
-                          href={`${API_BASE}${item.fileUrl}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          View
-                        </Button>
-
-                        <Button
-                          variant="success"
-                          href={`${API_BASE}${item.fileUrl}`}
-                          download
-                        >
-                          Download
-                        </Button>
+                          <Button
+                            variant="success"
+                            href={`${API_BASE}${item.fileUrl}`}
+                            download
+                          >
+                            Download
+                          </Button>
+                        </div>
                       </>
                     ) : null}
 
@@ -232,3 +242,15 @@ export default function Materials() {
     </div>
   );
 }
+
+// // import React from 'react'
+
+// // function Materials() {
+// //   return (
+// //     <div> <h1>Materials Page Working</h1></div>
+// //   )
+// // }
+
+// // export default Materials
+
+

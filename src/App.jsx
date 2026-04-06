@@ -50,7 +50,7 @@ import CourseDetailsStudent from "./pages/student/CourseDetails";
 import StudentAssignment from "./pages/student/Assignments";
 import StudentAttendance from "./pages/student/Attendance";
 import StudentGrades from "./pages/student/Grades";
-import StudentUploadMaterials from "./pages/student/Materials";
+import Materials from "./pages/student/Materials";
 import StudentProfile from "./pages/student/Profile";
 import StudentAnnouncement from "./pages/student/Announcement";
 
@@ -139,7 +139,7 @@ function App() {
             <Route path="assignments" element={<StudentAssignment />} />
             <Route path="attendance" element={<StudentAttendance />} />
             <Route path="announcements" element={<StudentAnnouncement />} />
-            <Route path="materials" element={<StudentUploadMaterials />} />
+            <Route path="material" element={<Materials />} />
             <Route path="grades" element={<StudentGrades />} />
             <Route path="profile" element={<StudentProfile />} />
 
