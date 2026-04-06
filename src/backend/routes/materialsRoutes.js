@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import mongoose from "mongoose";
 import { fileURLToPath } from "url";
 import Materials from "../models/Materials.js";
 
@@ -192,4 +193,53 @@ router.get("/", async (req, res) => {
 //     }
 // });
 
+// Delete material
+router.delete("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid material id",
+            });
+        }
+
+        const material = await Materials.findById(id);
+
+        if (!material) {
+            return res.status(404).json({
+                success: false,
+                message: "Material not found",
+            });
+        }
+
+        if (material.fileName) {
+            const filePath = path.join(uploadDir, material.fileName);
+
+            if (fs.existsSync(filePath)) {
+                try {
+                    fs.unlinkSync(filePath);
+                } catch (fileError) {
+                    console.error("File delete error:", fileError);
+                }
+            }
+        }
+
+        await Materials.findByIdAndDelete(id);
+
+        return res.status(200).json({
+            success: true,
+            message: "Material deleted successfully",
+        });
+    } catch (error) {
+        console.error("Delete material error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error while deleting",
+        });
+    }
+});
+
 export default router;
+

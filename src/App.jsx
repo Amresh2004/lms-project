@@ -139,7 +139,7 @@ function App() {
             <Route path="assignments" element={<StudentAssignment />} />
             <Route path="attendance" element={<StudentAttendance />} />
             <Route path="announcements" element={<StudentAnnouncement />} />
-            <Route path="material" element={<StudentUploadMaterials />} />
+            <Route path="materials" element={<StudentUploadMaterials />} />
             <Route path="grades" element={<StudentGrades />} />
             <Route path="profile" element={<StudentProfile />} />
 

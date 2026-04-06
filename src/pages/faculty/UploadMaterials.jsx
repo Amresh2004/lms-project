@@ -1,6 +1,5 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import { Container, Row, Col, Card, Form, Button, Modal, Spinner } from "react-bootstrap";
 import {
   BsCloudUpload,
   BsFileEarmarkPdf,
@@ -14,11 +13,12 @@ const API_BASE = "http://localhost:5000";
 
 export default function UploadMaterials() {
   const fileInputRef = useRef(null);
-  const navigate = useNavigate();
 
   const [dragActive, setDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [materialsLoading, setMaterialsLoading] = useState(true);
+  const [materials, setMaterials] = useState([]);
 
   const [showPopup, setShowPopup] = useState(false);
   const [popupTitle, setPopupTitle] = useState("");
@@ -57,13 +57,42 @@ export default function UploadMaterials() {
     setShowPopup(true);
   };
 
+  // FIX: popup close jhalyavar redirect nahi honar
   const handlePopupClose = () => {
     setShowPopup(false);
+  };
 
-    if (popupVariant === "success" && popupTitle === "Success") {
-      navigate("/student/material");
+  const fetchMaterials = async () => {
+    try {
+      setMaterialsLoading(true);
+
+      const response = await fetch(`${API_BASE}/api/materials`);
+      const contentType = response.headers.get("content-type");
+
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("Invalid materials response:", text);
+        throw new Error("Server is not returning JSON");
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMaterials(data.materials || []);
+      } else {
+        showMessage("Error", data.message || "Failed to fetch materials", "danger");
+      }
+    } catch (error) {
+      console.error("Fetch materials error:", error);
+      showMessage("Error", error.message || "Error loading materials", "danger");
+    } finally {
+      setMaterialsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchMaterials();
+  }, []);
 
   const resetForm = () => {
     setFormData({
@@ -85,25 +114,31 @@ export default function UploadMaterials() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
     if (name === "materialType") {
-      setSelectedFile(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-
       if (value !== "Video Link") {
         setFormData((prev) => ({
           ...prev,
           materialType: value,
           videoUrl: "",
         }));
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          materialType: value,
+        }));
       }
+
+      setSelectedFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      return;
     }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleFileChange = (e) => {
@@ -139,13 +174,15 @@ export default function UploadMaterials() {
   const handleUpload = async (e) => {
     e.preventDefault();
 
+    const isVideoLink = formData.materialType === "Video Link";
+
     if (
       !formData.course ||
       !formData.title ||
       !formData.materialType ||
       !formData.facultyEmail ||
-      (formData.materialType !== "Video Link" && !selectedFile) ||
-      (formData.materialType === "Video Link" && !formData.videoUrl)
+      (isVideoLink && !formData.videoUrl.trim()) ||
+      (!isVideoLink && !selectedFile)
     ) {
       showMessage("Error", "Please fill all required fields", "danger");
       return;
@@ -162,7 +199,7 @@ export default function UploadMaterials() {
       uploadData.append("facultyEmail", formData.facultyEmail);
       uploadData.append("videoUrl", formData.videoUrl);
 
-      if (formData.materialType !== "Video Link") {
+      if (!isVideoLink && selectedFile) {
         uploadData.append("file", selectedFile);
       }
 
@@ -180,7 +217,6 @@ export default function UploadMaterials() {
       }
 
       const data = await response.json();
-      console.log("UPLOAD RESPONSE:", data);
 
       if (!response.ok) {
         throw new Error(data.message || "Upload failed");
@@ -188,6 +224,7 @@ export default function UploadMaterials() {
 
       if (data.success) {
         resetForm();
+        await fetchMaterials();
         showMessage("Success", data.message || "Material uploaded successfully", "success");
       } else {
         showMessage("Error", data.message || "Upload failed", "danger");
@@ -197,6 +234,45 @@ export default function UploadMaterials() {
       showMessage("Error", error.message || "Something went wrong", "danger");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this material?"
+      );
+      if (!confirmDelete) return;
+
+      console.log("Deleting material id:", id);
+
+      const response = await fetch(`${API_BASE}/api/materials/${id}`, {
+        method: "DELETE",
+      });
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("Invalid delete response:", text);
+        throw new Error("Server error while deleting");
+      }
+
+      const data = await response.json();
+      console.log("Delete response:", data);
+
+      if (!response.ok) {
+        throw new Error(data.message || "Delete failed");
+      }
+
+      if (data.success) {
+        await fetchMaterials();
+        showMessage("Success", data.message || "Material deleted successfully", "success");
+      } else {
+        showMessage("Error", data.message || "Delete failed", "danger");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      showMessage("Error", error.message || "Something went wrong while deleting", "danger");
     }
   };
 
@@ -318,7 +394,7 @@ export default function UploadMaterials() {
                           <BsCloudUpload size={30} />
                           <p>Click or Drag file here</p>
                           <small className="upload-subtext">
-                            PDF, PPT, Video, DOC, TXT (max 500MB)
+                            PDF, PPT, Video, DOC, TXT
                           </small>
 
                           {selectedFile && (
@@ -370,12 +446,134 @@ export default function UploadMaterials() {
               </Card>
             </Col>
           </Row>
+
+          <Row className="mt-4">
+            <Col xs={12}>
+              <Card className="border-0 shadow-sm rounded-3">
+                <Card.Body className="p-2">
+                  <div className="mb-2">
+                    <h5 className="mb-2">Uploaded Materials</h5>
+                  </div>
+
+                  {materialsLoading ? (
+                    <div className="text-center py-3">
+                      <Spinner animation="border" size="sm" />
+                    </div>
+                  ) : materials.length === 0 ? (
+                    <p className="mb-0 small">No materials uploaded yet.</p>
+                  ) : (
+                    <Row className="g-2">
+                      {materials.map((item) => (
+                        <Col xs={12} key={item._id}>
+                          <Card className="border rounded-3">
+                            <Card.Body className="d-flex justify-content-between align-items-center flex-wrap p-2">
+                              <div>
+                                <h6 className="mb-1" style={{ fontSize: "15px" }}>
+                                  {item.title}
+                                </h6>
+
+                                <div
+                                  className="text-muted mb-1"
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  {item.course} • {item.materialType} •{" "}
+                                  {item.createdAt
+                                    ? new Date(item.createdAt).toLocaleDateString()
+                                    : "No date"}
+                                </div>
+
+                                <div style={{ fontSize: "12px" }}>
+                                  <strong>Faculty:</strong> {item.facultyEmail}
+                                </div>
+
+                                {item.description && (
+                                  <div
+                                    style={{
+                                      fontSize: "12px",
+                                      marginTop: "4px",
+                                      color: "#555",
+                                    }}
+                                  >
+                                    {item.description}
+                                  </div>
+                                )}
+
+                                {item.videoUrl && (
+                                  <div style={{ fontSize: "12px", marginTop: "4px" }}>
+                                    <strong>Video:</strong>{" "}
+                                    <a
+                                      href={item.videoUrl}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      Link
+                                    </a>
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="d-flex gap-1 flex-wrap mt-2 mt-md-0">
+                                {item.fileUrl && (
+                                  <>
+                                    <Button
+                                      size="sm"
+                                      variant="primary"
+                                      href={`${API_BASE}${item.fileUrl}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      View
+                                    </Button>
+
+                                    <Button
+                                      size="sm"
+                                      variant="success"
+                                      href={`${API_BASE}${item.fileUrl}`}
+                                      download
+                                    >
+                                      Download
+                                    </Button>
+                                  </>
+                                )}
+
+                                {item.videoUrl && (
+                                  <Button
+                                    size="sm"
+                                    variant="warning"
+                                    href={item.videoUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    Watch
+                                  </Button>
+                                )}
+
+                                <Button
+                                  size="sm"
+                                  variant="danger"
+                                  onClick={() => handleDelete(item._id)}
+                                >
+                                  Delete
+                                </Button>
+                              </div>
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      ))}
+                    </Row>
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </Container>
       </div>
 
       <Modal show={showPopup} onHide={handlePopupClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title className={popupVariant === "success" ? "text-success" : "text-danger"}>
+          <Modal.Title
+            className={popupVariant === "success" ? "text-success" : "text-danger"}
+          >
             {popupTitle}
           </Modal.Title>
         </Modal.Header>
