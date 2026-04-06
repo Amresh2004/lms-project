@@ -1,8 +1,4 @@
-
-
-
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Form, Button, Modal, Spinner } from "react-bootstrap";
 import {
   BsCloudUpload,
@@ -17,7 +13,6 @@ const API_BASE = "http://localhost:5000";
 
 export default function UploadMaterials() {
   const fileInputRef = useRef(null);
-  const navigate = useNavigate();
 
   const [dragActive, setDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -62,15 +57,9 @@ export default function UploadMaterials() {
     setShowPopup(true);
   };
 
+  // FIX: popup close jhalyavar redirect nahi honar
   const handlePopupClose = () => {
-    const shouldNavigate =
-      popupVariant === "success" && popupTitle === "Success";
-
     setShowPopup(false);
-
-    if (shouldNavigate) {
-      navigate("/student/materials");
-    }
   };
 
   const fetchMaterials = async () => {
@@ -254,18 +243,19 @@ export default function UploadMaterials() {
         "Are you sure you want to delete this material?"
       );
       if (!confirmDelete) return;
+
       console.log("Deleting material id:", id);
 
       const response = await fetch(`${API_BASE}/api/materials/${id}`, {
         method: "DELETE",
       });
 
-      // const contentType = response.headers.get("content-type");
-      // if (!contentType || !contentType.includes("application/json")) {
-      //   const text = await response.text();
-      //   console.error("Invalid delete response:", text);
-      //   throw new Error("Server error while deleting");
-      // }
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("Invalid delete response:", text);
+        throw new Error("Server error while deleting");
+      }
 
       const data = await response.json();
       console.log("Delete response:", data);
@@ -273,9 +263,10 @@ export default function UploadMaterials() {
       if (!response.ok) {
         throw new Error(data.message || "Delete failed");
       }
+
       if (data.success) {
         await fetchMaterials();
-        showMessage("Success", "Material deleted successfully", "success");
+        showMessage("Success", data.message || "Material deleted successfully", "success");
       } else {
         showMessage("Error", data.message || "Delete failed", "danger");
       }
@@ -476,8 +467,6 @@ export default function UploadMaterials() {
                         <Col xs={12} key={item._id}>
                           <Card className="border rounded-3">
                             <Card.Body className="d-flex justify-content-between align-items-center flex-wrap p-2">
-
-                              {/* LEFT SIDE */}
                               <div>
                                 <h6 className="mb-1" style={{ fontSize: "15px" }}>
                                   {item.title}
@@ -523,7 +512,6 @@ export default function UploadMaterials() {
                                 )}
                               </div>
 
-                              {/* RIGHT SIDE BUTTONS */}
                               <div className="d-flex gap-1 flex-wrap mt-2 mt-md-0">
                                 {item.fileUrl && (
                                   <>
@@ -532,6 +520,7 @@ export default function UploadMaterials() {
                                       variant="primary"
                                       href={`${API_BASE}${item.fileUrl}`}
                                       target="_blank"
+                                      rel="noreferrer"
                                     >
                                       View
                                     </Button>
@@ -553,6 +542,7 @@ export default function UploadMaterials() {
                                     variant="warning"
                                     href={item.videoUrl}
                                     target="_blank"
+                                    rel="noreferrer"
                                   >
                                     Watch
                                   </Button>
@@ -566,7 +556,6 @@ export default function UploadMaterials() {
                                   Delete
                                 </Button>
                               </div>
-
                             </Card.Body>
                           </Card>
                         </Col>
