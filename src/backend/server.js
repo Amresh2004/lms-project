@@ -17,6 +17,8 @@ import courseRoutes from "./routes/courseRoutes.js";
 
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 
+import assignmentRoutes from "./routes/assignmentRoutes.js";
+
 
 
 
@@ -45,6 +47,7 @@ app.use("/api/faculty",facultyRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/course", courseRoutes);
+app.use("/api/assignments", assignmentRoutes);
 
 
 
@@ -57,6 +60,8 @@ connectDB();
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 });
