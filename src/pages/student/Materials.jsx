@@ -66,45 +66,7 @@ export default function Materials() {
     }
   }, [selectedCourse, materials]);
 
-  // const handleDelete = async (id) => {
-  //   try {
-  //     const confirmDelete = window.confirm("Are you sure you want to delete this material?");
-  //     if (!confirmDelete) return;
-
-  //     const response = await fetch(`${API_BASE}/api/materials/${id}`, {
-  //       method: "DELETE",
-  //     });
-
-  //     const contentType = response.headers.get("content-type");
-  //     if (!contentType || !contentType.includes("application/json")) {
-  //       const text = await response.text();
-  //       console.error("Invalid delete response:", text);
-  //       throw new Error("Server error while deleting");
-  //     }
-
-  //     const data = await response.json();
-
-  //     if (data.success) {
-  //       const updatedMaterials = materials.filter((item) => item._id !== id);
-  //       setMaterials(updatedMaterials);
-
-  //       if (selectedCourse === "All Courses") {
-  //         setFilteredMaterials(updatedMaterials);
-  //       } else {
-  //         setFilteredMaterials(
-  //           updatedMaterials.filter((item) => item.course === selectedCourse)
-  //         );
-  //       }
-
-  //       alert("Material deleted successfully");
-  //     } else {
-  //       alert(data.message || "Delete failed");
-  //     }
-  //   } catch (error) {
-  //     console.error("Delete error:", error);
-  //     alert(error.message || "Something went wrong while deleting");
-  //   }
-  // };
+ 
 
   const courses = ["All Courses", ...new Set(materials.map((item) => item.course))];
 
