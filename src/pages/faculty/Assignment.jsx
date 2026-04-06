@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import "./style/assignment.css";    
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./style/assignment.css";
 
 const Assignment = () => {
   const [assignments, setAssignments] = useState([]);
@@ -13,11 +14,22 @@ const Assignment = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
 
+  // 🔵 LOAD assignments from MongoDB
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  const fetchAssignments = async () => {
+    const res = await axios.get("http://localhost:5000/api/assignments");
+    setAssignments(res.data);
+  };
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  // 🔵 ADD / UPDATE Assignment
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.title || !form.course || !form.dueDate) {
@@ -26,30 +38,33 @@ const Assignment = () => {
     }
 
     if (editId) {
-      setAssignments((prev) =>
-        prev.map((a) => (a.id === editId ? { ...form, id: editId } : a))
-      );
-      setEditId(null);
+      await axios.put(`http://localhost:5000/api/assignments/${editId}`, form);
     } else {
-      setAssignments([...assignments, { ...form, id: Date.now() }]);
+      await axios.post("http://localhost:5000/api/assignments", form);
     }
 
+    fetchAssignments();
+    setEditId(null);
     setForm({ title: "", course: "", dueDate: "", status: "Pending" });
   };
 
-  const handleDelete = (id) => {
-    setAssignments(assignments.filter((a) => a.id !== id));
+  // 🔵 DELETE Assignment
+  const handleDelete = async (id) => {
+    await axios.delete(`http://localhost:5000/api/assignments/${id}`);
+    fetchAssignments();
   };
 
+  // 🔵 EDIT Assignment
   const handleEdit = (a) => {
     setForm(a);
-    setEditId(a.id);
+    setEditId(a._id);
   };
 
+  // 🔵 SEARCH + FILTER
   const filtered = assignments.filter((a) => {
     return (
-      (a.title.toLowerCase().includes(search.toLowerCase()) ||
-        a.course.toLowerCase().includes(search.toLowerCase())) &&
+      (a.title?.toLowerCase().includes(search.toLowerCase()) ||
+        a.course?.toLowerCase().includes(search.toLowerCase())) &&
       (filter === "All" || a.status === filter)
     );
   });
@@ -57,7 +72,6 @@ const Assignment = () => {
   return (
     <div className="container-fluid p-4">
 
-      {/* HEADER */}
       <div className="mb-4">
         <h2 className="fw-bold">📚 Assignments</h2>
         <p className="text-muted">Manage assignments efficiently</p>
@@ -154,40 +168,25 @@ const Assignment = () => {
         )}
 
         {filtered.map((a) => (
-          <div className="col-md-4" key={a.id}>
+          <div className="col-md-4" key={a._id}>
             <div className="card assignment-card p-3">
 
               <div className="d-flex justify-content-between">
                 <h5 className="fw-bold">{a.title}</h5>
-                <span
-                  className={`badge ${
-                    a.status === "Pending"
-                      ? "bg-warning text-dark"
-                      : "bg-success"
-                  }`}
-                >
+                <span className={`badge ${a.status === "Pending" ? "bg-warning text-dark" : "bg-success"}`}>
                   {a.status}
                 </span>
               </div>
 
               <p className="text-muted mb-1">{a.course}</p>
-
-              <small className="text-danger">
-                📅 Due: {a.dueDate}
-              </small>
+              <small className="text-danger">📅 Due: {a.dueDate}</small>
 
               <div className="mt-3 d-flex justify-content-between">
-                <button
-                  className="btn btn-warning btn-sm"
-                  onClick={() => handleEdit(a)}
-                >
+                <button className="btn btn-warning btn-sm" onClick={() => handleEdit(a)}>
                   Edit
                 </button>
 
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(a.id)}
-                >
+                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(a._id)}>
                   Delete
                 </button>
               </div>
