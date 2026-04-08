@@ -1,3 +1,4 @@
+console.log("🚀 SERVER FILE RUNNING FROM:", process.cwd());
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -14,6 +15,7 @@ import announcementRoutes from "./routes/announcementRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 import assignmentRoutes from "./routes/assignmentRoutes.js";
+import gradeRoutes from "./routes/gradeRoutes.js";
 
 dotenv.config();
 
@@ -44,6 +46,7 @@ app.use("/api/announcements", announcementRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/assignments", assignmentRoutes);
+app.use("/api/grades", gradeRoutes);
 
 // =============================
 // ✅ ROOT CHECK
