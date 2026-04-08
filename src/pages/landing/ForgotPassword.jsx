@@ -59,7 +59,7 @@ function ForgotPassword() {
 
   return (
     <div
-      className="container-fluid min-vh-100 d-flex justify-content-center align-items-center"
+      className="container-fluid min-vh-100 d-flex justify-content-center align-items-center sticky-top"
       style={{
         background: "linear-gradient(135deg, #e0ecff, #f3e8ff, #fce7f3)",
       }}

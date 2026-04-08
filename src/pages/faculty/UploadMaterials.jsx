@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Container, Row, Col, Card, Form, Button, Modal, Spinner } from "react-bootstrap";
 import {
   BsCloudUpload,
@@ -8,6 +8,7 @@ import {
   BsFileText,
 } from "react-icons/bs";
 import "./style/UploadMaterials.css";
+import coursesData from "../../data/coursesData";
 
 const API_BASE = "http://localhost:5000";
 
@@ -25,22 +26,18 @@ export default function UploadMaterials() {
   const [popupMessage, setPopupMessage] = useState("");
   const [popupVariant, setPopupVariant] = useState("success");
 
+  const defaultCourse = coursesData[0]?.name || "";
+
   const [formData, setFormData] = useState({
-    course: "Programming in C",
+    course: defaultCourse,
+    semester: "",
+    subject: "",
     title: "",
     description: "",
     materialType: "PDF Document",
     facultyEmail: "",
     videoUrl: "",
   });
-
-  const courses = [
-    "Programming in C",
-    "Data Structures",
-    "Database Management System",
-    "Operating System",
-    "Computer Networks",
-  ];
 
   const materialTypes = [
     "PDF Document",
@@ -50,6 +47,18 @@ export default function UploadMaterials() {
     "Video Link",
   ];
 
+  const selectedCourseData = useMemo(() => {
+    return coursesData.find((course) => course.name === formData.course) || null;
+  }, [formData.course]);
+
+  const availableSemesters = selectedCourseData?.semesters || [];
+
+  const selectedSemesterData = useMemo(() => {
+    return availableSemesters.find((semester) => semester.sem === formData.semester) || null;
+  }, [availableSemesters, formData.semester]);
+
+  const availableSubjects = selectedSemesterData?.subjects || [];
+
   const showMessage = (title, message, variant = "success") => {
     setPopupTitle(title);
     setPopupMessage(message);
@@ -57,7 +66,6 @@ export default function UploadMaterials() {
     setShowPopup(true);
   };
 
-  // FIX: popup close jhalyavar redirect nahi honar
   const handlePopupClose = () => {
     setShowPopup(false);
   };
@@ -96,7 +104,9 @@ export default function UploadMaterials() {
 
   const resetForm = () => {
     setFormData({
-      course: "Programming in C",
+      course: defaultCourse,
+      semester: "",
+      subject: "",
       title: "",
       description: "",
       materialType: "PDF Document",
@@ -111,9 +121,27 @@ export default function UploadMaterials() {
     }
   };
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "course") {
+      setFormData((prev) => ({
+        ...prev,
+        course: value,
+        semester: "",
+        subject: "",
+      }));
+      return;
+    }
+
+    if (name === "semester") {
+      setFormData((prev) => ({
+        ...prev,
+        semester: value,
+        subject: "",
+      }));
+      return;
+    }
 
     if (name === "materialType") {
       if (value !== "Video Link") {
@@ -179,6 +207,8 @@ export default function UploadMaterials() {
 
     if (
       !formData.course ||
+      !formData.semester ||
+      !formData.subject ||
       !formData.title ||
       !formData.materialType ||
       !formData.facultyEmail ||
@@ -194,6 +224,8 @@ export default function UploadMaterials() {
 
       const uploadData = new FormData();
       uploadData.append("course", formData.course);
+      uploadData.append("semester", formData.semester);
+      uploadData.append("subject", formData.subject);
       uploadData.append("title", formData.title);
       uploadData.append("description", formData.description);
       uploadData.append("materialType", formData.materialType);
@@ -240,12 +272,8 @@ export default function UploadMaterials() {
 
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this material?"
-      );
+      const confirmDelete = window.confirm("Are you sure you want to delete this material?");
       if (!confirmDelete) return;
-
-      console.log("Deleting material id:", id);
 
       const response = await fetch(`${API_BASE}/api/materials/${id}`, {
         method: "DELETE",
@@ -259,7 +287,6 @@ export default function UploadMaterials() {
       }
 
       const data = await response.json();
-      console.log("Delete response:", data);
 
       if (!response.ok) {
         throw new Error(data.message || "Delete failed");
@@ -299,9 +326,45 @@ export default function UploadMaterials() {
                         onChange={handleChange}
                         className="custom-input"
                       >
-                        {courses.map((course, index) => (
-                          <option key={index} value={course}>
-                            {course}
+                        {coursesData.map((course, index) => (
+                          <option key={index} value={course.name}>
+                            {course.name}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group className="mb-4">
+                      <Form.Label>Semester</Form.Label>
+                      <Form.Select
+                        name="semester"
+                        value={formData.semester}
+                        onChange={handleChange}
+                        className="custom-input"
+                        disabled={!formData.course}
+                      >
+                        <option value="">Select Semester</option>
+                        {availableSemesters.map((semester, index) => (
+                          <option key={index} value={semester.sem}>
+                            Semester {semester.sem}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group className="mb-4">
+                      <Form.Label>Subject</Form.Label>
+                      <Form.Select
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        className="custom-input"
+                        disabled={!formData.semester}
+                      >
+                        <option value="">Select Subject</option>
+                        {availableSubjects.map((subject, index) => (
+                          <option key={index} value={subject}>
+                            {subject}
                           </option>
                         ))}
                       </Form.Select>
@@ -473,40 +536,28 @@ export default function UploadMaterials() {
                                   {item.title}
                                 </h6>
 
-                                <div
-                                  className="text-muted mb-1"
-                                  style={{ fontSize: "12px" }}
-                                >
+                                <div className="text-muted mb-1" style={{ fontSize: "12px" }}>
                                   {item.course} • {item.materialType} •{" "}
                                   {item.createdAt
                                     ? new Date(item.createdAt).toLocaleDateString()
                                     : "No date"}
                                 </div>
 
+                                {item.subject && (
+                                  <div style={{ fontSize: "12px" }}>
+                                    <strong>Subject:</strong> {item.subject}
+                                  </div>
+                                )}
+
                                 <div style={{ fontSize: "12px" }}>
                                   <strong>Faculty:</strong> {item.facultyEmail}
                                 </div>
 
-                                {item.description && (
-                                  <div
-                                    style={{
-                                      fontSize: "12px",
-                                      marginTop: "4px",
-                                      color: "#555",
-                                    }}
-                                  >
-                                    {item.description}
-                                  </div>
-                                )}
 
                                 {item.videoUrl && (
                                   <div style={{ fontSize: "12px", marginTop: "4px" }}>
                                     <strong>Video:</strong>{" "}
-                                    <a
-                                      href={item.videoUrl}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                    >
+                                    <a href={item.videoUrl} target="_blank" rel="noreferrer">
                                       Link
                                     </a>
                                   </div>
