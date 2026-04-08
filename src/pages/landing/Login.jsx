@@ -67,12 +67,29 @@ function Login() {
         body: JSON.stringify(loginData),
       });
 
+      // if (res.ok) {
+      //   const data = await res.json();
+      //   localStorage.setItem(
+      //     "user",
+      //     JSON.stringify({ ...data.student, role: "student" })
+      //   );
+      //   setUserRole("student");
+      //   setShowPopup(true);
+      //   return;
+      // }
+
       if (res.ok) {
         const data = await res.json();
+
+        // ✅ store full user
         localStorage.setItem(
           "user",
           JSON.stringify({ ...data.student, role: "student" })
         );
+
+        // ✅ IMPORTANT: store studentId separately
+        localStorage.setItem("studentId", data.student._id);
+
         setUserRole("student");
         setShowPopup(true);
         return;

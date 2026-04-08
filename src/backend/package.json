@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node src/backend/server.js",
-    "success": true,
     "message": "Route working"
   },
   "keywords": [],
