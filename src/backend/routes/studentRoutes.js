@@ -13,6 +13,56 @@ router.get("/", async (req, res) => {
   }
 });
 
+// ✅ STUDENT DASHBOARD (REAL DATA)
+router.get("/dashboard", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    // ✅ find student
+    const student = await Student.findById(id);
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
+    }
+
+    // 🔥 SAMPLE DATA (replace later with real collections)
+    const stats = {
+      courses: 4,
+      assignments: 2,
+      attendance: 88,
+      grade: "A",
+    };
+
+    // 📈 attendance trend
+    const lineChart = {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+      data: [75, 80, 85, 87, 88],
+    };
+
+    // 📊 course progress
+    const barChart = {
+      labels: ["C", "DS", "DBMS", "OS"],
+      data: [75, 60, 80, 70],
+    };
+
+    res.json({
+      success: true,
+      stats,
+      lineChart,
+      barChart,
+    });
+
+  } catch (error) {
+    console.log("DASHBOARD ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
 // ADD student
 // ADD student
 router.post("/", async (req, res) => {
@@ -154,6 +204,9 @@ router.post("/forgot-password", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+
+
 
 export default router;
 

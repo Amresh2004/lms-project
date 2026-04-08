@@ -104,5 +104,38 @@ router.get("/test", (req, res) => {
   res.send("Faculty working ✅");
 });
 
+router.get("/dashboard", async (req, res) => {
+  try {
+    const { id } = req.query;
 
+    // 🔥 Replace with real DB queries later
+    const stats = {
+      courses: 3,
+      students: 120,
+      assignments: 8,
+      attendance: 90,
+    };
+
+    const lineChart = {
+      labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+      data: [60, 70, 80, 75, 90],
+    };
+
+    const barChart = {
+      labels: ["C", "DS", "DBMS"],
+      data: [75, 65, 85],
+    };
+
+    res.json({
+      success: true,
+      stats,
+      lineChart,
+      barChart,
+    });
+
+  } catch (error) {
+    console.log("FACULTY DASHBOARD ERROR:", error);
+    res.status(500).json({ success: false });
+  }
+});
 export default router;
