@@ -3,12 +3,12 @@ import { useNavigate, Link } from "react-router-dom";
 import Button from "../../components/common_files/Button";
 import Modal from "../../components/common_files/Modal";
 import "../landing/style/Login.css";
+import { useEffect } from "react";
 function Login() {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
-
   const [showPopup, setShowPopup] = useState(false);
   const [userRole, setUserRole] = useState("");
 
@@ -17,6 +17,14 @@ function Login() {
     email: "",
     newPassword: "",
   });
+
+  useEffect(() => {
+  if (showForgotPopup) {
+    document.body.classList.add("forgot-open");
+  } else {
+    document.body.classList.remove("forgot-open");
+  }
+}, [showForgotPopup]);
 
   const navigate = useNavigate();
 
@@ -59,12 +67,29 @@ function Login() {
         body: JSON.stringify(loginData),
       });
 
+      // if (res.ok) {
+      //   const data = await res.json();
+      //   localStorage.setItem(
+      //     "user",
+      //     JSON.stringify({ ...data.student, role: "student" })
+      //   );
+      //   setUserRole("student");
+      //   setShowPopup(true);
+      //   return;
+      // }
+
       if (res.ok) {
         const data = await res.json();
+
+        // ✅ store full user
         localStorage.setItem(
           "user",
           JSON.stringify({ ...data.student, role: "student" })
         );
+
+        // ✅ IMPORTANT: store studentId separately
+        localStorage.setItem("studentId", data.student._id);
+
         setUserRole("student");
         setShowPopup(true);
         return;
@@ -108,21 +133,38 @@ function Login() {
     }
   };
 
-  const handleForgotSubmit = (e) => {
-    e.preventDefault();
+  const handleForgotSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!forgotData.email || !forgotData.newPassword) {
-      alert("Please fill all fields");
-      return;
+  if (!forgotData.email || !forgotData.newPassword) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:5000/api/students/forgot-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(forgotData),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("✅ Password updated successfully");
+      setShowForgotPopup(false);
+      setForgotData({ email: "", newPassword: "" });
+    } else {
+      alert(data.message || "Error updating password");
     }
 
-    alert("Password reset request submitted");
-    setShowForgotPopup(false);
-    setForgotData({
-      email: "",
-      newPassword: "",
-    });
-  };
+  } catch (error) {
+    console.log(error);
+    alert("Server error");
+  }
+};
  
   return (
     <>
@@ -242,60 +284,69 @@ function Login() {
       </div>
 
       {showForgotPopup && (
-        <div className="forgot-overlay">
-          <div className="forgot-card-custom">
-            <div className="text-center mb-4">
-              <div className="forgot-lock-icon">🔒</div>
-              <h4 className="fw-bold mt-4 mb-2">Forgot Password?</h4>
-              <p className="text-muted mb-0">
-                Enter your email and create a new password
-              </p>
-            </div>
+  <div className="forgot-overlay">
+    <div className="forgot-card-custom">
 
-            <form onSubmit={handleForgotSubmit}>
-              <div className="mb-3">
-                <label className="form-label fw-semibold">Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control forgot-input"
-                  placeholder="Enter your email"
-                  value={forgotData.email}
-                  onChange={handleForgotChange}
-                  required
-                />
-              </div>
+      {/* CLOSE BUTTON */}
+      <button
+        className="forgot-close-btn"
+        onClick={() => setShowForgotPopup(false)}
+      >
+        ✕
+      </button>
 
-              <div className="mb-4">
-                <label className="form-label fw-semibold">New Password</label>
-                <input
-                  type="password"
-                  name="newPassword"
-                  className="form-control forgot-input"
-                  placeholder="Enter new password"
-                  value={forgotData.newPassword}
-                  onChange={handleForgotChange}
-                  required
-                />
-              </div>
+      <div className="text-center mb-4">
+        <div className="forgot-lock-icon">🔒</div>
+        <h4 className="fw-bold mt-4 mb-2">Forgot Password?</h4>
+        <p className="text-muted mb-0">
+          Enter your email and create a new password
+        </p>
+      </div>
 
-              <button type="submit" className="forgot-reset-btn w-100">
-                Reset Password
-              </button>
-
-              <div className="text-center mt-4">
-                <button
-                  type="button"
-                  className="forgot-back-btn"
-                  onClick={() => setShowForgotPopup(false)}
-                >
-                  ← Back to Login
-                </button>
-              </div>
-            </form>
-          </div>
+      <form onSubmit={handleForgotSubmit}>
+        <div className="mb-3">
+          <label className="form-label fw-semibold">Email Address</label>
+          <input
+            type="email"
+            name="email"
+            className="form-control forgot-input"
+            placeholder="Enter your email"
+            value={forgotData.email}
+            onChange={handleForgotChange}
+            required
+          />
         </div>
-      )}
+
+        <div className="mb-4">
+          <label className="form-label fw-semibold">New Password</label>
+          <input
+            type="password"
+            name="newPassword"
+            className="form-control forgot-input"
+            placeholder="Enter new password"
+            value={forgotData.newPassword}
+            onChange={handleForgotChange}
+            required
+          />
+        </div>
+
+        <button type="submit" className="forgot-reset-btn w-100">
+          Reset Password
+        </button>
+
+        <div className="text-center mt-4">
+          <button
+            type="button"
+            className="forgot-back-btn"
+            onClick={() => setShowForgotPopup(false)}
+          >
+            ← Back to Login
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
     </>
   );
 }
