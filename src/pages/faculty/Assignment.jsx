@@ -84,12 +84,7 @@ function Assignment() {
                 </span>
 
                 <div>
-                  {/* <button
-                    className="btn btn-outline-primary me-2"
-                    onClick={() => navigate(`/faculty/edit/${a._id}`)}
-                  >
-                    Edit
-                  </button> */}
+                  
             
 
                   <button

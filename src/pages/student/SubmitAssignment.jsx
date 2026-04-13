@@ -22,10 +22,10 @@ function SubmitAssignment() {
   
     await axios.post("http://localhost:5000/api/submissions", fd);
 
-    // success message box दाखव
+    // success message box  show
     setSuccessMsg("Assignment submitted successfully 🎉");
 
-    // 2.5 sec नंतर redirect
+    // 2.5 sec after redirect
     setTimeout(() => {
       navigate("/student/assignments");
     }, 2500);
