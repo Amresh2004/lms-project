@@ -237,5 +237,5 @@ const Grade = () => {
     </div>
   );
 };
-
+// ✅ NOTE: This page is for faculty to manage student grades. It includes a form to add/update grades and a table to view/delete records.
 export default Grade;

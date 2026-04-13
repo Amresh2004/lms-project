@@ -6,9 +6,7 @@ function SubmitAssignment() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
-  // 9
   const [successMsg, setSuccessMsg] = useState("");
-
   const submitAssignment = async (e) => {
     e.preventDefault();
 
@@ -22,10 +20,17 @@ function SubmitAssignment() {
   
     await axios.post("http://localhost:5000/api/submissions", fd);
 
+<<<<<<< Updated upstream
     // success message box  show
     setSuccessMsg("Assignment submitted successfully 🎉");
 
     // 2.5 sec after redirect
+=======
+   
+    setSuccessMsg("Assignment submitted successfully 🎉");
+
+  
+>>>>>>> Stashed changes
     setTimeout(() => {
       navigate("/student/assignments");
     }, 2500);
