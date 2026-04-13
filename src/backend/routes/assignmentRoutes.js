@@ -1,55 +1,29 @@
 import express from "express";
+import upload from "../middleware/upload.js";
 import Assignment from "../models/Assignment.js";
 
 const router = express.Router();
 
-// CREATE
-router.post("/", async (req, res) => {
-  try {
-    const newAssignment = new Assignment(req.body);
-    await newAssignment.save();
-    res.status(201).json(newAssignment);
-  } catch (err) {
-    console.log("CREATE ERROR:", err);
-    res.status(500).json({ message: "Error creating assignment" });
-  }
+router.post("/", upload.single("questionPdf"), async (req, res) => {
+  const assignment = new Assignment({
+    course: req.body.course,
+    subject: req.body.subject,
+    title: req.body.title,
+    assignmentType: req.body.assignmentType,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    questionPdf: req.file.filename
+  });
+
+  await assignment.save();
+  res.json("Assignment Created");
 });
 
-// GET ALL
+
+
 router.get("/", async (req, res) => {
-  try {
-    const data = await Assignment.find().sort({ createdAt: -1 });
-    res.json(data);
-  } catch (err) {
-    console.log("FETCH ERROR:", err);
-    res.status(500).json({ message: "Error fetching assignments" });
-  }
-});
-
-// DELETE
-router.delete("/:id", async (req, res) => {
-  try {
-    await Assignment.findByIdAndDelete(req.params.id);
-    res.json({ message: "Deleted" });
-  } catch (err) {
-    console.log("DELETE ERROR:", err);
-    res.status(500).json({ message: "Error deleting assignment" });
-  }
-});
-
-// UPDATE
-router.put("/:id", async (req, res) => {
-  try {
-    const updated = await Assignment.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    res.json(updated);
-  } catch (err) {
-    console.log("UPDATE ERROR:", err);
-    res.status(500).json({ message: "Error updating assignment" });
-  }
+  const data = await Assignment.find();
+  res.json(data);
 });
 
 export default router;

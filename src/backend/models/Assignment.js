@@ -2,15 +2,16 @@ import mongoose from "mongoose";
 
 const assignmentSchema = new mongoose.Schema(
   {
-    title: String,
     course: String,
-    dueDate: String,
-    status: {
-      type: String,
-      default: "Pending",
-    },
+    subject: String,
+    title: String,
+    assignmentType: String,
+    startDate: Date,
+    endDate: Date,
+    questionPdf: String,
   },
   { timestamps: true }
 );
 
-export default mongoose.model("Assignment", assignmentSchema);
+const Assignment = mongoose.model("Assignment", assignmentSchema);
+export default Assignment;

@@ -42,6 +42,10 @@ import Announcement from "./pages/faculty/Announcement";
 import UploadMaterials from "./pages/faculty/UploadMaterials";
 import Profile from "./pages/faculty/Profile";
 import Student from "./pages/faculty/Students";
+// 8
+import FacultySubmissions from "./pages/faculty/FacultySubmissions";
+import CreateAssignment from "./pages/faculty/CreateAssignment";
+import SubmitAssignment from "./pages/student/SubmitAssignment";
 
 // Student
 import StudentDashboard from "./pages/student/StudentDashboard";
@@ -110,6 +114,12 @@ function App() {
             <Route path="dashboard" element={<MyCourses />} />
             <Route path="courses" element={<MyCourses />} />
             <Route path="assignments" element={<Assignment />} />
+            {/* 8 */}
+            <Route path="submissions" element={<FacultySubmissions />} />
+            {/* 8 */}
+            <Route path="/faculty/create-assignment" element={<CreateAssignment/>}/>
+         
+
             <Route path="attendance" element={<Attendance />} />
             <Route path="announcements" element={<Announcement />} />
             <Route path="upload" element={<UploadMaterials />} />
@@ -142,6 +152,9 @@ function App() {
             <Route path="material" element={<Materials />} />
             <Route path="grades" element={<StudentGrades />} />
             <Route path="profile" element={<StudentProfile />} />
+              {/* 8 */}
+             <Route path="/student/submit/:id" element={<SubmitAssignment/>}/>
+
 
             <Route
               path="*"

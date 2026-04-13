@@ -61,6 +61,9 @@ function Login() {
 
       if (res.ok) {
         const data = await res.json();
+      
+        // ⭐⭐⭐ VERY IMPORTANT LINE ADD करा
+        localStorage.setItem("studentName", data.student.name);
         localStorage.setItem(
           "user",
           JSON.stringify({ ...data.student, role: "student" })

@@ -53,9 +53,6 @@ function FacultyDashboard() {
               <FaBook /> Assignment
             </Link>
           </li>
-
-          
-
           <li className={location.pathname.includes("/faculty/attendance") ? "active" : ""}>
             <Link to="/faculty/attendance">
               <FaBullhorn /> Attendance
