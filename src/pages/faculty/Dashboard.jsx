@@ -1,258 +1,232 @@
-import React from "react";
-import { FaBookOpen, FaUsers, FaFileAlt, FaClock } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { Line, Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-const Dashboard = () => {
+import { FaChalkboardTeacher, FaChartLine } from "react-icons/fa";
+import { MdBarChart } from "react-icons/md";
+import { HiOutlineBookOpen } from "react-icons/hi";
+import { BsClipboardCheck } from "react-icons/bs";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const API = "http://localhost:5000/api/faculty";
+
+function Dashboard() {
+  const [stats, setStats] = useState({
+    courses: 0,
+    students: 0,
+    assignments: 0,
+    attendance: 0,
+  });
+
+  const [lineData, setLineData] = useState({});
+  const [barData, setBarData] = useState({});
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // 🔥 FETCH DATA
+  const fetchDashboard = async () => {
+    try {
+      const res = await fetch(`${API}/dashboard?id=${user._id}`);
+      const data = await res.json();
+
+      if (data.success) {
+        setStats(data.stats);
+
+        // 📈 Student engagement / attendance trend
+        setLineData({
+          labels: data.lineChart.labels,
+          datasets: [
+            {
+              label: "Student Activity",
+              data: data.lineChart.data,
+              borderColor: "#3b82f6",
+              backgroundColor: "#3b82f6",
+              tension: 0.4,
+            },
+          ],
+        });
+
+        // 📊 Course-wise performance
+        setBarData({
+          labels: data.barChart.labels,
+          datasets: [
+            {
+              label: "Performance",
+              data: data.barChart.data,
+              backgroundColor: "#8b5cf6",
+              borderRadius: 8,
+            },
+          ],
+        });
+      }
+    } catch (error) {
+      console.log("Faculty Dashboard Error:", error);
+    }
+  };
+
+  // 🔁 AUTO REFRESH (REAL-TIME FEEL)
+  useEffect(() => {
+    fetchDashboard();
+
+    const interval = setInterval(fetchDashboard, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const options = {
+    plugins: {
+      legend: { position: "bottom" },
+    },
+    responsive: true,
+  };
+
   return (
-    <div className="container-fluid">
+    <div className="dashboard-container">
 
-      {/* Heading */}
-      <h2 className="fw-bold">Faculty Dashboard</h2>
-      <p className="text-muted">
-        Welcome, Manage your courses and students.
-      </p>
+      {/* HEADER */}
+      <div className="mb-4">
+        <h2 className="fw-bold">Faculty Dashboard</h2>
+        <p className="text-muted">
+          Manage your courses and track student performance
+        </p>
+      </div>
 
-      {/* Stats Cards */}
-      <div className="row g-4 mt-2">
+      {/* STATS */}
+      <div className="row mb-4">
 
-        {/* Card 1 */}
         <div className="col-md-3">
-          <div className="card shadow-sm border-0 p-4 rounded-4">
-
-            {/* ICON BOX */}
-            <div
-              className="d-flex align-items-center justify-content-center mb-3"
-              style={{
-                width: "60px",
-                height: "60px",
-                background: "#e0ecff",
-                borderRadius: "15px"
-              }}
-            >
-              <FaBookOpen size={24} color="#3b82f6" />
+          <div className="stat-card">
+            <div>
+              <p>My Courses</p>
+              <h3>{stats.courses}</h3>
             </div>
-
-            <h2 className="fw-bold">6</h2>
-            <p className="text-muted mb-0">Courses Assigned</p>
+            <div className="stat-icon blue">
+              <HiOutlineBookOpen />
+            </div>
           </div>
         </div>
 
-        {/* Card 2 */}
         <div className="col-md-3">
-          <div className="card shadow-sm border-0 p-4 rounded-4">
-
-            <div
-              className="d-flex align-items-center justify-content-center mb-3"
-              style={{
-                width: "60px",
-                height: "60px",
-                background: "#efe6ff",
-                borderRadius: "15px"
-              }}
-            >
-              <FaUsers size={24} color="#8b5cf6" />
+          <div className="stat-card">
+            <div>
+              <p>Total Students</p>
+              <h3>{stats.students}</h3>
             </div>
-
-            <h2 className="fw-bold">234</h2>
-            <p className="text-muted mb-0">Students Enrolled</p>
+            <div className="stat-icon purple">
+              <FaChalkboardTeacher />
+            </div>
           </div>
         </div>
 
-        {/* Card 3 */}
         <div className="col-md-3">
-          <div className="card shadow-sm border-0 p-4 rounded-4">
-
-            <div
-              className="d-flex align-items-center justify-content-center mb-3"
-              style={{
-                width: "60px",
-                height: "60px",
-                background: "#e0ecff",
-                borderRadius: "15px"
-              }}
-            >
-              <FaFileAlt size={24} color="#3b82f6" />
+          <div className="stat-card">
+            <div>
+              <p>Assignments</p>
+              <h3>{stats.assignments}</h3>
             </div>
-
-            <h2 className="fw-bold">18</h2>
-            <p className="text-muted mb-0">Assignments Created</p>
+            <div className="stat-icon orange">
+              <BsClipboardCheck />
+            </div>
           </div>
         </div>
 
-        {/* Card 4 */}
         <div className="col-md-3">
-          <div className="card shadow-sm border-0 p-4 rounded-4">
-
-            <div
-              className="d-flex align-items-center justify-content-center mb-3"
-              style={{
-                width: "60px",
-                height: "60px",
-                background: "#efe6ff",
-                borderRadius: "15px"
-              }}
-            >
-              <FaClock size={24} color="#8b5cf6" />
+          <div className="stat-card">
+            <div>
+              <p>Attendance</p>
+              <h3>{stats.attendance}%</h3>
             </div>
-
-            <h2 className="fw-bold">45</h2>
-            <p className="text-muted mb-0">Pending Submissions</p>
+            <div className="stat-icon green">
+              <FaChartLine />
+            </div>
           </div>
         </div>
 
       </div>
 
-      {/* Courses Section */}
-      <h4 className="mt-5 fw-bold">My Courses</h4>
+      <div className="row">
 
-      <div className="row g-4 mt-2">
-
-        {[ 
-          { code: "BCA301", name: "Data Structures & Algorithms", sem: "Semester 3", students: "45 students" },
-          { code: "BCA202", name: "Object Oriented Programming", sem: "Semester 2", students: "52 students" },
-          { code: "BCA401", name: "Database Management Systems", sem: "Semester 4", students: "38 students" },
-          { code: "BCA501", name: "Web Development", sem: "Semester 5", students: "42 students" },
-          { code: "BCA601", name: "Software Engineering", sem: "Semester 6", students: "35 students" },
-          { code: "BCA502", name: "Computer Networks", sem: "Semester 5", students: "40 students" }
-        ].map((course, index) => (
-          <div className="col-md-4" key={index}>
-            <div className="card shadow-sm border-0 p-4 rounded-4">
-
-              <div
-                className="d-flex align-items-center justify-content-center mb-3"
-                style={{
-                  width: "60px",
-                  height: "60px",
-                  background: "#efe6ff",
-                  borderRadius: "15px"
-                }}
-              >
-                <FaBookOpen size={24} color="#8b5cf6" />
+        {/* LINE CHART */}
+        <div className="col-md-6 mb-4">
+          <div className="card custom-card">
+            <div className="card-header">
+              <div className="icon blue">
+                <FaChartLine />
               </div>
-
-              <small className="text-muted">{course.code}</small>
-              <h5 className="fw-bold mt-2">{course.name}</h5>
-
-              <div className="d-flex justify-content-between mt-3">
-                <span>{course.sem}</span>
-                <span>{course.students}</span>
-              </div>
-
+              <h5>Student Activity Trend</h5>
             </div>
+
+            {lineData.labels && <Line data={lineData} options={options} />}
           </div>
-        ))}
-
-      </div>
-
-      {/* Recent Activities */}
-<div className="card shadow-sm border-0 p-4 mt-5">
-  <h5 className="fw-bold mb-4">Recent Activities</h5>
-
-  {/* Activity Item */}
-  <div className="d-flex justify-content-between align-items-start mb-3">
-    <div className="d-flex">
-      <span
-        className="me-3 mt-2"
-        style={{
-          width: "8px",
-          height: "8px",
-          backgroundColor: "#2563eb",
-          borderRadius: "50%",
-          display: "inline-block",
-        }}
-      ></span>
-
-      <div>
-        <div className="fw-semibold">Assignment graded</div>
-        <div className="text-muted small">
-          Data Structures - Assignment 3
         </div>
-      </div>
-    </div>
 
-    <small className="text-muted">1 hour ago</small>
-  </div>
+        {/* BAR CHART */}
+        <div className="col-md-6 mb-4">
+          <div className="card custom-card">
+            <div className="card-header">
+              <div className="icon purple">
+                <MdBarChart />
+              </div>
+              <h5>Course Performance</h5>
+            </div>
 
-  <hr />
-
-  {/* Activity Item */}
-  <div className="d-flex justify-content-between align-items-start mb-3">
-    <div className="d-flex">
-      <span
-        className="me-3 mt-2"
-        style={{
-          width: "8px",
-          height: "8px",
-          backgroundColor: "#2563eb",
-          borderRadius: "50%",
-        }}
-      ></span>
-
-      <div>
-        <div className="fw-semibold">Material uploaded</div>
-        <div className="text-muted small">
-          OOP - Lecture Notes Week 8
+            {barData.labels && <Bar data={barData} options={options} />}
+          </div>
         </div>
+
       </div>
-    </div>
 
-    <small className="text-muted">2 hours ago</small>
-  </div>
+      {/* RECENT ACTIVITY */}
+      <div className="card custom-card mt-3">
+        <h5 className="mb-3">Recent Activity</h5>
 
-  <hr />
-
-  {/* Activity Item */}
-  <div className="d-flex justify-content-between align-items-start mb-3">
-    <div className="d-flex">
-      <span
-        className="me-3 mt-2"
-        style={{
-          width: "8px",
-          height: "8px",
-          backgroundColor: "#2563eb",
-          borderRadius: "50%",
-        }}
-      ></span>
-
-      <div>
-        <div className="fw-semibold">Attendance marked</div>
-        <div className="text-muted small">
-          DBMS - Class dated 18 March 2026
+        <div className="activity-box">
+          <span className="dot"></span>
+          <div>
+            New assignment created
+            <div className="time">1 hour ago</div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <small className="text-muted">4 hours ago</small>
-  </div>
-
-  <hr />
-
-  {/* Activity Item */}
-  <div className="d-flex justify-content-between align-items-start">
-    <div className="d-flex">
-      <span
-        className="me-3 mt-2"
-        style={{
-          width: "8px",
-          height: "8px",
-          backgroundColor: "#2563eb",
-          borderRadius: "50%",
-        }}
-      ></span>
-
-      <div>
-        <div className="fw-semibold">Assignment created</div>
-        <div className="text-muted small">
-          Web Development - Project Assignment
+        <div className="activity-box">
+          <span className="dot"></span>
+          <div>
+            Material uploaded
+            <div className="time">2 hours ago</div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <small className="text-muted">1 day ago</small>
-  </div>
-</div>
+        <div className="activity-box">
+          <span className="dot"></span>
+          <div>
+            Attendance marked
+            <div className="time">Today</div>
+          </div>
+        </div>
+
+      </div>
 
     </div>
   );
-};
+}
 
 export default Dashboard;

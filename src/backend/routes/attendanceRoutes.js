@@ -1,8 +1,24 @@
+console.log("🔥 Attendance Routes Loaded");
 import express from "express";
 import Attendance from "../models/Attendance.js";
+import { getStudentAttendance } from "../controllers/attendanceController.js";
 
 const router = express.Router();
 
+
+// // ✅ GET STUDENT ATTENDANCE
+// router.get("/student/:id", getStudentAttendance);
+
+router.get("/student/:id", async (req, res) => {
+  try {
+    const data = await Attendance.find({ studentId: req.params.id })
+      .populate("studentId", "name email");
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // ✅ GET ALL RECORDS
 router.get("/", async (req, res) => {

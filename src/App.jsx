@@ -34,6 +34,7 @@ import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
 
 // Faculty
+import Dashboard2 from "./pages/faculty/Dashboard";
 import MyCourses from "./pages/faculty/MyCourses";
 import Assignment from "./pages/faculty/Assignment";
 import Attendance from "./pages/faculty/Attendance";
@@ -49,6 +50,7 @@ import SubmitAssignment from "./pages/student/SubmitAssignment";
 
 // Student
 import StudentDashboard from "./pages/student/StudentDashboard";
+import Dashboard1 from "./pages/student/Dashboard";
 import StudentMyCourses from "./pages/student/MyCourses";
 import CourseDetailsStudent from "./pages/student/CourseDetails";
 import StudentAssignment from "./pages/student/Assignments";
@@ -111,7 +113,7 @@ function App() {
           {/* Faculty Routes */}
           <Route path="/faculty" element={<FacultyDashboard />}>
             <Route index element={<MyCourses />} />
-            <Route path="dashboard" element={<MyCourses />} />
+            <Route path="dashboard" element={<Dashboard2 />} />
             <Route path="courses" element={<MyCourses />} />
             <Route path="assignments" element={<Assignment />} />
             {/* 8 */}
@@ -140,7 +142,7 @@ function App() {
           {/* Student Routes */}
           <Route path="/student" element={<StudentDashboard />}>
             <Route index element={<StudentMyCourses />} />
-            <Route path="dashboard" element={<StudentMyCourses />} />
+            <Route path="dashboard" element={<Dashboard1 />} />
             <Route path="courses" element={<StudentMyCourses />} />
 
             {/* ✅ Fixed route */}
