@@ -20,17 +20,14 @@ function SubmitAssignment() {
   
     await axios.post("http://localhost:5000/api/submissions", fd);
 
-<<<<<<< Updated upstream
     // success message box  show
     setSuccessMsg("Assignment submitted successfully 🎉");
 
     // 2.5 sec after redirect
-=======
+
    
     setSuccessMsg("Assignment submitted successfully 🎉");
 
-  
->>>>>>> Stashed changes
     setTimeout(() => {
       navigate("/student/assignments");
     }, 2500);
