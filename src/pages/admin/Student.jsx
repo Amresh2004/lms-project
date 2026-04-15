@@ -105,6 +105,12 @@ function CourseSystem() {
                     transition: "0.3s",
                   }}
                   onClick={() => setSelectedCourse(course.name)}
+                  onMouseEnter={(e) =>
+  (e.currentTarget.style.transform = "scale(1.05)")
+}
+onMouseLeave={(e) =>
+  (e.currentTarget.style.transform = "scale(1)")
+}
                 >
                   <div style={{ fontSize: "30px" }}>{course.icon}</div>
                   <h4 className="mt-3">{course.name}</h4>
