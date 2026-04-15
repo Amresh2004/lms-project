@@ -8,7 +8,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
-
+import adminRoutes from "./routes/adminRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
 import facultyRoutes from "./routes/facultyRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
@@ -16,8 +16,6 @@ import materialsRoutes from "./routes/materialsRoutes.js";
 import announcementRoutes from "./routes/announcementRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
-
-// ⭐ NEW ASSIGNMENT ROUTES ADD केले
 import assignmentRoutes from "./routes/assignmentRoutes.js";
 
 import submissionRoutes from "./routes/submissionRoutes.js";
@@ -52,6 +50,7 @@ app.use("/api/faculty", facultyRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/course", courseRoutes);
+app.use("/api/admin", adminRoutes);
 
 // ⭐ LMS ASSIGNMENT SYSTEM ROUTES
 app.use("/api/assignments", assignmentRoutes);

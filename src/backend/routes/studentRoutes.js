@@ -1,5 +1,7 @@
 import express from "express";
 import Student from "../models/Student.js";
+import Activity from "../models/Activity.js";
+
 
 const router = express.Router();
 
@@ -83,6 +85,10 @@ router.post("/", async (req, res) => {
 
     await student.save();
 
+    await Activity.create({
+  message: `${name} registered in ${course}`,
+});
+
     res.status(201).json({ message: "Student added successfully" });
 
   } catch (err) {
@@ -116,6 +122,9 @@ router.delete("/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+  await Activity.create({
+  message: "Student deleted",
+});
 });
 
 
