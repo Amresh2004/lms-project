@@ -117,7 +117,7 @@ function Courses() {
         </>
       )}
     </div>
-  );
+  );n
 }
 
 export default Courses;
