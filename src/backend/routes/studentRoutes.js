@@ -68,7 +68,7 @@ router.get("/dashboard", async (req, res) => {
 // ================= ADD STUDENT =================
 router.post("/", async (req, res) => {
   try {
-    const { name, email, password, course, year } = req.body; // ✅ FIXED
+    const { name, email, password, course, year, phone, address } = req.body;
 
     if (!name || !email || !password || !course || !year) {
       return res.status(400).json({ message: "All fields are required" });
@@ -79,15 +79,17 @@ router.post("/", async (req, res) => {
       email,
       password,
       course,
-      year, // ✅ FIXED
+      year,
+      phone,
+      address,
       status: "Active",
     });
 
     await student.save();
 
     await Activity.create({
-  message: `${name} registered in ${course}`,
-});
+      message: `${name} registered in ${course}`,
+    });
 
     res.status(201).json({ message: "Student added successfully" });
 
