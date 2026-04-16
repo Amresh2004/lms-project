@@ -1,141 +1,121 @@
+// FACULTY LOGIN
 import express from "express";
 import Faculty from "../models/Faculty.js";
 
 const router = express.Router();
 
 
-// ✅ GET all faculty
-router.get("/", async (req, res) => {
+// ================= ADD FACULTY =================
+router.post("/add", async (req, res) => {
   try {
-    const faculty = await Faculty.find();
-    res.json(faculty);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+    const {
+      fullName,
+      gender,
+      email,
+      phone,
+      password,
+      currentAddress,
+      permanentAddress,
+      qualification,
+      experience,
+      department,
+      teacherId,
+      joiningDate
+    } = req.body;
 
-
-// ✅ ADD faculty
-router.post("/", async (req, res) => {
-  try {
-    const { name, email, password, subject } = req.body;
-
-    // VALIDATION
-    if (!name || !email || !password || !subject) {
-      return res.status(400).json({ message: "All fields are required" });
+    // check already exists
+    const exists = await Faculty.findOne({ email });
+    if (exists) {
+      return res.status(400).json({ message: "Faculty already exists" });
     }
 
-    const faculty = new Faculty({
-      name,
+    const newFaculty = new Faculty({
+      fullName,
+      gender,
       email,
+      phone,
       password,
-      subject,
-      status: "Active",
+      currentAddress,
+      permanentAddress,
+      qualification,
+      experience,
+      department,
+      teacherId,
+      joiningDate
     });
 
-    await faculty.save();
+    await newFaculty.save();
 
-    res.status(201).json({ message: "Faculty added successfully" });
-
+    res.status(201).json({ message: "Faculty Added Successfully" });
   } catch (err) {
-    console.log("POST ERROR:", err);
-    res.status(500).json({ message: err.message });
+    console.log(err);
+    res.status(500).json({ message: "Error adding faculty" });
   }
 });
 
 
-// ✅ UPDATE faculty
-router.put("/:id", async (req, res) => {
-  try {
-    await Faculty.findByIdAndUpdate(req.params.id, req.body);
-    res.json({ message: "Faculty updated" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-
-// ✅ DELETE faculty
-router.delete("/:id", async (req, res) => {
-  try {
-    await Faculty.findByIdAndDelete(req.params.id);
-    res.json({ message: "Faculty deleted" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-
-// ✅ LOGIN faculty
+// ================= FACULTY LOGIN =================
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // check fields
-    if (!email || !password) {
-      return res.status(400).json({ message: "All fields required" });
-    }
-
-    // find faculty
     const faculty = await Faculty.findOne({ email });
 
     if (!faculty) {
       return res.status(404).json({ message: "Faculty not found" });
     }
 
-    // check password
     if (faculty.password !== password) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json({ message: "Wrong password" });
     }
 
-    // success
-    res.json({
-      message: "Login successful",
-      faculty,
+    res.status(200).json({
+      message: "Login Success",
+      faculty
     });
 
   } catch (err) {
-    console.log("LOGIN ERROR:", err);
-    res.status(500).json({ message: err.message });
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
-router.get("/test", (req, res) => {
-  res.send("Faculty working ✅");
-});
 
-router.get("/dashboard", async (req, res) => {
+// ================= GET ALL FACULTY =================
+router.get("/all", async (req, res) => {
   try {
-    const { id } = req.query;
-
-    // 🔥 Replace with real DB queries later
-    const stats = {
-      courses: 3,
-      students: 120,
-      assignments: 8,
-      attendance: 90,
-    };
-
-    const lineChart = {
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-      data: [60, 70, 80, 75, 90],
-    };
-
-    const barChart = {
-      labels: ["C", "DS", "DBMS"],
-      data: [75, 65, 85],
-    };
-
-    res.json({
-      success: true,
-      stats,
-      lineChart,
-      barChart,
-    });
-
-  } catch (error) {
-    console.log("FACULTY DASHBOARD ERROR:", error);
-    res.status(500).json({ success: false });
+    const faculty = await Faculty.find().sort({ _id: -1 });
+    res.status(200).json(faculty);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching faculty" });
   }
 });
+// ================= UPDATE FACULTY (NEW) =================
+router.put("/update/:id", async (req, res) => {
+  try {
+    await Faculty.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    res.json({ message: "Faculty Updated Successfully" });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Update error" });
+  }
+});
+// ================= DELETE FACULTY (NEW) =================
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    await Faculty.findByIdAndDelete(req.params.id);
+    res.json({ message: "Faculty Deleted Successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Delete error" });
+  }
+});
+
+
+// ⭐ EXPORT ROUTER
 export default router;

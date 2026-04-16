@@ -26,12 +26,18 @@ import FacultyDashboard from "./pages/faculty/FacultyDashboard";
 
 import Dashboard from "./pages/admin/Dashboard";
 import Students from "./pages/admin/Student";
-import Faculty from "./pages/admin/Faculty";
+
 import Courses from "./pages/admin/Courses";
 import Assignments from "./pages/admin/Assignments";
 import Announcements from "./pages/admin/Announcements";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
+//15
+import ManageFaculty from "./pages/admin/ManageFaculty";
+import AddFaculty from "./pages/admin/AddFaculty";
+
+import ViewFacultyDepartments from "./pages/admin/ViewFacultyDepartments";
+import DepartmentFacultyList from "./pages/admin/DepartmentFacultyList";
 
 // Faculty
 import Dashboard2 from "./pages/faculty/Dashboard";
@@ -93,13 +99,16 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="students" element={<Students />} />
-            <Route path="faculty" element={<Faculty />} />
+            
             <Route path="courses" element={<Courses />} />
             <Route path="assignments" element={<Assignments />} />
             <Route path="announcements" element={<Announcements />} />
             <Route path="reports" element={<Reports />} />
             <Route path="settings" element={<Settings />} />
-
+            <Route path="/admin/manage-faculty" element={<ManageFaculty/>}/>
+            <Route path="/admin/faculty/add" element={<AddFaculty/>}/>
+            <Route path="/admin/view-faculty" element={<ViewFacultyDepartments/>}/>
+            <Route path="/admin/view-faculty/:dept" element={<DepartmentFacultyList/>}/>
             <Route
               path="*"
               element={

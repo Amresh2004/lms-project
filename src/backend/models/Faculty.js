@@ -1,14 +1,19 @@
+//15
 import mongoose from "mongoose";
 
-const facultySchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String,
-  subject: String,
-  status: {
-    type: String,
-    default: "Active"
-  }
+const FacultySchema = new mongoose.Schema({
+  fullName:String,
+  gender:String,
+  email:String,
+  phone:String,
+  password:String,
+  currentAddress:String,
+  permanentAddress:String,
+  qualification:String,
+  experience:String,
+  department:String,
+  teacherId:String,
+  joiningDate:String
 });
 
-export default mongoose.model("Faculty", facultySchema);
+export default mongoose.model("Faculty", FacultySchema);
