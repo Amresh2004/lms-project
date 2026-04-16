@@ -9,6 +9,7 @@ const studentSchema = new mongoose.Schema({
   rollNumber: String,
   phone: String,
   course: String,
+  year: String,
   semester: String,
   address: String,
 

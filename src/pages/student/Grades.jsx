@@ -5,6 +5,7 @@
 //     <div>Grades</div>
 //   )
 // }
+// ✅ NOTE: This page is for students to view their grades. It fetches grade data from the backend and displays it in a table along with summary cards.
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 

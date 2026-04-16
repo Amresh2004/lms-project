@@ -1,54 +1,76 @@
-.custom-table-header {
-  background: linear-gradient(90deg, #2563eb, #9333ea);
-}
+/* 🔷 COURSE CARD */
+.course-card {
+  height: 150px;
+  width: 100%;
 
-.custom-table-header th {
-  background: transparent !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  padding: 15px;
+
+  border-radius: 16px;
+
+  /* 🔥 FORCE REMOVE WHITE ISSUE */
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
   color: #ffffff !important;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Hover */
+.course-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Active */
+.course-card.active {
+  border: 2px solid #e0e7ff;
+  transform: scale(1.03);
+}
+
+/* Icon */
+.course-card .icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+/* Text fix */
+.course-card h5 {
+  margin: 0;
+  font-size: 15px;
   font-weight: 600;
-  padding: 14px;
-  border: none;
+
+  color: #fff !important;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.reduce-right-width {
-  width: 75%;
-}
-
-.custom-table th,
-.custom-table td {
-  position: relative;
-}
-
-.custom-table td,
-.custom-table th {
-  vertical-align: middle;
-}
-
-.custom-table th:first-child,
-.custom-table td:first-child {
-  border-right: 1px solid lightgray;
-  width: 75%;
-
-}
-
+/* 🔷 SEMESTER CARD */
 .semester-card {
-  position: relative;
-  border-radius: 12px;
-  background: white;
-  z-index: 1;
+  height: 90px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+
+  transition: 0.25s;
 }
 
-.semester-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: 1px;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #2563eb, #9333ea);
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  z-index: -1;
+.semester-card:hover {
+  transform: translateY(-3px);
 }

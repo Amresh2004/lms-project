@@ -6,9 +6,7 @@ function SubmitAssignment() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
-  // 9
   const [successMsg, setSuccessMsg] = useState("");
-
   const submitAssignment = async (e) => {
     e.preventDefault();
 
@@ -26,6 +24,10 @@ function SubmitAssignment() {
     setSuccessMsg("Assignment submitted successfully 🎉");
 
     // 2.5 sec after redirect
+
+   
+    setSuccessMsg("Assignment submitted successfully 🎉");
+
     setTimeout(() => {
       navigate("/student/assignments");
     }, 2500);

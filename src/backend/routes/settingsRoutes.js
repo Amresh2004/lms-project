@@ -3,7 +3,7 @@ import Settings from "../models/Settings.js";
 
 const router = express.Router();
 
-// GET settings
+// GET
 router.get("/", async (req, res) => {
   try {
     let settings = await Settings.findOne();
@@ -14,24 +14,22 @@ router.get("/", async (req, res) => {
 
     res.json(settings);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
-// SAVE / UPDATE settings
-router.post("/", async (req, res) => {
+// UPDATE
+router.put("/", async (req, res) => {
   try {
-    let settings = await Settings.findOne();
+    const updated = await Settings.findOneAndUpdate(
+      {},
+      req.body,
+      { new: true, upsert: true }
+    );
 
-    if (settings) {
-      await Settings.updateOne({}, req.body);
-    } else {
-      await Settings.create(req.body);
-    }
-
-    res.json({ message: "Settings saved successfully" });
+    res.json(updated);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 

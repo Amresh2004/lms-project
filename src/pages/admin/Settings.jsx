@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios"; // ✅ correct place
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Settings() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -13,6 +13,23 @@ function Settings() {
     assignmentNotif: true,
   });
 
+  // ✅ LOAD SETTINGS FROM BACKEND
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  const fetchSettings = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/settings");
+      if (res.data) {
+        setForm(res.data);
+      }
+    } catch (err) {
+      console.log("Load error:", err);
+    }
+  };
+
+  // ✅ HANDLE INPUT
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm({
@@ -21,35 +38,34 @@ function Settings() {
     });
   };
 
+  // ✅ SAVE / UPDATE SETTINGS
+  const handleSave = async () => {
+    try {
+      await axios.put("http://localhost:5000/api/settings", form);
 
-const handleSave = async () => {
-  try {
-    console.log("Sending Data:", form); // 🔍 debug
-
-    await axios.post("http://localhost:5000/api/settings", form);
-
-    alert("Saved successfully ✅");
-  } catch (error) {
-    console.error(error);
-    alert("Error saving settings ❌");
-  }
-}
+      alert("Saved successfully ✅");
+    } catch (error) {
+      console.error(error);
+      alert("Error saving settings ❌");
+    }
+  };
 
   return (
     <div className="students-container">
-
-      {/* HEADER */}
       <h2>⚙️ Settings</h2>
 
       {/* TABS */}
       <div className="tabs">
         <button onClick={() => setActiveTab("profile")}>Profile</button>
         <button onClick={() => setActiveTab("security")}>Security</button>
-        <button onClick={() => setActiveTab("notifications")}>Notifications</button>
-        <button onClick={() => setActiveTab("appearance")}>Appearance</button>
+        <button onClick={() => setActiveTab("notifications")}>
+          Notifications
+        </button>
+        <button onClick={() => setActiveTab("appearance")}>
+          Appearance
+        </button>
       </div>
 
-      {/* CONTENT */}
       <div className="custom-card">
 
         {/* PROFILE */}
@@ -77,8 +93,6 @@ const handleSave = async () => {
               value={form.phone}
               onChange={handleChange}
             />
-
-          
 
             <button className="add-btn" onClick={handleSave}>
               Save Changes
@@ -108,7 +122,6 @@ const handleSave = async () => {
             </button>
           </>
         )}
-
 
         {/* NOTIFICATIONS */}
         {activeTab === "notifications" && (
@@ -161,7 +174,6 @@ const handleSave = async () => {
             </button>
           </>
         )}
-
       </div>
     </div>
   );
