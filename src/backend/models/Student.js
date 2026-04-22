@@ -16,7 +16,18 @@ const studentSchema = new mongoose.Schema({
   status: {
     type: String,
     default: "Active"
+  },
+
+  courses: [
+  {
+    courseId: String,
+    title: String,
+    code: String,
+    faculty: String,
+    semester: String,
+    progress: Number,
   }
+]
 });
 
 export default mongoose.model("Student", studentSchema);

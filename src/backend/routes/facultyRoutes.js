@@ -116,6 +116,34 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
+router.get("/dashboard", async (req, res) => {
+  try {
+    const { id } = req.query;
 
+    const stats = {
+      courses: 3,
+      students: 120,
+      assignments: 8,
+      attendance: 85,
+    };
+
+    // ✅ ADD THIS (IMPORTANT)
+    const activities = [
+      { message: "New assignment created", time: "1 hour ago" },
+      { message: "Material uploaded", time: "2 hours ago" },
+      { message: "Attendance marked", time: "Today" },
+    ];
+
+    res.json({
+      success: true,
+      stats,
+      activities, // ✅ send this
+    });
+
+  } catch (err) {
+    console.log("FACULTY DASHBOARD ERROR:", err);
+    res.status(500).json({ success: false });
+  }
+});
 // ⭐ EXPORT ROUTER
 export default router;

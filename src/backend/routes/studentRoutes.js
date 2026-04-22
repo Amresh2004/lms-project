@@ -20,17 +20,6 @@ router.get("/", async (req, res) => {
 // ================= DASHBOARD =================
 router.get("/dashboard", async (req, res) => {
   try {
-    const { id } = req.query;
-
-    const student = await Student.findById(id);
-
-    if (!student) {
-      return res.status(404).json({
-        success: false,
-        message: "Student not found",
-      });
-    }
-
     const stats = {
       courses: 4,
       assignments: 2,
@@ -38,29 +27,20 @@ router.get("/dashboard", async (req, res) => {
       grade: "A",
     };
 
-    const lineChart = {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May"],
-      data: [75, 80, 85, 87, 88],
-    };
-
-    const barChart = {
-      labels: ["C", "DS", "DBMS", "OS"],
-      data: [75, 60, 80, 70],
-    };
+    const activities = [
+      { message: "Assignment submitted", time: "1 hour ago" },
+      { message: "New material uploaded", time: "3 hours ago" },
+      { message: "Attendance updated", time: "Today" },
+    ];
 
     res.json({
       success: true,
       stats,
-      lineChart,
-      barChart,
+      activities,
     });
 
-  } catch (error) {
-    console.log("DASHBOARD ERROR:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+  } catch (err) {
+    res.status(500).json({ success: false });
   }
 });
 
@@ -83,6 +63,16 @@ router.post("/", async (req, res) => {
       phone,
       address,
       status: "Active",
+      courses: [
+        {
+          courseId: "BCA101",
+          title: "Programming in C",
+          code: "BCA101",
+          faculty: "Dr. Rajesh Kumar",
+          semester: "1st Semester",
+          progress: 0,
+        }
+      ]
     });
 
     await student.save();
@@ -125,8 +115,8 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
   await Activity.create({
-  message: "Student deleted",
-});
+    message: "Student deleted",
+  });
 });
 
 
@@ -241,6 +231,31 @@ router.get("/filter", async (req, res) => {
   } catch (err) {
     console.log("FILTER ERROR:", err);
     res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/my-courses/:id", async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found"
+      });
+    }
+
+    res.json({
+      success: true,
+      courses: student.courses
+    });
+
+  } catch (err) {
+    console.log("COURSE FETCH ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
   }
 });
 

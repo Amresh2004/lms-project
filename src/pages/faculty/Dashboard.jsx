@@ -1,32 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Line, Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
-import { FaChalkboardTeacher, FaChartLine } from "react-icons/fa";
-import { MdBarChart } from "react-icons/md";
+import { FaChalkboardTeacher } from "react-icons/fa";
 import { HiOutlineBookOpen } from "react-icons/hi";
 import { BsClipboardCheck } from "react-icons/bs";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { FaChartLine } from "react-icons/fa";
 
 const API = "http://localhost:5000/api/faculty";
 
@@ -38,12 +14,11 @@ function Dashboard() {
     attendance: 0,
   });
 
-  const [lineData, setLineData] = useState({});
-  const [barData, setBarData] = useState({});
+  const [activities, setActivities] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // 🔥 FETCH DATA
+  // 🔥 FETCH DASHBOARD DATA
   const fetchDashboard = async () => {
     try {
       const res = await fetch(`${API}/dashboard?id=${user._id}`);
@@ -52,52 +27,21 @@ function Dashboard() {
       if (data.success) {
         setStats(data.stats);
 
-        // 📈 Student engagement / attendance trend
-        setLineData({
-          labels: data.lineChart.labels,
-          datasets: [
-            {
-              label: "Student Activity",
-              data: data.lineChart.data,
-              borderColor: "#3b82f6",
-              backgroundColor: "#3b82f6",
-              tension: 0.4,
-            },
-          ],
-        });
-
-        // 📊 Course-wise performance
-        setBarData({
-          labels: data.barChart.labels,
-          datasets: [
-            {
-              label: "Performance",
-              data: data.barChart.data,
-              backgroundColor: "#8b5cf6",
-              borderRadius: 8,
-            },
-          ],
-        });
+        // ✅ USE BACKEND ACTIVITY (same like admin)
+        setActivities(data.activities || []);
       }
     } catch (error) {
       console.log("Faculty Dashboard Error:", error);
     }
   };
 
-  // 🔁 AUTO REFRESH (REAL-TIME FEEL)
+  // 🔁 AUTO REFRESH
   useEffect(() => {
     fetchDashboard();
 
     const interval = setInterval(fetchDashboard, 5000);
     return () => clearInterval(interval);
   }, []);
-
-  const options = {
-    plugins: {
-      legend: { position: "bottom" },
-    },
-    responsive: true,
-  };
 
   return (
     <div className="dashboard-container">
@@ -106,11 +50,11 @@ function Dashboard() {
       <div className="mb-4">
         <h2 className="fw-bold">Faculty Dashboard</h2>
         <p className="text-muted">
-          Manage your courses and track student performance
+          Live overview of your teaching activities
         </p>
       </div>
 
-      {/* STATS */}
+      {/* STATS (ADMIN STYLE) */}
       <div className="row mb-4">
 
         <div className="col-md-3">
@@ -163,66 +107,23 @@ function Dashboard() {
 
       </div>
 
-      <div className="row">
-
-        {/* LINE CHART */}
-        <div className="col-md-6 mb-4">
-          <div className="card custom-card">
-            <div className="card-header">
-              <div className="icon blue">
-                <FaChartLine />
-              </div>
-              <h5>Student Activity Trend</h5>
-            </div>
-
-            {lineData.labels && <Line data={lineData} options={options} />}
-          </div>
-        </div>
-
-        {/* BAR CHART */}
-        <div className="col-md-6 mb-4">
-          <div className="card custom-card">
-            <div className="card-header">
-              <div className="icon purple">
-                <MdBarChart />
-              </div>
-              <h5>Course Performance</h5>
-            </div>
-
-            {barData.labels && <Bar data={barData} options={options} />}
-          </div>
-        </div>
-
-      </div>
-
-      {/* RECENT ACTIVITY */}
+      {/* 🔥 LIVE ACTIVITY (ADMIN STYLE) */}
       <div className="card custom-card mt-3">
-        <h5 className="mb-3">Recent Activity</h5>
+        <h5 className="mb-3">Live Activity</h5>
 
-        <div className="activity-box">
-          <span className="dot"></span>
-          <div>
-            New assignment created
-            <div className="time">1 hour ago</div>
-          </div>
-        </div>
-
-        <div className="activity-box">
-          <span className="dot"></span>
-          <div>
-            Material uploaded
-            <div className="time">2 hours ago</div>
-          </div>
-        </div>
-
-        <div className="activity-box">
-          <span className="dot"></span>
-          <div>
-            Attendance marked
-            <div className="time">Today</div>
-          </div>
-        </div>
-
+        {activities.length > 0 ? (
+          activities.map((a, i) => (
+            <div className="activity-box" key={i}>
+              <span className="dot"></span>
+              <div>
+                {a.message}
+                <div className="time">{a.time || "Just now"}</div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No activity yet</p>
+        )}
       </div>
 
     </div>

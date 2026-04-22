@@ -72,11 +72,11 @@ function AdminDashboard() {
             </Link>
           </li>
 
-          <li className={location.pathname === "/admin/settings" ? "active" : ""}>
+          {/* <li className={location.pathname === "/admin/settings" ? "active" : ""}>
             <Link to="/admin/settings">
               <FaCog /> Settings
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
 
