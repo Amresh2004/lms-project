@@ -2,9 +2,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Container, Card, Form, Button, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function AddFaculty() {
-
+const navigate = useNavigate();
   const [faculty,setFaculty] = useState({
     fullName:"",
     gender:"",
@@ -47,9 +48,28 @@ export default function AddFaculty() {
     });
   };
 
+   
   return (
     <div style={{ background:"#f5f7fb", minHeight:"100vh", paddingTop:"30px" }}>
       <Container>
+
+        <button
+  className="btn d-flex align-items-center gap-2 shadow-sm mb-4"
+  style={{
+    background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
+    color: "white",
+    border: "none",
+    borderRadius: "12px",
+    padding: "10px 18px",
+    fontWeight: "500",
+    transition: "0.3s"
+  }}
+  onClick={() => navigate("/admin/manage-faculty")}
+  onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
+  onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
+>
+  ← Back to Manage Faculty
+</button>
 
         <div className="text-center mb-4">
           <h2 className="fw-bold">Add Faculty / Staff</h2>

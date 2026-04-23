@@ -3,54 +3,50 @@ import axios from "axios";
 import { Container, Table, Card, Button, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 
-export default function DepartmentFacultyList() {
+export default function DepartmentStudentList() {
   const { dept } = useParams();
   const navigate = useNavigate();
 
-  const [faculty, setFaculty] = useState([]);
+  const [students, setStudents] = useState([]);
   const [editId, setEditId] = useState(null);
   const [editData, setEditData] = useState({});
 
-  // 🔵 Fetch Faculty
+  // 🔵 Fetch Students
   useEffect(() => {
-    fetchFaculty();
+    fetchStudents();
   }, [dept]);
 
-  const fetchFaculty = async () => {
-    const res = await axios.get("http://localhost:5000/api/faculty/all");
-    const filtered = res.data.filter((f) => f.department === dept);
-    setFaculty(filtered);
+  const fetchStudents = async () => {
+    const res = await axios.get("http://localhost:5000/api/students/all");
+    const filtered = res.data.filter((s) => s.course === dept);
+    setStudents(filtered);
   };
 
-  // 🔵 Edit button click
-  const handleEdit = (f) => {
-    setEditId(f._id);
-    setEditData({ ...f }); // clone object
+  // 🔵 Edit
+  const handleEdit = (s) => {
+    setEditId(s._id);
+    setEditData({ ...s });
   };
 
-  // 🔵 input change
+  // 🔵 Input change
   const handleChange = (e) => {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   };
 
-  // 🟢 SAVE UPDATE (🔥 FIXED FUNCTION)
+  // 🟢 Save Update
   const handleSave = async () => {
     try {
-      // ❌ Mongo ला _id आणि __v पाठवायचे नाही
       const { _id, __v, ...updatedData } = editData;
 
       await axios.put(
-        `http://localhost:5000/api/faculty/update/${editId}`,
+        `http://localhost:5000/api/students/update/${editId}`,
         updatedData,
       );
 
-      alert("Faculty Updated Successfully");
+      alert("Student Updated Successfully");
 
-      // edit mode बंद
       setEditId(null);
-
-      // list refresh
-      fetchFaculty();
+      fetchStudents();
     } catch (err) {
       console.log(err);
       alert("Update Failed");
@@ -58,16 +54,16 @@ export default function DepartmentFacultyList() {
   };
 
   const handleDelete = async (id) => {
-  try {
-    await axios.delete(`http://localhost:5000/api/faculty/delete/${id}`);
-    alert("Faculty Deleted Successfully");
+    try {
+      await axios.delete(`http://localhost:5000/api/students/delete/${id}`);
+      alert("Student Deleted Successfully");
 
-    fetchFaculty(); // refresh list
-  } catch (err) {
-    console.log(err);
-    alert("Delete Failed");
-  }
-};
+      fetchStudents(); // refresh list
+    } catch (err) {
+      console.log(err);
+      alert("Delete Failed");
+    }
+  };
 
   return (
     <div
@@ -85,120 +81,85 @@ export default function DepartmentFacultyList() {
             padding: "10px 18px",
             fontWeight: "500",
           }}
-          onClick={() => navigate("/admin/view-faculty")}
+          onClick={() => navigate("/admin/view-student")}
         >
-          ← Back to Manage Faculty
+          ← Back to Students
         </button>
 
         <Card className="shadow border-0 p-4" style={{ borderRadius: "18px" }}>
-          <h2 className="text-center fw-bold mb-4">{dept} Faculty List</h2>
+          <h2 className="text-center fw-bold mb-4">{dept} Students</h2>
 
           <Table bordered hover responsive className="align-middle">
             <thead style={{ background: "#eef2ff" }}>
               <tr className="text-center">
-                <th>Teacher ID</th>
-                <th>Full Name</th>
+                <th>Roll No</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
-                <th>Qualification</th>
-                <th>Experience</th>
-                <th>Joining Date</th>
+                <th>Course</th>
+                <th>Year</th>
                 <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {faculty.map((f) => (
-                <tr key={f._id} className="text-center">
+              {students.map((s) => (
+                <tr key={s._id} className="text-center">
                   <td>
-                    {editId === f._id ? (
+                    {editId === s._id ? (
                       <Form.Control
-                        name="teacherId"
-                        value={editData.teacherId}
+                        name="rollNo"
+                        value={editData.rollNo}
                         onChange={handleChange}
                       />
                     ) : (
-                      f.teacherId
+                      s.rollNo
                     )}
                   </td>
 
                   <td>
-                    {editId === f._id ? (
+                    {editId === s._id ? (
                       <Form.Control
                         name="fullName"
                         value={editData.fullName}
                         onChange={handleChange}
                       />
                     ) : (
-                      f.fullName
+                      s.fullName
                     )}
                   </td>
 
                   <td>
-                    {editId === f._id ? (
+                    {editId === s._id ? (
                       <Form.Control
                         name="email"
                         value={editData.email}
                         onChange={handleChange}
                       />
                     ) : (
-                      f.email
+                      s.email
                     )}
                   </td>
 
                   <td>
-                    {editId === f._id ? (
+                    {editId === s._id ? (
                       <Form.Control
                         name="phone"
                         value={editData.phone}
                         onChange={handleChange}
                       />
                     ) : (
-                      f.phone
+                      s.phone
                     )}
                   </td>
 
-                  <td>
-                    {editId === f._id ? (
-                      <Form.Control
-                        name="qualification"
-                        value={editData.qualification}
-                        onChange={handleChange}
-                      />
-                    ) : (
-                      f.qualification
-                    )}
-                  </td>
+                  <td>{s.course}</td>
+                  <td>{s.year}</td>
+
+                  {/* ACTION */}
 
                   <td>
-                    {editId === f._id ? (
-                      <Form.Control
-                        name="experience"
-                        value={editData.experience}
-                        onChange={handleChange}
-                      />
-                    ) : (
-                      f.experience
-                    )}
-                  </td>
-
-                  <td>
-                    {editId === f._id ? (
-                      <Form.Control
-                        type="date"
-                        name="joiningDate"
-                        value={editData.joiningDate?.substring(0, 10)}
-                        onChange={handleChange}
-                      />
-                    ) : (
-                      new Date(f.joiningDate).toLocaleDateString()
-                    )}
-                  </td>
-
-                  {/* 🔥 ONLY EDIT / SAVE BUTTON */}
-
-                  <td>
-                    {editId === f._id ? (
+                    {editId === s._id ? (
                       <Button variant="success" size="sm" onClick={handleSave}>
                         Save
                       </Button>
@@ -207,7 +168,7 @@ export default function DepartmentFacultyList() {
                         <Button
                           variant="primary"
                           size="sm"
-                          onClick={() => handleEdit(f)}
+                          onClick={() => handleEdit(s)}
                           style={{ marginRight: "8px" }}
                         >
                           Edit
@@ -216,7 +177,7 @@ export default function DepartmentFacultyList() {
                         <Button
                           variant="danger"
                           size="sm"
-                          onClick={() => handleDelete(f._id)}
+                          onClick={() => handleDelete(s._id)}
                         >
                           Delete
                         </Button>

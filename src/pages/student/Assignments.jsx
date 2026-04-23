@@ -11,6 +11,15 @@ function Assignments() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  axios.get(
+    `http://localhost:5000/api/quiz/student?course=${user.course}&year=${user.year}`
+  )
+  .then(res => setData(res.data.quizzes));
+}, []);
+
   const fetchData = async () => {
     const a = await axios.get("http://localhost:5000/api/assignments");
     const s = await axios.get("http://localhost:5000/api/submissions");

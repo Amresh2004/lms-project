@@ -1,33 +1,28 @@
 import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
-  name: String,
+  fullName: String,
   email: String,
-  password: String,
-
-  // ✅ ADD THESE FIELDS
-  rollNumber: String,
   phone: String,
+  password: String,
   course: String,
   year: String,
-  semester: String,
+  rollNo: String,
+  admissionDate: Date,
   address: String,
-
   status: {
     type: String,
     default: "Active"
   },
-
   courses: [
   {
-    courseId: String,
     title: String,
     code: String,
     faculty: String,
     semester: String,
-    progress: Number,
+    progress: Number
   }
 ]
-});
+}, { timestamps: true });
 
 export default mongoose.model("Student", studentSchema);

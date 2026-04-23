@@ -4,7 +4,23 @@ import Button from "../../components/common_files/Button";
 import Modal from "../../components/common_files/Modal";
 import "../landing/style/Login.css";
 import { useEffect } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [strength, setStrength] = useState("");
+  const checkStrength = (password) => {
+    let score = 0;
+
+    if (password.length >= 6) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    if (score <= 1) return "Weak";
+    if (score === 2 || score === 3) return "Medium";
+    if (score === 4) return "Strong";
+  };
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -19,12 +35,12 @@ function Login() {
   });
 
   useEffect(() => {
-  if (showForgotPopup) {
-    document.body.classList.add("forgot-open");
-  } else {
-    document.body.classList.remove("forgot-open");
-  }
-}, [showForgotPopup]);
+    if (showForgotPopup) {
+      document.body.classList.add("forgot-open");
+    } else {
+      document.body.classList.remove("forgot-open");
+    }
+  }, [showForgotPopup]);
 
   const navigate = useNavigate();
 
@@ -52,7 +68,7 @@ function Login() {
       ) {
         localStorage.setItem(
           "user",
-          JSON.stringify({ email: "admin@gmail.com", role: "admin" })
+          JSON.stringify({ email: "admin@gmail.com", role: "admin" }),
         );
         setUserRole("admin");
         setShowPopup(true);
@@ -67,19 +83,17 @@ function Login() {
         body: JSON.stringify(loginData),
       });
 
-     
       if (res.ok) {
         const data = await res.json();
-      
+
         // ⭐⭐⭐ VERY IMPORTANT LINE ADD करा
         localStorage.setItem("studentName", data.student.name);
-
 
         // ✅ store full user
 
         localStorage.setItem(
           "user",
-          JSON.stringify({ ...data.student, role: "student" })
+          JSON.stringify({ ...data.student, role: "student" }),
         );
 
         // ✅ IMPORTANT: store studentId separately
@@ -102,7 +116,7 @@ function Login() {
         const data = await res.json();
         localStorage.setItem(
           "user",
-          JSON.stringify({ ...data.faculty, role: "faculty" })
+          JSON.stringify({ ...data.faculty, role: "faculty" }),
         );
         setUserRole("faculty");
         setShowPopup(true);
@@ -129,41 +143,46 @@ function Login() {
   };
 
   const handleForgotSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!forgotData.email || !forgotData.newPassword) {
-    alert("Please fill all fields");
-    return;
-  }
-
-  try {
-    const res = await fetch("http://localhost:5000/api/students/forgot-password", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(forgotData),
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      alert("✅ Password updated successfully");
-      setShowForgotPopup(false);
-      setForgotData({ email: "", newPassword: "" });
-    } else {
-      alert(data.message || "Error updating password");
+    if (!forgotData.email || !forgotData.newPassword) {
+      alert("Please fill all fields");
+      return;
     }
 
-  } catch (error) {
-    console.log(error);
-    alert("Server error");
-  }
-};
- 
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/students/forgot-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(forgotData),
+        },
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("✅ Password updated successfully");
+        setShowForgotPopup(false);
+        setForgotData({ email: "", newPassword: "" });
+      } else {
+        alert(data.message || "Error updating password");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Server error");
+    }
+  };
+  
+
   return (
     <>
-      <div className={`container-fluid ${showForgotPopup ? "login-blur-bg" : ""}`}>
+      <div
+        className={`container-fluid ${showForgotPopup ? "login-blur-bg" : ""}`}
+      >
         <div className="row" style={{ minHeight: "100vh" }}>
           <div
             className="col-md-6 d-flex flex-column justify-content-center align-items-center text-center text-white"
@@ -208,7 +227,10 @@ function Login() {
               className="card shadow p-4"
               style={{ width: "400px", borderRadius: "15px" }}
             >
-              <Link className="mb-3 text-primary text-decoration-none" to="/home">
+              <Link
+                className="mb-3 text-primary text-decoration-none"
+                to="/home"
+              >
                 ← Back to Home
               </Link>
 
@@ -231,10 +253,9 @@ function Login() {
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label className="form-label">Password</label>
+                <div style={{ position: "relative" }}>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     className="form-control"
                     placeholder="Enter your password"
@@ -242,9 +263,29 @@ function Login() {
                     onChange={handleChange}
                     required
                   />
+
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      position: "absolute",
+                      right: "10px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      color: "#555",
+                    }}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
                 </div>
+                <br />
                 <div className="mb-2">
-                  <Button text="Login" htmlType="submit" style={{ width: "350px" }} />
+                  <Button
+                    text="Login"
+                    htmlType="submit"
+                    style={{ width: "350px" }}
+                  />
                 </div>
                 <div className="mt-3 text-start">
                   <button
@@ -279,69 +320,132 @@ function Login() {
       </div>
 
       {showForgotPopup && (
-  <div className="forgot-overlay">
-    <div className="forgot-card-custom">
+        <div className="forgot-overlay">
+          <div className="forgot-card-custom">
+            {/* CLOSE BUTTON */}
+            <button
+              className="forgot-close-btn"
+              onClick={() => setShowForgotPopup(false)}
+            >
+              ✕
+            </button>
 
-      {/* CLOSE BUTTON */}
-      <button
-        className="forgot-close-btn"
-        onClick={() => setShowForgotPopup(false)}
-      >
-        ✕
-      </button>
+            <div className="text-center mb-4">
+              <div className="forgot-lock-icon">🔒</div>
+              <h4 className="fw-bold mt-4 mb-2">Forgot Password?</h4>
+              <p className="text-muted mb-0">
+                Enter your email and create a new password
+              </p>
+            </div>
 
-      <div className="text-center mb-4">
-        <div className="forgot-lock-icon">🔒</div>
-        <h4 className="fw-bold mt-4 mb-2">Forgot Password?</h4>
-        <p className="text-muted mb-0">
-          Enter your email and create a new password
-        </p>
-      </div>
+            <form onSubmit={handleForgotSubmit}>
+              <div className="mb-3">
+                <label className="form-label fw-semibold">Email Address</label>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control forgot-input"
+                  placeholder="Enter your email"
+                  value={forgotData.email}
+                  onChange={handleForgotChange}
+                  required
+                />
+              </div>
 
-      <form onSubmit={handleForgotSubmit}>
-        <div className="mb-3">
-          <label className="form-label fw-semibold">Email Address</label>
-          <input
-            type="email"
-            name="email"
-            className="form-control forgot-input"
-            placeholder="Enter your email"
-            value={forgotData.email}
-            onChange={handleForgotChange}
-            required
-          />
+              <div className="mb-4">
+                <label className="form-label fw-semibold">New Password</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type={showNewPassword ? "text" : "password"}
+                    name="newPassword"
+                    className="form-control forgot-input"
+                    placeholder="Enter new password"
+                    value={forgotData.newPassword}
+                    onChange={(e) => {
+                      handleForgotChange(e);
+                      setStrength(checkStrength(e.target.value));
+                    }}
+                    required
+                  />
+
+                  {forgotData.newPassword && (
+                    <div style={{ marginTop: "5px", fontSize: "13px" }}>
+                      Strength:{" "}
+                      <span
+                        style={{
+                          color:
+                            strength === "Weak"
+                              ? "red"
+                              : strength === "Medium"
+                                ? "orange"
+                                : "green",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {strength}
+                      </span>
+                    </div>
+                  )}
+                  <div
+                    style={{
+                      height: "5px",
+                      marginTop: "5px",
+                      background: "#eee",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width:
+                          strength === "Weak"
+                            ? "33%"
+                            : strength === "Medium"
+                              ? "66%"
+                              : "100%",
+                        height: "100%",
+                        background:
+                          strength === "Weak"
+                            ? "red"
+                            : strength === "Medium"
+                              ? "orange"
+                              : "green",
+                        transition: "0.3s",
+                      }}
+                    />
+                  </div>
+                  <span
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    style={{
+                      position: "absolute",
+                      right: "10px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      color: "#555",
+                    }}
+                  >
+                    {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
+              </div>
+
+              <button type="submit" className="forgot-reset-btn w-100">
+                Reset Password
+              </button>
+
+              <div className="text-center mt-4">
+                <button
+                  type="button"
+                  className="forgot-back-btn"
+                  onClick={() => setShowForgotPopup(false)}
+                >
+                  ← Back to Login
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-
-        <div className="mb-4">
-          <label className="form-label fw-semibold">New Password</label>
-          <input
-            type="password"
-            name="newPassword"
-            className="form-control forgot-input"
-            placeholder="Enter new password"
-            value={forgotData.newPassword}
-            onChange={handleForgotChange}
-            required
-          />
-        </div>
-
-        <button type="submit" className="forgot-reset-btn w-100">
-          Reset Password
-        </button>
-
-        <div className="text-center mt-4">
-          <button
-            type="button"
-            className="forgot-back-btn"
-            onClick={() => setShowForgotPopup(false)}
-          >
-            ← Back to Login
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
+      )}
     </>
   );
 }

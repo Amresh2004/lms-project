@@ -2,12 +2,11 @@ import express from "express";
 import Student from "../models/Student.js";
 import Activity from "../models/Activity.js";
 
-
 const router = express.Router();
 
 
-// ================= GET ALL =================
-router.get("/", async (req, res) => {
+// ================= GET ALL STUDENTS =================
+router.get("/all", async (req, res) => {
   try {
     const students = await Student.find();
     res.json(students);
@@ -17,26 +16,55 @@ router.get("/", async (req, res) => {
 });
 
 
-// ================= DASHBOARD =================
+// ================= FILTER (COURSE + YEAR) =================
+router.get("/filter", async (req, res) => {
+  try {
+    const { course, year } = req.query;
+
+    const students = await Student.find({ course, year });
+
+    res.json({
+      success: true,
+      students
+    });
+
+  } catch (err) {
+    console.log("FILTER ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+});
+
+
+// ================= DASHBOARD (REAL DATA) =================
 router.get("/dashboard", async (req, res) => {
   try {
+    const { id } = req.query;
+
+    const student = await Student.findById(id);
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found"
+      });
+    }
+
     const stats = {
-      courses: 4,
-      assignments: 2,
-      attendance: 88,
-      grade: "A",
+      courses: student.courses?.length || 0,
+      assignments: 2, // later dynamic
+      attendance: 85,
+      grade: "A"
     };
 
-    const activities = [
-      { message: "Assignment submitted", time: "1 hour ago" },
-      { message: "New material uploaded", time: "3 hours ago" },
-      { message: "Attendance updated", time: "Today" },
-    ];
+    const activities = await Activity.find().sort({ createdAt: -1 }).limit(5);
 
     res.json({
       success: true,
       stats,
-      activities,
+      activities
     });
 
   } catch (err) {
@@ -46,52 +74,36 @@ router.get("/dashboard", async (req, res) => {
 
 
 // ================= ADD STUDENT =================
-router.post("/", async (req, res) => {
+router.post("/add", async (req, res) => {
   try {
-    const { name, email, password, course, year, phone, address } = req.body;
-
-    if (!name || !email || !password || !course || !year) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-
     const student = new Student({
-      name,
-      email,
-      password,
-      course,
-      year,
-      phone,
-      address,
-      status: "Active",
-      courses: [
-        {
-          courseId: "BCA101",
-          title: "Programming in C",
-          code: "BCA101",
-          faculty: "Dr. Rajesh Kumar",
-          semester: "1st Semester",
-          progress: 0,
-        }
-      ]
+      ...req.body,
+      courses: [] // 👈 important for my-courses
     });
 
     await student.save();
 
     await Activity.create({
-      message: `${name} registered in ${course}`,
+      message: `${student.fullName} registered`
     });
 
-    res.status(201).json({ message: "Student added successfully" });
+    res.json({
+      success: true,
+      message: "Student added successfully"
+    });
 
   } catch (err) {
-    console.log("POST ERROR:", err);
-    res.status(500).json({ message: err.message });
+    console.log("ADD ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
   }
 });
 
 
 // ================= UPDATE =================
-router.put("/:id", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   try {
     const updated = await Student.findByIdAndUpdate(
       req.params.id,
@@ -99,24 +111,38 @@ router.put("/:id", async (req, res) => {
       { new: true }
     );
 
-    res.json(updated);
+    res.json({
+      success: true,
+      updated
+    });
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.log("UPDATE ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
   }
 });
 
 
 // ================= DELETE =================
-router.delete("/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     await Student.findByIdAndDelete(req.params.id);
-    res.json({ message: "Student deleted" });
+
+    await Activity.create({
+      message: "Student deleted"
+    });
+
+    res.json({
+      success: true,
+      message: "Student deleted"
+    });
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-  await Activity.create({
-    message: "Student deleted",
-  });
 });
 
 
@@ -124,10 +150,6 @@ router.delete("/:id", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ message: "All fields required" });
-    }
 
     const student = await Student.findOne({ email });
 
@@ -140,12 +162,11 @@ router.post("/login", async (req, res) => {
     }
 
     res.json({
-      message: "Login successful",
-      student,
+      success: true,
+      student
     });
 
   } catch (err) {
-    console.log("LOGIN ERROR:", err);
     res.status(500).json({ message: err.message });
   }
 });
@@ -156,10 +177,6 @@ router.get("/profile/:id", async (req, res) => {
   try {
     const student = await Student.findById(req.params.id);
 
-    if (!student) {
-      return res.status(404).json({ message: "Student not found" });
-    }
-
     res.json(student);
 
   } catch (err) {
@@ -168,30 +185,10 @@ router.get("/profile/:id", async (req, res) => {
 });
 
 
-// ================= UPDATE PROFILE =================
-router.put("/profile/update/:id", async (req, res) => {
-  try {
-    const updatedStudent = await Student.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    );
-
-    res.json(updatedStudent);
-  } catch (err) {
-    res.status(500).json({ message: "Update failed" });
-  }
-});
-
-
 // ================= FORGOT PASSWORD =================
 router.post("/forgot-password", async (req, res) => {
   try {
     const { email, newPassword } = req.body;
-
-    if (!email || !newPassword) {
-      return res.status(400).json({ message: "All fields required" });
-    }
 
     const student = await Student.findOne({ email });
 
@@ -202,38 +199,15 @@ router.post("/forgot-password", async (req, res) => {
     student.password = newPassword;
     await student.save();
 
-    res.json({ message: "Password updated successfully ✅" });
+    res.json({ message: "Password updated successfully" });
 
   } catch (err) {
-    console.log("FORGOT PASSWORD ERROR:", err);
     res.status(500).json({ message: err.message });
   }
 });
 
 
-// ================= FILTER (MAIN FEATURE) =================
-router.get("/filter", async (req, res) => {
-  try {
-    const { course, year } = req.query;
-
-    let filter = {};
-
-    if (course) filter.course = course;
-    if (year) filter.year = year;
-
-    const students = await Student.find(filter);
-
-    res.json({
-      success: true,
-      students,
-    });
-
-  } catch (err) {
-    console.log("FILTER ERROR:", err);
-    res.status(500).json({ message: err.message });
-  }
-});
-
+// ================= ⭐ MY COURSES (IMPORTANT) =================
 router.get("/my-courses/:id", async (req, res) => {
   try {
     const student = await Student.findById(req.params.id);
@@ -247,7 +221,7 @@ router.get("/my-courses/:id", async (req, res) => {
 
     res.json({
       success: true,
-      courses: student.courses
+      courses: student.courses || []
     });
 
   } catch (err) {
@@ -258,5 +232,28 @@ router.get("/my-courses/:id", async (req, res) => {
     });
   }
 });
+
+
+// ================= ⭐ ASSIGN COURSE TO STUDENT =================
+router.post("/assign-course/:id", async (req, res) => {
+  try {
+    const { course } = req.body;
+
+    const student = await Student.findById(req.params.id);
+
+    student.courses.push(course);
+
+    await student.save();
+
+    res.json({
+      success: true,
+      message: "Course assigned"
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 export default router;
