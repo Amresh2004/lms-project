@@ -22,7 +22,7 @@ import assignmentRoutes from "./routes/assignmentRoutes.js";
 import submissionRoutes from "./routes/submissionRoutes.js";
 
 import gradeRoutes from "./routes/gradeRoutes.js";
-
+import quizRoutes from "./routes/quizRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -60,6 +60,7 @@ app.use("/api/submissions", submissionRoutes);
 
 app.use("/api/grades", gradeRoutes);
 
+app.use("/api/quiz", quizRoutes);
 
 // =============================
 // ✅ ROOT CHECK

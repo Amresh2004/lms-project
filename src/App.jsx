@@ -25,7 +25,11 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import FacultyDashboard from "./pages/faculty/FacultyDashboard";
 
 import Dashboard from "./pages/admin/Dashboard";
-import Students from "./pages/admin/Student";
+import ManageStudent from "./pages/admin/ManageStudent";
+import AddStudent from "./pages/admin/AddStudent";
+import ViewStudentDepartment from "./pages/admin/ViewStudentDepartment";
+import DepartmentStudentList from "./pages/admin/DepartmentStudentList";
+import SelectYear from "./pages/admin/SelectYear";
 
 import Courses from "./pages/admin/Courses";
 import Assignments from "./pages/admin/Assignments";
@@ -38,6 +42,7 @@ import AddFaculty from "./pages/admin/AddFaculty";
 
 import ViewFacultyDepartments from "./pages/admin/ViewFacultyDepartments";
 import DepartmentFacultyList from "./pages/admin/DepartmentFacultyList";
+
 
 // Faculty
 import Dashboard2 from "./pages/faculty/Dashboard";
@@ -98,7 +103,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="students" element={<Students />} />
+            {/* <Route path="students" element={<Students />} /> */}
             
             <Route path="courses" element={<Courses />} />
             <Route path="assignments" element={<Assignments />} />
@@ -109,6 +114,12 @@ function App() {
             <Route path="/admin/faculty/add" element={<AddFaculty/>}/>
             <Route path="/admin/view-faculty" element={<ViewFacultyDepartments/>}/>
             <Route path="/admin/view-faculty/:dept" element={<DepartmentFacultyList/>}/>
+
+            <Route path="/admin/manage-student" element={<ManageStudent/>}/>
+            <Route path="/admin/student/add" element={<AddStudent/>}/>
+            <Route path="/admin/view-student" element={<ViewStudentDepartment/>}/>
+            <Route path="/admin/view-student/:dept" element={<DepartmentStudentList/>}/>
+            <Route path="/admin/students/:dept/:year" element={<SelectYear />} />
             <Route
               path="*"
               element={
