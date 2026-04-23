@@ -1,21 +1,63 @@
 import express from "express";
-import Course from "../models/Course.js";
+import Department from "../models/Department.js";
+import Year from "../models/Year.js";
+import Semester from "../models/Semester.js";
+import Subject from "../models/Subject.js";
 
 const router = express.Router();
 
-// ✅ GET COURSE BY CODE
-router.get("/:code", async (req, res) => {
+// Departments
+router.get("/departments", async (req, res) => {
   try {
-    const course = await Course.findOne({ code: req.params.code });
+    console.log("Departments API called");
+    const data = await Department.find();
 
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
+    if (data.length === 0) {
+      return res.json({ message: "No departments found" });
     }
 
-    res.json(course);
+    res.json(data);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Error fetching departments" });
+  }
+});
+
+// Years
+router.get("/years/:departmentId", async (req, res) => {
+  try {
+    const data = await Year.find({
+      departmentId: req.params.departmentId,
+    });
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching years" });
+  }
+});
+
+// Semesters
+router.get("/semesters/:yearId", async (req, res) => {
+  try {
+    const data = await Semester.find({
+      yearId: req.params.yearId,
+    });
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching semesters" });
+  }
+});
+
+// Subjects
+router.get("/subjects/:semesterId", async (req, res) => {
+  try {
+    const data = await Subject.find({
+      semesterId: req.params.semesterId,
+    });
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching subjects" });
   }
 });
 
