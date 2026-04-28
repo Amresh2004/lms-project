@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaUserGraduate } from "react-icons/fa";
 import { HiOutlineBookOpen } from "react-icons/hi";
 import { BsClipboardCheck } from "react-icons/bs";
+import "../admin/style/dashboard.css"
 
 const API = "http://localhost:5000/api"; // base API
 
@@ -40,18 +41,14 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container">
-
       {/* HEADER */}
       <div className="mb-4">
         <h2 className="fw-bold">Admin Dashboard</h2>
-        <p className="text-muted">
-          Live overview of your LMS system
-        </p>
+        <p className="text-muted">Live overview of your LMS system</p>
       </div>
 
       {/* STATS */}
       <div className="row mb-4">
-
         <div className="col-md-3">
           <div className="stat-card">
             <div>
@@ -99,28 +96,34 @@ function Dashboard() {
             </div>
           </div>
         </div>
-
       </div>
 
       {/* 🔥 LIVE ACTIVITY */}
-      <div className="card custom-card mt-3">
-        <h5 className="mb-3">Live Activity</h5>
+      <div className="card custom-card mt-4 p-4">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h5 className="fw-bold mb-0">🔥 Live Activity</h5>
+          <span className="badge bg-primary">Real-time</span>
+        </div>
 
         {activities.length > 0 ? (
-          activities.map((a, i) => (
-            <div className="activity-box" key={i}>
-              <span className="dot"></span>
-              <div>
-                {a.message}
-                <div className="time">{a.time}</div>
+          <div className="activity-list">
+            {activities.map((a, i) => (
+              <div className="activity-card" key={i}>
+                {/* ICON / DOT */}
+                <div className="activity-icon">●</div>
+
+                {/* CONTENT */}
+                <div className="activity-content">
+                  <p className="activity-text">{a.message}</p>
+                  <span className="activity-time">{a.time}</span>
+                </div>
               </div>
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
-          <p>No activity yet</p>
+          <div className="text-center text-muted py-4">🚫 No activity yet</div>
         )}
       </div>
-
     </div>
   );
 }
