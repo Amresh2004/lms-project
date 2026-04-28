@@ -125,7 +125,6 @@ function Dashboard() {
           <p>No activity yet</p>
         )}
       </div>
-
     </div>
   );
 }

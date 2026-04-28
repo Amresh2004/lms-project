@@ -43,7 +43,6 @@ import AddFaculty from "./pages/admin/AddFaculty";
 import ViewFacultyDepartments from "./pages/admin/ViewFacultyDepartments";
 import DepartmentFacultyList from "./pages/admin/DepartmentFacultyList";
 
-
 // Faculty
 import Dashboard2 from "./pages/faculty/Dashboard";
 import MyCourses from "./pages/faculty/MyCourses";
@@ -104,22 +103,37 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
             {/* <Route path="students" element={<Students />} /> */}
-            
+
             <Route path="courses" element={<Courses />} />
             <Route path="assignments" element={<Assignments />} />
             <Route path="announcements" element={<Announcements />} />
             <Route path="reports" element={<Reports />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="/admin/manage-faculty" element={<ManageFaculty/>}/>
-            <Route path="/admin/faculty/add" element={<AddFaculty/>}/>
-            <Route path="/admin/view-faculty" element={<ViewFacultyDepartments/>}/>
-            <Route path="/admin/view-faculty/:dept" element={<DepartmentFacultyList/>}/>
+            <Route path="/admin/manage-faculty" element={<ManageFaculty />} />
+            <Route path="/admin/faculty/add" element={<AddFaculty />} />
+            <Route
+              path="/admin/view-faculty"
+              element={<ViewFacultyDepartments />}
+            />
+            <Route
+              path="/admin/view-faculty/:dept"
+              element={<DepartmentFacultyList />}
+            />
 
-            <Route path="/admin/manage-student" element={<ManageStudent/>}/>
-            <Route path="/admin/student/add" element={<AddStudent/>}/>
-            <Route path="/admin/view-student" element={<ViewStudentDepartment/>}/>
-            <Route path="/admin/view-student/:dept" element={<DepartmentStudentList/>}/>
-            <Route path="/admin/students/:dept/:year" element={<SelectYear />} />
+            <Route path="/admin/manage-student" element={<ManageStudent />} />
+            <Route path="/admin/student/add" element={<AddStudent />} />
+            <Route
+              path="/admin/view-student"
+              element={<ViewStudentDepartment />}
+            />
+            <Route
+              path="/admin/view-student/:dept"
+              element={<DepartmentStudentList />}
+            />
+            <Route
+              path="/admin/students/:dept/:year"
+              element={<SelectYear />}
+            />
             <Route
               path="*"
               element={
@@ -139,8 +153,10 @@ function App() {
             {/* 8 */}
             <Route path="submissions" element={<FacultySubmissions />} />
             {/* 8 */}
-            <Route path="/faculty/create-assignment" element={<CreateAssignment/>}/>
-         
+            <Route
+              path="/faculty/create-assignment"
+              element={<CreateAssignment />}
+            />
 
             <Route path="attendance" element={<Attendance />} />
             <Route path="announcements" element={<Announcement />} />
@@ -174,9 +190,8 @@ function App() {
             <Route path="material" element={<Materials />} />
             <Route path="grades" element={<StudentGrades />} />
             <Route path="profile" element={<StudentProfile />} />
-              {/* 8 */}
-             <Route path="/student/submit/:id" element={<SubmitAssignment/>}/>
-
+            {/* 8 */}
+            <Route path="/student/submit/:id" element={<SubmitAssignment />} />
 
             <Route
               path="*"
