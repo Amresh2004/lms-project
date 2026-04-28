@@ -1,6 +1,12 @@
 // FACULTY LOGIN
 import express from "express";
 import Faculty from "../models/Faculty.js";
+import Student from "../models/Student.js";
+import Course from "../models/Course.js";
+import Assignment from "../models/Assignment.js";
+import Attendance from "../models/Attendance.js";
+import Activity from "../models/Activity.js";
+
 
 const router = express.Router();
 
@@ -118,28 +124,38 @@ router.delete("/delete/:id", async (req, res) => {
 
 router.get("/dashboard", async (req, res) => {
   try {
-    const { id } = req.query;
+    const facultyId = req.query.id;
 
-    const stats = {
-      courses: 3,
-      students: 120,
-      assignments: 8,
-      attendance: 85,
-    };
+    // ✅ COUNT FROM DATABASE
+    const totalStudents = await Student.countDocuments();
+    const totalCourses = await Course.countDocuments();
+    const totalAssignments = await Assignment.countDocuments();
 
-    // ✅ ADD THIS (IMPORTANT)
-    const activities = [
-      { message: "New assignment created", time: "1 hour ago" },
-      { message: "Material uploaded", time: "2 hours ago" },
-      { message: "Attendance marked", time: "Today" },
-    ];
+    // Example attendance avg (optional)
+    const attendanceData = await Attendance.find();
+    const attendance =
+      attendanceData.length > 0
+        ? Math.round(
+            attendanceData.reduce((sum, a) => sum + a.percentage, 0) /
+              attendanceData.length
+          )
+        : 0;
+
+    // ✅ LIVE ACTIVITY (LATEST FIRST)
+    const activities = await Activity.find()
+      .sort({ createdAt: -1 })
+      .limit(5);
 
     res.json({
       success: true,
-      stats,
-      activities, // ✅ send this
+      stats: {
+        courses: totalCourses,
+        students: totalStudents,
+        assignments: totalAssignments,
+        attendance: attendance,
+      },
+      activities,
     });
-
   } catch (err) {
     console.log("FACULTY DASHBOARD ERROR:", err);
     res.status(500).json({ success: false });
