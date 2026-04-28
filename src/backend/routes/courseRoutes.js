@@ -51,13 +51,14 @@ router.get("/semesters/:yearId", async (req, res) => {
 // Subjects
 router.get("/subjects/:semesterId", async (req, res) => {
   try {
-    const data = await Subject.find({
+    const subjects = await Subject.find({
       semesterId: req.params.semesterId,
     });
 
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ message: "Error fetching subjects" });
+    res.json(subjects);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
   }
 });
 

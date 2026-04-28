@@ -12,85 +12,133 @@ function Courses() {
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedSem, setSelectedSem] = useState(null);
 
-  // ✅ FETCH DEPARTMENTS
+  // ================= FETCH DEPARTMENTS =================
   useEffect(() => {
     fetch("http://localhost:5000/api/course/departments")
       .then((res) => res.json())
       .then((data) => {
-        console.log("DEPARTMENTS:", data);
+        console.log("Departments:", data);
         setDepartments(data);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  // ✅ FETCH YEARS
-  const handleDeptClick = (dept) => {
+  // ================= FETCH YEARS =================
+  const handleDeptClick = async (dept) => {
     setSelectedDept(dept);
-    setYears([]);
     setSelectedYear(null);
-    setSemesters([]);
     setSelectedSem(null);
+
+    setYears([]);
+    setSemesters([]);
     setSubjects([]);
 
-    fetch(`http://localhost:5000/api/course/years/${dept._id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("YEARS:", data);
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/course/years/${dept._id}`
+      );
 
-        const uniqueYears = [
-          ...new Map(data.map((item) => [item.name, item])).values(),
-        ];
+      const data = await res.json();
 
-        setYears(uniqueYears);
-      })
-      .catch((err) => console.log(err));
+      console.log("Years:", data);
+
+      const uniqueYears = [
+        ...new Map(data.map((item) => [item.name, item])).values(),
+      ];
+
+      const yearOrder = {
+        FY: 1,
+        "First Year": 1,
+
+        SY: 2,
+        "Second Year": 2,
+
+        TY: 3,
+        "Third Year": 3,
+
+        "Masters First Year": 4,
+        "MSc First Year": 4,
+
+        "Masters Second Year": 5,
+        "MSc Second Year": 5,
+      };
+
+      const sortedYears = uniqueYears.sort(
+        (a, b) => (yearOrder[a.name] || 999) - (yearOrder[b.name] || 999)
+      );
+
+      setYears(sortedYears);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // ✅ FETCH SEMESTERS
-  const handleYearClick = (year) => {
+  // ================= FETCH SEMESTERS =================
+  const handleYearClick = async (year) => {
     setSelectedYear(year);
-    setSemesters([]);
     setSelectedSem(null);
+
+    setSemesters([]);
     setSubjects([]);
 
-    fetch(`http://localhost:5000/api/course/semesters/${year._id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("SEMESTERS:", data);
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/course/semesters/${year._id}`
+      );
 
-        const uniqueSemesters = [
-          ...new Map(data.map((item) => [item.name, item])).values(),
-        ];
+      const data = await res.json();
 
-        setSemesters(uniqueSemesters);
-      })
-      .catch((err) => console.log(err));
+      console.log("Semesters:", data);
+
+      const uniqueSemesters = [
+        ...new Map(data.map((item) => [item.name, item])).values(),
+      ];
+
+      const sortedSemesters = uniqueSemesters.sort((a, b) => {
+        const semA = parseInt(a.name.replace(/\D/g, ""));
+        const semB = parseInt(b.name.replace(/\D/g, ""));
+        return semA - semB;
+      });
+
+      setSemesters(sortedSemesters);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // ✅ FETCH SUBJECTS
-  const handleSemClick = (sem) => {
+  // ================= FETCH SUBJECTS =================
+  const handleSemClick = async (sem) => {
     setSelectedSem(sem);
     setSubjects([]);
 
-    fetch(`http://localhost:5000/api/course/subjects/${sem._id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("SUBJECTS:", data);
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/course/subjects/${sem._id}`
+      );
 
+      const data = await res.json();
+
+      console.log("Subjects API Response:", data);
+
+      if (Array.isArray(data)) {
         const uniqueSubjects = [
           ...new Map(data.map((item) => [item.name, item])).values(),
         ];
 
         setSubjects(uniqueSubjects);
-      })
-      .catch((err) => console.log(err));
+      } else {
+        setSubjects([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="container p-4">
-      <h2 className="mb-4 fw-bold">Courses</h2>
+      <h2 className="mb-4 fw-bold text-center">Courses</h2>
 
-      {/* 🔷 DEPARTMENTS */}
+      {/* ================= DEPARTMENTS ================= */}
       {!selectedDept && (
         <div className="row g-4">
           {departments.map((dept) => (
@@ -107,11 +155,11 @@ function Courses() {
         </div>
       )}
 
-      {/* 🔷 YEARS */}
+      {/* ================= YEARS ================= */}
       {selectedDept && !selectedYear && (
         <>
           <button
-            className="btn btn-light mb-3"
+            className="btn btn-secondary mb-3"
             onClick={() => {
               setSelectedDept(null);
               setYears([]);
@@ -122,7 +170,7 @@ function Courses() {
 
           <h4>{selectedDept.name}</h4>
 
-          <div className="row">
+          <div className="row g-3 mt-2">
             {years.map((year) => (
               <div key={year._id} className="col-md-3">
                 <div
@@ -137,11 +185,11 @@ function Courses() {
         </>
       )}
 
-      {/* 🔷 SEMESTERS */}
+      {/* ================= SEMESTERS ================= */}
       {selectedYear && !selectedSem && (
         <>
           <button
-            className="btn btn-light mb-3"
+            className="btn btn-secondary mb-3"
             onClick={() => {
               setSelectedYear(null);
               setSemesters([]);
@@ -152,7 +200,7 @@ function Courses() {
 
           <h4>{selectedYear.name}</h4>
 
-          <div className="row">
+          <div className="row g-3 mt-2">
             {semesters.map((sem) => (
               <div key={sem._id} className="col-md-3">
                 <div
@@ -167,11 +215,11 @@ function Courses() {
         </>
       )}
 
-      {/* 🔷 SUBJECTS */}
+      {/* ================= SUBJECTS ================= */}
       {selectedSem && (
         <>
           <button
-            className="btn btn-light mb-3"
+            className="btn btn-secondary mb-3"
             onClick={() => {
               setSelectedSem(null);
               setSubjects([]);
@@ -180,21 +228,31 @@ function Courses() {
             ← Back
           </button>
 
-          <h4>{selectedSem.name}</h4>
+          <h4>{selectedSem.name} Subjects</h4>
 
-          <table className="table">
-            <thead>
+          <table className="table table-bordered table-hover shadow-sm mt-3">
+            <thead className="table-dark">
               <tr>
+                <th>Sr No</th>
                 <th>Subject Name</th>
               </tr>
             </thead>
 
             <tbody>
-              {subjects.map((sub) => (
-                <tr key={sub._id}>
-                  <td>{sub.name}</td>
+              {subjects.length > 0 ? (
+                subjects.map((sub, index) => (
+                  <tr key={sub._id}>
+                    <td>{index + 1}</td>
+                    <td>{sub.name}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2" className="text-center text-danger">
+                    No subjects found
+                  </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </>
