@@ -6,6 +6,29 @@ import Subject from "../models/Subject.js";
 
 const router = express.Router();
 
+
+router.post("/subjects/add", async (req, res) => {
+  try {
+    const { name, semesterId } = req.body;
+
+    const subject = new Subject({
+      name,
+      semester: semesterId,
+    });
+
+    await subject.save();
+
+    res.json({
+      success: true,
+      message: "Subject added successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
+
+
 // Departments
 router.get("/departments", async (req, res) => {
   try {
@@ -49,16 +72,15 @@ router.get("/semesters/:yearId", async (req, res) => {
 });
 
 // Subjects
-router.get("/subjects/:semesterId", async (req, res) => {
+router.get("/subjects/:semId", async (req, res) => {
   try {
     const subjects = await Subject.find({
-      semesterId: req.params.semesterId,
+      semester: req.params.semId,
     });
 
     res.json(subjects);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    res.status(500).json([]);
   }
 });
 

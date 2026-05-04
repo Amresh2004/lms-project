@@ -7,11 +7,38 @@ function Courses() {
   const [years, setYears] = useState([]);
   const [semesters, setSemesters] = useState([]);
   const [subjects, setSubjects] = useState([]);
-
+  const [newSubject, setNewSubject] = useState("");
   const [selectedDept, setSelectedDept] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedSem, setSelectedSem] = useState(null);
+  const handleAddSubject = async () => {
+    if (!newSubject) {
+      alert("Enter subject name");
+      return;
+    }
 
+    try {
+      await fetch("http://localhost:5000/api/course/subjects/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newSubject,
+          semesterId: selectedSem._id,
+        }),
+      });
+
+      alert("Subject Added ✅");
+
+      setNewSubject("");
+
+      // 🔥 Refresh subjects
+      handleSemClick(selectedSem);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   // ================= FETCH DEPARTMENTS =================
   useEffect(() => {
     fetch("http://localhost:5000/api/course/departments")
@@ -35,7 +62,7 @@ function Courses() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/course/years/${dept._id}`
+        `http://localhost:5000/api/course/years/${dept._id}`,
       );
 
       const data = await res.json();
@@ -64,7 +91,7 @@ function Courses() {
       };
 
       const sortedYears = uniqueYears.sort(
-        (a, b) => (yearOrder[a.name] || 999) - (yearOrder[b.name] || 999)
+        (a, b) => (yearOrder[a.name] || 999) - (yearOrder[b.name] || 999),
       );
 
       setYears(sortedYears);
@@ -83,7 +110,7 @@ function Courses() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/course/semesters/${year._id}`
+        `http://localhost:5000/api/course/semesters/${year._id}`,
       );
 
       const data = await res.json();
@@ -113,7 +140,7 @@ function Courses() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/course/subjects/${sem._id}`
+        `http://localhost:5000/api/course/subjects/${sem._id}`,
       );
 
       const data = await res.json();
@@ -216,6 +243,7 @@ function Courses() {
       )}
 
       {/* ================= SUBJECTS ================= */}
+      {/* ================= SUBJECTS ================= */}
       {selectedSem && (
         <>
           <button
@@ -228,33 +256,52 @@ function Courses() {
             ← Back
           </button>
 
-          <h4>{selectedSem.name} Subjects</h4>
+          <h4 className="mb-3">{selectedSem.name} Subjects</h4>
 
-          <table className="table table-bordered table-hover shadow-sm mt-3">
-            <thead className="table-dark">
-              <tr>
-                <th>Sr No</th>
-                <th>Subject Name</th>
-              </tr>
-            </thead>
+          {/* ✅ ADD SUBJECT BOX (OUTSIDE TABLE) */}
+          <div className="card p-3 shadow-sm mb-3">
+            <div className="d-flex gap-2">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Subject Name"
+                value={newSubject}
+                onChange={(e) => setNewSubject(e.target.value)}
+              />
+              <button className="btn btn-success" onClick={handleAddSubject}>
+                Add
+              </button>
+            </div>
+          </div>
 
-            <tbody>
-              {subjects.length > 0 ? (
-                subjects.map((sub, index) => (
-                  <tr key={sub._id}>
-                    <td>{index + 1}</td>
-                    <td>{sub.name}</td>
-                  </tr>
-                ))
-              ) : (
+          {/* ✅ SUBJECT LIST */}
+          <div className="card shadow-sm">
+            <table className="table table-hover mb-0">
+              <thead className="table-dark">
                 <tr>
-                  <td colSpan="2" className="text-center text-danger">
-                    No subjects found
-                  </td>
+                  <th style={{ width: "80px" }}>Sr No</th>
+                  <th>Subject Name</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {subjects.length > 0 ? (
+                  subjects.map((sub, index) => (
+                    <tr key={sub._id}>
+                      <td>{index + 1}</td>
+                      <td>{sub.name}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="2" className="text-center text-muted py-4">
+                      🚫 No subjects found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </div>
