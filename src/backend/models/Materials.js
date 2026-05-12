@@ -5,7 +5,18 @@ const materialSchema = new mongoose.Schema(
     course: {
       type: String,
       required: true,
-        trim: true,
+      trim: true,
+    },
+    semester: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    subject: {
+      type: String,
+      required: true,
+      trim: true
     },
     title: {
       type: String,
@@ -15,12 +26,12 @@ const materialSchema = new mongoose.Schema(
     description: {
       type: String,
       default: "",
-        trim: true,
+      trim: true,
     },
     materialType: {
       type: String,
       required: true,
-        trim: true,
+      trim: true,
     },
     fileUrl: {
       type: String,
@@ -41,7 +52,7 @@ const materialSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    
+
   },
   { timestamps: true }
 );
