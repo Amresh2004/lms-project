@@ -78,13 +78,15 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     const {
       course,
       title,
+      semester,
+      subject,
       description,
       materialType,
       facultyEmail,
       videoUrl,
     } = req.body;
 
-    if (!course || !title || !materialType || !facultyEmail) {
+    if (!course || !semester || !subject || !title || !materialType || !facultyEmail) {
       return res.status(400).json({
         success: false,
         message: "All required fields must be filled",
@@ -102,6 +104,8 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 
       const saved = await Materials.create({
         course,
+        semester,
+        subject,
         title,
         description,
         materialType,
@@ -128,6 +132,8 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 
     const saved = await Materials.create({
       course,
+      semester,
+      subject,
       title,
       description,
       materialType,
@@ -155,6 +161,9 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 // =============================
 // 📥 GET MATERIALS (FIXED 🔥)
 // =============================
+
+
+
 router.get("/", async (req, res) => {
   try {
     const materials = await Materials.find().sort({ createdAt: -1 });
@@ -172,6 +181,8 @@ router.get("/", async (req, res) => {
     });
   }
 });
+
+
 
 // =============================
 // ❌ DELETE MATERIAL
@@ -222,3 +233,12 @@ router.delete("/:id", async (req, res) => {
 });
 
 export default router;
+
+
+
+
+
+
+
+
+
