@@ -9,12 +9,13 @@ const Grade = () => {
   const [form, setForm] = useState({
     studentId: "",
     course: "",
-    marks: ""
+    marks: "",
   });
 
+  // ================= API =================
   const API = "http://localhost:5000/api/grades";
 
-  // 🎯 Grade Logic
+  // ================= GRADE LOGIC =================
   const getGrade = (marks) => {
     if (marks >= 90) return "A+";
     if (marks >= 75) return "A";
@@ -23,109 +24,127 @@ const Grade = () => {
     return "F";
   };
 
-  // 🔥 Load Students
+  // ================= LOAD STUDENTS =================
   useEffect(() => {
-    axios.get("http://localhost:5000/api/students")
-      .then(res => setStudents(res.data))
-      .catch(err => console.log(err));
-  }, []);
-
-  // 🔥 Load Grades
-  const fetchGrades = async () => {
-    try {
-      const res = await axios.get(API);
-      setGrades(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
+    fetchStudents();
     fetchGrades();
   }, []);
 
-  // ✏️ Handle Input
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const fetchStudents = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/students/all"
+      );
+
+      setStudents(res.data);
+    } catch (err) {
+      console.log("Student Fetch Error:", err);
+    }
   };
 
-  // ✏️ Edit
+  // ================= LOAD GRADES =================
+  const fetchGrades = async () => {
+    try {
+      const res = await axios.get(API);
+
+      setGrades(res.data);
+    } catch (err) {
+      console.log("Grade Fetch Error:", err);
+    }
+  };
+
+  // ================= HANDLE INPUT =================
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // ================= EDIT =================
   const handleEdit = (g) => {
     setForm({
-      studentId: g.studentId._id,
-      course: g.course,
-      marks: g.marks
+      studentId: g.studentId?._id || "",
+      course: g.course || "",
+      marks: g.marks || "",
     });
+
     setEditId(g._id);
   };
 
-  // ➕ ADD / 🔄 UPDATE
+  // ================= ADD / UPDATE =================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.studentId || !form.course || !form.marks) {
-      alert("Fill all fields");
+      alert("Please fill all fields");
       return;
     }
 
     try {
+      const payload = {
+        ...form,
+        marks: Number(form.marks),
+        grade: getGrade(Number(form.marks)),
+      };
+
       if (editId) {
-        // 🔄 UPDATE
-        await axios.put(`${API}/update/${editId}`, {
-          ...form,
-          grade: getGrade(Number(form.marks))
-        });
+        // UPDATE
+        await axios.put(`${API}/update/${editId}`, payload);
 
-        alert("Grade updated ✅");
+        alert("Grade updated successfully ✅");
       } else {
-        // ➕ ADD
-        await axios.post(`${API}/add`, {
-          ...form,
-          grade: getGrade(Number(form.marks))
-        });
+        // ADD
+        await axios.post(`${API}/add`, payload);
 
-        alert("Grade added ✅");
+        alert("Grade added successfully ✅");
       }
 
-      // Reset form
+      // RESET FORM
       setForm({
         studentId: "",
         course: "",
-        marks: ""
+        marks: "",
       });
 
       setEditId(null);
-      fetchGrades();
 
+      fetchGrades();
     } catch (err) {
-      console.log(err);
+      console.log("Submit Error:", err);
+      alert("Something went wrong");
     }
   };
 
-  // ❌ Delete
+  // ================= DELETE =================
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API}/delete/${id}`);
+
+      alert("Grade deleted successfully ❌");
+
       fetchGrades();
     } catch (err) {
-      console.log(err);
+      console.log("Delete Error:", err);
     }
   };
 
   return (
     <div className="container-fluid p-4">
-
-      {/* HEADER */}
+      {/* ================= HEADER ================= */}
       <div className="mb-4">
         <h2 className="fw-bold">🎓 Grades</h2>
-        <p className="text-muted">Manage student grades</p>
+
+        <p className="text-muted">
+          Manage student grades
+        </p>
       </div>
 
-      {/* FORM */}
+      {/* ================= FORM ================= */}
       <div className="card p-4 shadow-sm mb-4">
         <form onSubmit={handleSubmit}>
           <div className="row g-3 align-items-center">
-
+            
             {/* STUDENT */}
             <div className="col-md-3">
               <select
@@ -133,11 +152,18 @@ const Grade = () => {
                 className="form-select"
                 value={form.studentId}
                 onChange={handleChange}
+                required
               >
-                <option value="">Student Name</option>
+                <option value="">
+                  Select Student
+                </option>
+
                 {students.map((s) => (
-                  <option key={s._id} value={s._id}>
-                    {s.name}
+                  <option
+                    key={s._id}
+                    value={s._id}
+                  >
+                    {s.fullName || s.name}
                   </option>
                 ))}
               </select>
@@ -152,6 +178,7 @@ const Grade = () => {
                 className="form-control"
                 value={form.course}
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -164,13 +191,23 @@ const Grade = () => {
                 className="form-control"
                 value={form.marks}
                 onChange={handleChange}
+                min="0"
+                max="100"
+                required
               />
             </div>
 
             {/* BUTTON */}
             <div className="col-md-3">
-              <button className="btn btn-primary w-100">
-                {editId ? "Update" : "Add"}
+              <button
+                type="submit"
+                className={`btn w-100 ${
+                  editId
+                    ? "btn-warning"
+                    : "btn-primary"
+                }`}
+              >
+                {editId ? "Update Grade" : "Add Grade"}
               </button>
             </div>
 
@@ -178,64 +215,97 @@ const Grade = () => {
         </form>
       </div>
 
-      {/* TABLE */}
+      {/* ================= TABLE ================= */}
       <div className="card p-4 shadow-sm">
-        <h5 className="fw-bold mb-3">Grade Records</h5>
+        <h5 className="fw-bold mb-3">
+          Grade Records
+        </h5>
 
-        <table className="table table-bordered align-middle">
-          <thead className="table-light">
-            <tr>
-              <th>Student Name</th>
-              <th>Course</th>
-              <th>Marks</th>
-              <th>Grade</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {grades.length === 0 ? (
+        <div className="table-responsive">
+          <table className="table table-bordered align-middle">
+            <thead className="table-light">
               <tr>
-                <td colSpan="5" className="text-center">
-                  No records
-                </td>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Marks</th>
+                <th>Grade</th>
+                <th>Actions</th>
               </tr>
-            ) : (
-              grades.map((g) => (
-                <tr key={g._id}>
-                  <td>{g.studentId?.name}</td>
-                  <td>{g.course}</td>
-                  <td>{g.marks}</td>
-                  <td>
-                    <span className="badge bg-success">
-                      {g.grade}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-warning btn-sm me-2"
-                      onClick={() => handleEdit(g)}
-                    >
-                      Edit
-                    </button>
+            </thead>
 
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(g._id)}
-                    >
-                      Delete
-                    </button>
+            <tbody>
+              {grades.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="5"
+                    className="text-center"
+                  >
+                    No grade records found
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
+              ) : (
+                grades.map((g) => (
+                  <tr key={g._id}>
+                    
+                    {/* STUDENT NAME */}
+                    <td>
+                      {g.studentId?.fullName ||
+                        g.studentId?.name ||
+                        "N/A"}
+                    </td>
 
-        </table>
+                    {/* COURSE */}
+                    <td>{g.course}</td>
+
+                    {/* MARKS */}
+                    <td>{g.marks}</td>
+
+                    {/* GRADE */}
+                    <td>
+                      <span
+                        className={`badge ${
+                          g.grade === "A+" ||
+                          g.grade === "A"
+                            ? "bg-success"
+                            : g.grade === "B"
+                            ? "bg-primary"
+                            : g.grade === "C"
+                            ? "bg-warning text-dark"
+                            : "bg-danger"
+                        }`}
+                      >
+                        {g.grade}
+                      </span>
+                    </td>
+
+                    {/* ACTIONS */}
+                    <td>
+                      <button
+                        className="btn btn-warning btn-sm me-2"
+                        onClick={() => handleEdit(g)}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() =>
+                          handleDelete(g._id)
+                        }
+                      >
+                        Delete
+                      </button>
+                    </td>
+
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-
     </div>
   );
 };
-// ✅ NOTE: This page is for faculty to manage student grades. It includes a form to add/update grades and a table to view/delete records.
+
 export default Grade;
