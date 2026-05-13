@@ -4,6 +4,31 @@ import Submission from "../models/Submission.js";
 
 const router = express.Router();
 
+router.get("/structured", async (req, res) => {
+  try {
+    const data = await Submission.find()
+      .populate({
+        path: "assignmentId",
+        populate: {
+          path: "subject",
+          populate: {
+            path: "semester",
+            populate: {
+              path: "year",
+              populate: {
+                path: "departmentId",
+              },
+            },
+          },
+        },
+      });
+
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json([]);
+  }
+});
 
 // ================= STUDENT SUBMIT =================
 router.post("/", upload.single("answerPdf"), async (req,res)=>{

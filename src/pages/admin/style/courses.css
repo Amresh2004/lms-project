@@ -74,3 +74,196 @@
 .semester-card:hover {
   transform: translateY(-3px);
 }
+
+/* 🔥 SUBJECT CARD (LIKE IMAGE UI) */
+.subject-card {
+  height: 150px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 20px;
+
+  border-radius: 20px;
+  color: #fff;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* ✨ Glow effect */
+.subject-card::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: rgba(255,255,255,0.1);
+  top: -100%;
+  left: -100%;
+  transform: rotate(25deg);
+  transition: 0.5s;
+}
+
+.subject-card:hover::before {
+  top: 100%;
+  left: 100%;
+}
+
+/* Hover animation */
+.subject-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Title */
+.subject-card h5 {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+/* Small text */
+.subject-card p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Buttons */
+.subject-card .btn {
+  border-radius: 20px;
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+
+/* 🔥 DEPARTMENT CARD (LIKE IMAGE UI) */
+.department-card {
+  height: 150px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 20px;
+
+  border-radius: 20px;
+  color: #fff;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Hover effect */
+.department-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Icon */
+.dept-icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+/* Title */
+.department-card h4 {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+/* Subtitle */
+.department-card p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* 🔥 YEAR CARD */
+.year-card {
+  height: 150px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 20px;
+
+  border-radius: 20px;
+  color: #fff;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Hover */
+.year-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Icon */
+.year-icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+/* Title */
+.year-card h4 {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+/* Subtitle */
+.year-card p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* 🔥 SEMESTER CARD */
+.sem-card {
+  height: 140px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 20px;
+
+  border-radius: 20px;
+  color: #fff;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Hover */
+.sem-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Icon */
+.sem-icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+/* Title */
+.sem-card h4 {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+/* Subtitle */
+.sem-card p {
+  font-size: 14px;
+  opacity: 0.9;
+}

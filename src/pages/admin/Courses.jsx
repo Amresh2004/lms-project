@@ -3,6 +3,14 @@ import "../admin/style/courses.css";
 import { FaBook } from "react-icons/fa";
 
 function Courses() {
+  const gradients = [
+    "linear-gradient(135deg,#4f46e5,#7c3aed)",
+    "linear-gradient(135deg,#06b6d4,#3b82f6)",
+    "linear-gradient(135deg,#f97316,#fb7185)",
+    "linear-gradient(135deg,#22c55e,#14b8a6)",
+    "linear-gradient(135deg,#9333ea,#ec4899)",
+    "linear-gradient(135deg,#0ea5e9,#6366f1)",
+  ];
   const [departments, setDepartments] = useState([]);
   const [years, setYears] = useState([]);
   const [semesters, setSemesters] = useState([]);
@@ -11,33 +19,37 @@ function Courses() {
   const [selectedDept, setSelectedDept] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedSem, setSelectedSem] = useState(null);
+  const [editId, setEditId] = useState(null);
+  const handleEdit = (sub) => {
+    setEditId(sub._id);
+
+    setForm({
+      code: sub.code,
+      name: sub.name,
+      type: sub.type,
+      credits: sub.credits,
+    });
+  };
   const handleAddSubject = async () => {
-    if (!newSubject) {
-      alert("Enter subject name");
-      return;
-    }
+    const url = editId
+      ? `http://localhost:5000/api/course/subjects/${editId}`
+      : "http://localhost:5000/api/course/subjects/add";
 
-    try {
-      await fetch("http://localhost:5000/api/course/subjects/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: newSubject,
-          semesterId: selectedSem._id,
-        }),
-      });
+    const method = editId ? "PUT" : "POST";
 
-      alert("Subject Added ✅");
+    await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...form,
+        semesterId: selectedSem._id,
+      }),
+    });
 
-      setNewSubject("");
+    setEditId(null);
+    setForm({ code: "", name: "", type: "", credits: "" });
 
-      // 🔥 Refresh subjects
-      handleSemClick(selectedSem);
-    } catch (err) {
-      console.log(err);
-    }
+    handleSemClick(selectedSem);
   };
   // ================= FETCH DEPARTMENTS =================
   useEffect(() => {
@@ -161,6 +173,16 @@ function Courses() {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure?")) return;
+
+    await fetch(`http://localhost:5000/api/course/subjects/${id}`, {
+      method: "DELETE",
+    });
+
+    handleSemClick(selectedSem); // refresh
+  };
+
   return (
     <div className="container p-4">
       <h2 className="mb-4 fw-bold text-center">Courses</h2>
@@ -168,14 +190,20 @@ function Courses() {
       {/* ================= DEPARTMENTS ================= */}
       {!selectedDept && (
         <div className="row g-4">
-          {departments.map((dept) => (
+          {departments.map((dept, index) => (
             <div key={dept._id} className="col-md-3">
               <div
-                className="course-card"
+                className="department-card"
+                style={{
+                  background: gradients[index % gradients.length],
+                }}
                 onClick={() => handleDeptClick(dept)}
               >
-                <FaBook className="icon" />
-                <h5>{dept.name}</h5>
+                <FaBook className="dept-icon" />
+
+                <h4>{dept.name}</h4>
+
+                <p>View Courses</p>
               </div>
             </div>
           ))}
@@ -198,13 +226,20 @@ function Courses() {
           <h4>{selectedDept.name}</h4>
 
           <div className="row g-3 mt-2">
-            {years.map((year) => (
-              <div key={year._id} className="col-md-3">
+            {years.map((year, index) => (
+              <div key={year._id} className="col-md-4">
                 <div
-                  className="semester-card"
+                  className="year-card"
+                  style={{
+                    background: gradients[index % gradients.length],
+                  }}
                   onClick={() => handleYearClick(year)}
                 >
-                  {year.name}
+                  <FaBook className="year-icon" />
+
+                  <h4>{year.name}</h4>
+
+                  <p>View Semesters</p>
                 </div>
               </div>
             ))}
@@ -228,13 +263,20 @@ function Courses() {
           <h4>{selectedYear.name}</h4>
 
           <div className="row g-3 mt-2">
-            {semesters.map((sem) => (
-              <div key={sem._id} className="col-md-3">
+            {semesters.map((sem, index) => (
+              <div key={sem._id} className="col-md-4">
                 <div
-                  className="semester-card"
+                  className="sem-card"
+                  style={{
+                    background: gradients[index % gradients.length],
+                  }}
                   onClick={() => handleSemClick(sem)}
                 >
-                  {sem.name}
+                  <FaBook className="sem-icon" />
+
+                  <h4>{sem.name}</h4>
+
+                  <p>View Subjects</p>
                 </div>
               </div>
             ))}
@@ -242,7 +284,6 @@ function Courses() {
         </>
       )}
 
-      {/* ================= SUBJECTS ================= */}
       {/* ================= SUBJECTS ================= */}
       {selectedSem && (
         <>
@@ -279,8 +320,12 @@ function Courses() {
             <table className="table table-hover mb-0">
               <thead className="table-dark">
                 <tr>
-                  <th style={{ width: "80px" }}>Sr No</th>
-                  <th>Subject Name</th>
+                  <th>Sr No</th>
+                  {/* <th>Code</th> */}
+                  <th>Subject</th>
+                  {/* <th>Type</th> */}
+                  {/* <th>Credits</th> */}
+                  <th>Actions</th> {/* ✅ NEW */}
                 </tr>
               </thead>
 
@@ -289,13 +334,33 @@ function Courses() {
                   subjects.map((sub, index) => (
                     <tr key={sub._id}>
                       <td>{index + 1}</td>
+                      {/* <td>{sub.code}</td> */}
                       <td>{sub.name}</td>
+                      {/* <td>{sub.type}</td>
+                      <td>{sub.credits}</td> */}
+
+                      {/* ✅ BUTTONS */}
+                      <td>
+                        <button
+                          className="btn btn-sm btn-warning me-2"
+                          onClick={() => handleEdit(sub)}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleDelete(sub._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="2" className="text-center text-muted py-4">
-                      🚫 No subjects found
+                    <td colSpan="6" className="text-center">
+                      No subjects found
                     </td>
                   </tr>
                 )}

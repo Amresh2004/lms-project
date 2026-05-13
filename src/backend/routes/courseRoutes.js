@@ -83,5 +83,20 @@ router.get("/subjects/:semId", async (req, res) => {
     res.status(500).json([]);
   }
 });
-
+router.put("/subjects/:id", async (req, res) => {
+  try {
+    await Subject.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+});
+router.delete("/subjects/:id", async (req, res) => {
+  try {
+    await Subject.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+});
 export default router;
