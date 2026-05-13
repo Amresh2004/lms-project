@@ -1,88 +1,284 @@
-import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { FaBook } from "react-icons/fa";
 
-const MyCourses = () => {
-  const navigate = useNavigate();
-  const [courses, setCourses] = useState([]);
+function MyCourses() {
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [selectedSemester, setSelectedSemester] = useState(null);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const years = [
+    { _id: 1, name: "First Year" },
+    { _id: 2, name: "Second Year" },
+    { _id: 3, name: "Third Year" },
+  ];
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:5000/api/students/my-courses/${user._id}`
-        );
+  const semesters = {
+    "First Year": ["Semester 1", "Semester 2"],
+    "Second Year": ["Semester 3", "Semester 4"],
+    "Third Year": ["Semester 5", "Semester 6"],
+  };
 
-        const data = await res.json();
+  const subjects = {
+    "Semester 1": [
+      "Programming in C",
+      "Mathematics I",
+      "Computer Fundamentals",
+      "Communication Skills",
+    ],
 
-        if (data.success) {
-          setCourses(data.courses);
-        }
+    "Semester 2": [
+      "Data Structures",
+      "Operating System",
+      "DBMS",
+      "Web Designing",
+    ],
 
-      } catch (err) {
-        console.log("FETCH ERROR:", err);
-      }
-    };
+    "Semester 3": [
+      "Java Programming",
+      "Python",
+      "Software Engineering",
+      "Computer Networks",
+    ],
 
-    fetchCourses();
-  }, []);
+    "Semester 4": [
+      "PHP",
+      "Advanced Java",
+      "Linux",
+      "Cyber Security",
+    ],
+
+    "Semester 5": [
+      "Machine Learning",
+      "Cloud Computing",
+      "React JS",
+      "Project Work",
+    ],
+
+    "Semester 6": [
+      "AI",
+      "Data Science",
+      "Internship",
+      "Major Project",
+    ],
+  };
 
   return (
-    <div className="container py-4">
-      <h2 className="fw-bold">My Courses</h2>
-      <p className="text-muted">View all your enrolled courses</p>
+    <div className="container-fluid p-4">
+      {/* TITLE */}
+      <div className="text-center mb-4">
+        <h1
+          style={{
+            fontSize: "42px",
+            fontWeight: "700",
+            color: "#111827",
+          }}
+        >
+          📘 My Courses
+        </h1>
+      </div>
 
-      <div className="row g-4 mt-2">
-        {courses.length > 0 ? (
-          courses.map((c, index) => (
-            <div className="col-md-6" key={index}>
-              <div className={`course-card ${c.color}`}>
+      {/* DEPARTMENT */}
+      <h2
+        style={{
+          marginBottom: "22px",
+          fontWeight: "600",
+          fontSize: "22px",
+          color: "#111827",
+        }}
+      >
+        Department :{" "}
+        <span style={{ color: "#2563eb" }}>BCA</span>
+      </h2>
 
-                <div className="d-flex justify-content-between align-items-center">
-                  <h5 className="fw-bold">{c.title}</h5>
-                  <span className="semester">{c.semester}</span>
-                </div>
+      {/* YEARS */}
+      {!selectedYear && (
+        <div className="row g-3">
+          {years.map((year, index) => (
+            <div className="col-lg-4 col-md-6" key={year._id}>
+              <div
+                onClick={() => setSelectedYear(year.name)}
+                style={{
+                  background:
+                    index === 0
+                      ? "linear-gradient(135deg,#4f46e5,#9333ea)"
+                      : index === 1
+                      ? "linear-gradient(135deg,#06b6d4,#3b82f6)"
+                      : "linear-gradient(135deg,#f97316,#fb7185)",
 
-                <p className="text-muted mb-1">
-                  Course Code: {c.code}
-                </p>
-
-                <p className="mb-1">👨‍🏫 {c.faculty}</p>
-
-                <div className="mt-3">
-                  <div className="d-flex justify-content-between">
-                    <small>Course Progress</small>
-                    <small>{c.progress}%</small>
-                  </div>
-
-                  <div className="progress-bar-bg">
-                    <div
-                      className={`progress-fill ${c.color}`}
-                      style={{ width: `${c.progress}%` }}
-                    ></div>
-                  </div>
-                </div>
-
-                <button
-                  className={`open-btn ${c.color}`}
-                  onClick={() =>
-                    navigate(`/student/course/${c.code}`)
-                  }
+                  borderRadius: "18px",
+                  padding: "22px",
+                  cursor: "pointer",
+                  color: "white",
+                  height: "165px",
+                  boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "24px",
+                    marginBottom: "14px",
+                  }}
                 >
-                  Open Course →
-                </button>
+                  <FaBook />
+                </div>
 
+                <h2
+                  style={{
+                    fontWeight: "700",
+                    fontSize: "24px",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {year.name}
+                </h2>
+
+                <p
+                  style={{
+                    fontSize: "14px",
+                    margin: 0,
+                  }}
+                >
+                  View Semesters
+                </p>
               </div>
             </div>
-          ))
-        ) : (
-          <p>No courses assigned</p>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
+
+      {/* SEMESTERS */}
+      {selectedYear && !selectedSemester && (
+        <>
+          <button
+            className="btn btn-secondary mb-3"
+            onClick={() => setSelectedYear(null)}
+          >
+            ← Back
+          </button>
+
+          <h2
+            style={{
+              marginBottom: "22px",
+              fontWeight: "600",
+              fontSize: "24px",
+              color: "#111827",
+            }}
+          >
+            {selectedYear}
+          </h2>
+
+          <div className="row g-3">
+            {semesters[selectedYear].map((sem, index) => (
+              <div className="col-lg-4 col-md-6" key={index}>
+                <div
+                  onClick={() => setSelectedSemester(sem)}
+                  style={{
+                    background:
+                      index % 2 === 0
+                        ? "linear-gradient(135deg,#4f46e5,#9333ea)"
+                        : "linear-gradient(135deg,#06b6d4,#3b82f6)",
+
+                    borderRadius: "18px",
+                    padding: "22px",
+                    color: "white",
+                    height: "155px",
+                    cursor: "pointer",
+                    boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "22px",
+                      marginBottom: "14px",
+                    }}
+                  >
+                    <FaBook />
+                  </div>
+
+                  <h2
+                    style={{
+                      fontWeight: "700",
+                      fontSize: "22px",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {sem}
+                  </h2>
+
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      margin: 0,
+                    }}
+                  >
+                    View Subjects
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* SUBJECTS */}
+      {selectedSemester && (
+        <>
+          <button
+            className="btn btn-secondary mb-3"
+            onClick={() => setSelectedSemester(null)}
+          >
+            ← Back
+          </button>
+
+          <h2
+            style={{
+              marginBottom: "22px",
+              fontWeight: "600",
+              fontSize: "24px",
+            }}
+          >
+            {selectedSemester}
+          </h2>
+
+          {/* CENTERED TABLE */}
+          <div className="d-flex justify-content-center">
+            <div
+              className="card shadow-sm border-0"
+              style={{
+                width: "75%",
+                borderRadius: "18px",
+              }}
+            >
+              <div className="card-body p-4">
+                <table className="table">
+                  <thead className="table-dark">
+                    <tr>
+                      <th style={{ width: "120px" }}>Sr No</th>
+                      <th>Subject Name</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {subjects[selectedSemester].map((sub, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{sub}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
-};
+}
 
 export default MyCourses;

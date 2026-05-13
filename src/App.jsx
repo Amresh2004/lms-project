@@ -59,6 +59,7 @@ import CreateAssignment from "./pages/faculty/CreateAssignment";
 import SubmitAssignment from "./pages/student/SubmitAssignment";
 
 // Student
+import StudentCourses from "./pages/student/MyCourses";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import Dashboard1 from "./pages/student/Dashboard";
 import StudentMyCourses from "./pages/student/MyCourses";
