@@ -163,21 +163,75 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 // =============================
 
 
-
 router.get("/", async (req, res) => {
   try {
-    const materials = await Materials.find().sort({ createdAt: -1 });
+    const materials = await Materials.find()
+      .sort({ createdAt: -1 });
 
     return res.status(200).json({
       success: true,
-      materials: materials, // ✅ IMPORTANT FIX
+      materials,
     });
 
   } catch (error) {
-    console.error("Fetch materials error:", error);
+    console.error(error);
+
     return res.status(500).json({
       success: false,
-      message: "Failed to fetch materials",
+      message: error.message,
+    });
+  }
+});
+
+
+// =============================
+// 📚 STUDENT MATERIALS
+// =============================
+router.get("/student", async (req, res) => {
+  try {
+    const { course, semester } = req.query;
+
+    const materials = await Materials.find({
+      course,
+      semester,
+    }).sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      materials,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+// =============================
+// 📚 FACULTY MATERIALS
+// =============================
+
+router.get("/faculty/:email", async (req, res) => {
+  try {
+    const email = req.params.email.toLowerCase();
+
+    const materials = await Materials.find({
+      facultyEmail: email,
+    }).sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      materials,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 });

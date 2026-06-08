@@ -103,3 +103,63 @@ function FacultyDashboard() {
 }
 
 export default FacultyDashboard;
+
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+
+// function FacultyDashboard() {
+//   const [stats, setStats] = useState({});
+
+//   useEffect(() => {
+//     const facultyId = localStorage.getItem("facultyId");
+
+//     axios
+//       .get(`http://localhost:5000/faculty/dashboard/${facultyId}`)
+//       .then((res) => setStats(res.data))
+//       .catch((err) => console.log(err));
+//   }, []);
+
+//   return (
+//     <div className="container mt-4">
+//       <div className="row g-4">
+//         <div className="col-md-3">
+//           <div className="card shadow">
+//             <div className="card-body text-center">
+//               <h6>Courses Assigned</h6>
+//               <h2>{stats.totalCourses}</h2>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className="col-md-3">
+//           <div className="card shadow">
+//             <div className="card-body text-center">
+//               <h6>Students Enrolled</h6>
+//               <h2>{stats.totalStudents}</h2>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className="col-md-3">
+//           <div className="card shadow">
+//             <div className="card-body text-center">
+//               <h6>Assignments Created</h6>
+//               <h2>{stats.totalAssignments}</h2>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className="col-md-3">
+//           <div className="card shadow">
+//             <div className="card-body text-center">
+//               <h6>Pending Submissions</h6>
+//               <h2>{stats.pendingSubmissions}</h2>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default FacultyDashboard;

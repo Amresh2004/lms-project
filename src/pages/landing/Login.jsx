@@ -92,8 +92,11 @@ function Login() {
         // ✅ store full user
 
         localStorage.setItem(
-          "user",
-          JSON.stringify({ ...data.student, role: "student" }),
+          "student",
+          JSON.stringify({  name: data.student.name,
+    email: data.student.email,
+    course: data.student.course,
+    semester: data.student.semester, }),
         );
 
         // ✅ IMPORTANT: store studentId separately
@@ -115,8 +118,9 @@ function Login() {
       if (res.ok) {
         const data = await res.json();
         localStorage.setItem(
-          "user",
-          JSON.stringify({ ...data.faculty, role: "faculty" }),
+          "faculty",
+          JSON.stringify({ email: data.faculty.email,
+    name: data.faculty.name,}),
         );
         setUserRole("faculty");
         setShowPopup(true);
@@ -451,132 +455,3 @@ function Login() {
 }
 
 export default Login;
-
-//15
-// import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import "bootstrap/dist/css/bootstrap.min.css";
-
-// function Login() {
-//   const navigate = useNavigate();
-
-//   const [loginData, setLoginData] = useState({
-//     email: "",
-//     password: "",
-//   });
-
-//   const handleChange = (e) => {
-//     setLoginData({
-//       ...loginData,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
-
-//   // 🔥 MAIN LOGIN FUNCTION (ADMIN + STUDENT + FACULTY)
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     try {
-//       // ================= ADMIN LOGIN =================
-//       if (
-//         loginData.email === "admin@gmail.com" &&
-//         loginData.password === "123456"
-//       ) {
-//         localStorage.setItem(
-//           "user",
-//           JSON.stringify({ email: "admin@gmail.com", role: "admin" })
-//         );
-//         alert("Admin Login Success");
-//         navigate("/admin/dashboard");
-//         return;
-//       }
-
-//       // ================= STUDENT LOGIN =================
-//       let res = await fetch("http://localhost:5000/api/students/login", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(loginData),
-//       });
-
-//       if (res.ok) {
-//         const data = await res.json();
-
-//         localStorage.setItem(
-//           "user",
-//           JSON.stringify({ ...data.student, role: "student" })
-//         );
-
-//         alert("Student Login Success");
-//         navigate("/student/dashboard");
-//         return;
-//       }
-
-//       // ================= FACULTY LOGIN =================
-//       res = await fetch("http://localhost:5000/api/faculty/login", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(loginData),
-//       });
-
-//       if (res.ok) {
-//         const data = await res.json();
-
-//         localStorage.setItem(
-//           "user",
-//           JSON.stringify({ ...data.faculty, role: "faculty" })
-//         );
-
-//         alert("Faculty Login Success");
-//         navigate("/faculty/dashboard");
-//         return;
-//       }
-
-//       // ================= INVALID =================
-//       alert("Invalid Email or Password");
-//     } catch (error) {
-//       console.log(error);
-//       alert("Server Error");
-//     }
-//   };
-
-//   return (
-//     <div
-//       className="d-flex justify-content-center align-items-center"
-//       style={{ height: "100vh", background: "#f3f4f6" }}
-//     >
-//       <div className="card shadow p-4" style={{ width: "400px" }}>
-//         <h3 className="text-center mb-4">LMS Login</h3>
-
-//         <form onSubmit={handleSubmit}>
-//           <input
-//             type="email"
-//             name="email"
-//             placeholder="Email"
-//             className="form-control mb-3"
-//             value={loginData.email}
-//             onChange={handleChange}
-//             required
-//           />
-
-//           <input
-//             type="password"
-//             name="password"
-//             placeholder="Password"
-//             className="form-control mb-3"
-//             value={loginData.password}
-//             onChange={handleChange}
-//             required
-//           />
-
-//           <button className="btn btn-primary w-100">Login</button>
-//         </form>
-
-//         <div className="mt-3 text-center">
-//           <small>Admin → admin@gmail.com / 123456</small>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Login;
