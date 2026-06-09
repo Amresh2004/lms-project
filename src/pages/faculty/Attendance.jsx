@@ -1,298 +1,421 @@
-import React, { useState, useEffect } from "react";
-// import { Pie } from "react-chartjs-2";
-import "chart.js/auto";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Attendance = () => {
-  const [records, setRecords] = useState([]);
-
-  const [form, setForm] = useState({
-    studentId: "",
-    subject: "",
-    date: "",
-    status: "Present",
-  });
-
-  const [editId, setEditId] = useState(null);
-
   const [students, setStudents] = useState([]);
+  const [attendance, setAttendance] = useState({});
+  const [subject, setSubject] = useState("");
+  const [date, setDate] = useState("");
+  const [records, setRecords] = useState([]);
+  const [selectedYear, setSelectedYear] = useState("");
+const [selectedCourse, setSelectedCourse] = useState("");
+const [recordYear, setRecordYear] = useState("");
+const [recordCourse, setRecordCourse] = useState("");
+const [recordDate, setRecordDate] = useState("");
 
-  // ================= API =================
   const API = "http://localhost:5000/api/attendance";
 
-  // ================= LOAD STUDENTS =================
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/students/all")
-      .then((res) => {
-        setStudents(res.data);
-      })
-      .catch((err) => {
-        console.log("Student Fetch Error:", err);
-      });
+    fetchStudents();
+    fetchAttendance();
   }, []);
 
-  // ================= LOAD ATTENDANCE =================
-  const fetchData = async () => {
+  // ================= FETCH STUDENTS =================
+  const fetchStudents = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/students/all"
+      );
+
+      console.log("Students Data:", res.data);
+
+      setStudents(res.data || []);
+    } catch (err) {
+      console.log("Student Fetch Error:", err);
+    }
+  };
+
+  // ================= FETCH ATTENDANCE =================
+  const fetchAttendance = async () => {
     try {
       const res = await axios.get(API);
-      setRecords(res.data);
+      setRecords(res.data || []);
     } catch (err) {
       console.log("Attendance Fetch Error:", err);
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // ================= HANDLE INPUT =================
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+  // ================= HANDLE STATUS =================
+  const handleStatusChange = (studentId, status) => {
+    setAttendance((prev) => ({
+      ...prev,
+      [studentId]: status,
+    }));
   };
 
-  // ================= ADD / UPDATE =================
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // ================= SAVE ATTENDANCE =================
+  const saveAttendance = async () => {
+    if (!subject.trim()) {
+      alert("Please enter subject");
+      return;
+    }
 
-    if (
-      !form.studentId ||
-      !form.subject ||
-      !form.date ||
-      !form.status
-    ) {
-      alert("Fill all fields");
+    if (!date) {
+      alert("Please select date");
       return;
     }
 
     try {
-      if (editId) {
-        await axios.put(`${API}/update/${editId}`, form);
-        alert("Attendance updated ✅");
-      } else {
-        await axios.post(`${API}/add`, form);
-        alert("Attendance added ✅");
-      }
+      const attendanceData = filteredStudents.map((student) => ({
+        studentId: student._id,
+        subject,
+        date,
+        status: attendance[student._id] || "Present",
+      }));
 
-      fetchData();
-
-      // RESET FORM
-      setForm({
-        studentId: "",
-        subject: "",
-        date: "",
-        status: "Present",
+      await axios.post(`${API}/bulk`, {
+        records: attendanceData,
       });
 
-      setEditId(null);
+      alert("Attendance Saved Successfully ✅");
 
+      setAttendance({});
+      setSubject("");
+      setDate("");
+
+      fetchAttendance();
     } catch (err) {
-      console.log("Submit Error:", err);
-      alert("Something went wrong");
+      console.log("Save Error:", err);
+      alert("Error saving attendance");
     }
   };
+const filteredStudents = students.filter(
+  (student) =>
+    student.year === selectedYear &&
+    student.course === selectedCourse
+);
 
-  // ================= DELETE =================
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${API}/delete/${id}`);
+const courses = [
+  ...new Set(
+    students
+      .filter((student) => student.year === selectedYear)
+      .map((student) => student.course)
+  ),
+];
+const filteredRecords = records.filter((record) => {
+  const yearMatch =
+    !recordYear ||
+    record.studentId?.year === recordYear;
 
-      alert("Attendance deleted ✅");
+  const courseMatch =
+    !recordCourse ||
+    record.studentId?.course === recordCourse;
 
-      fetchData();
+  const dateMatch =
+    !recordDate ||
+    record.date === recordDate;
 
-    } catch (err) {
-      console.log("Delete Error:", err);
-    }
-  };
-
-  // ================= EDIT =================
-  const handleEdit = (r) => {
-    setForm({
-      studentId: r.studentId?._id || "",
-      subject: r.subject || "",
-      date: r.date
-        ? new Date(r.date).toISOString().split("T")[0]
-        : "",
-      status: r.status || "Present",
-    });
-
-    setEditId(r._id);
-  };
-
+  return yearMatch && courseMatch && dateMatch;
+});
   return (
+    
     <div className="container-fluid">
 
-      <h3 className="fw-bold">Attendance</h3>
+      {/* Header */}
+      <div className="mb-4">
+        <h3 className="fw-bold">Attendance Management</h3>
+        <p className="text-muted">
+          Mark attendance for all students
+        </p>
+      </div>
+      <div className="card shadow-sm p-4 mb-4">
+  <h5 className="fw-bold mb-3">Select Year</h5>
 
-      <p className="text-muted">
-        Manage student attendance
-      </p>
-
-      {/* ================= FORM ================= */}
-      <form
-        onSubmit={handleSubmit}
-        className="card p-4 shadow-sm mb-4"
+  <div className="d-flex gap-2 flex-wrap mb-3">
+    {["First Year", "Second Year", "Third Year"].map((year) => (
+      <button
+        key={year}
+        type="button"
+        className={`btn ${
+          selectedYear === year
+            ? "btn-primary"
+            : "btn-outline-primary"
+        }`}
+        onClick={() => {
+          setSelectedYear(year);
+          setSelectedCourse("");
+        }}
       >
+        {year}
+      </button>
+    ))}
+  </div>
 
+  {selectedYear && (
+    <>
+      <h5 className="fw-bold mb-3">Select Course</h5>
+
+      <div className="d-flex gap-2 flex-wrap">
+        {courses.map((course) => (
+          <button
+            key={course}
+            type="button"
+            className={`btn ${
+              selectedCourse === course
+                ? "btn-success"
+                : "btn-outline-success"
+            }`}
+            onClick={() => setSelectedCourse(course)}
+          >
+            {course}
+          </button>
+        ))}
+      </div>
+    </>
+  )}
+</div>
+
+      {/* Subject & Date */}
+      <div className="card shadow-sm p-4 mb-4">
         <div className="row g-3">
 
-          {/* STUDENT */}
-          <div className="col-md-3">
-            <select
-              name="studentId"
-              className="form-select"
-              value={form.studentId}
-              onChange={handleChange}
-            >
-              <option value="">
-                Select Student
-              </option>
-
-              {students.map((s) => (
-                <option key={s._id} value={s._id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* SUBJECT */}
-          <div className="col-md-3">
+          <div className="col-md-5">
             <input
               type="text"
-              name="subject"
-              placeholder="Subject"
               className="form-control"
-              value={form.subject}
-              onChange={handleChange}
+              placeholder="Enter Subject"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
             />
           </div>
 
-          {/* DATE */}
-          <div className="col-md-3">
+          <div className="col-md-4">
             <input
               type="date"
-              name="date"
               className="form-control"
-              value={form.date}
-              onChange={handleChange}
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
             />
           </div>
 
-          {/* STATUS */}
           <div className="col-md-3">
-            <select
-              name="status"
-              className="form-select"
-              value={form.status}
-              onChange={handleChange}
+            <button
+              className="btn btn-success w-100"
+              onClick={saveAttendance}
             >
-              <option value="Present">
-                Present
-              </option>
-
-              <option value="Absent">
-                Absent
-              </option>
-            </select>
-          </div>
-
-          {/* BUTTON */}
-          <div className="col-md-3">
-            <button className="btn btn-primary w-100">
-              {editId ? "Update" : "Add"}
+              Save Attendance
             </button>
           </div>
 
         </div>
-      </form>
+      </div>
 
-      {/* ================= TABLE ================= */}
-      <div className="card p-4 shadow-sm">
-
+      {/* Student Attendance */}
+{selectedYear && selectedCourse && (
+<div className="card shadow-sm p-4 mb-4">
         <h5 className="fw-bold mb-3">
-          Records
+          Mark Student Attendance
         </h5>
 
-        <table className="table table-bordered">
+        <div className="table-responsive">
+          <table className="table table-bordered table-hover align-middle">
 
-          <thead>
-            <tr>
-              <th>Student Name</th>
-              <th>Subject</th>
-              <th>Date</th>
-              <th>Attendance Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            {records.length === 0 ? (
+            <thead className="table-light">
               <tr>
-                <td colSpan="5" className="text-center">
-                  No attendance records
-                </td>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Year</th>
+                <th>Status</th>
               </tr>
-            ) : (
-              records.map((r) => (
-                <tr key={r._id}>
+            </thead>
 
-                  <td>
-                    {r.studentId?.name || "N/A"}
-                  </td>
+            <tbody>
 
-                  <td>
-                    {r.subject}
-                  </td>
+             {!selectedYear || !selectedCourse ? (
+  <tr>
+    <td colSpan="5" className="text-center">
+      Please Select Year And Course
+    </td>
+  </tr>
+) : filteredStudents.length === 0 ? (
+  <tr>
+    <td colSpan="5" className="text-center">
+      No Students Found
+    </td>
+  </tr>
+) : (
+  filteredStudents.map((student) => (
+                  <tr key={student._id}>
 
-                  <td>
-                    {r.date
-                      ? new Date(r.date).toLocaleDateString()
-                      : "N/A"}
-                  </td>
+                    <td>{student.rollNo || "-"}</td>
 
-                  <td>
-                    <span
-                      className={`badge ${
-                        r.status === "Present"
-                          ? "bg-success"
-                          : "bg-danger"
-                      }`}
-                    >
-                      {r.status}
-                    </span>
-                  </td>
+                    <td>
+                      {student.fullName ||
+                        student.name ||
+                        student.studentName ||
+                        "No Name"}
+                    </td>
 
-                  <td>
+                    <td>{student.course || "-"}</td>
 
-                    <button
-                      className="btn btn-warning btn-sm me-2"
-                      onClick={() => handleEdit(r)}
-                    >
-                      Edit
-                    </button>
+                    <td>{student.year || "-"}</td>
 
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(r._id)}
-                    >
-                      Delete
-                    </button>
+                    <td>
+                      <select
+                        className="form-select"
+                        value={
+                          attendance[student._id] ||
+                          "Present"
+                        }
+                        onChange={(e) =>
+                          handleStatusChange(
+                            student._id,
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value="Present">
+                          Present
+                        </option>
 
-                  </td>
+                        <option value="Absent">
+                          Absent
+                        </option>
+                      </select>
+                    </td>
 
-                </tr>
-              ))
-            )}
+                  </tr>
+                ))
+              )}
 
-          </tbody>
-        </table>
+            </tbody>
+
+          </table>
+        </div>
       </div>
+)}
+<div className="row mb-3">
+
+  <div className="col-md-4">
+    <select
+      className="form-select"
+      value={recordYear}
+      onChange={(e) => {
+        setRecordYear(e.target.value);
+        setRecordCourse("");
+      }}
+    >
+      <option value="">Select Year</option>
+      <option value="First Year">First Year</option>
+      <option value="Second Year">Second Year</option>
+      <option value="Third Year">Third Year</option>
+    </select>
+  </div>
+
+  <div className="col-md-4">
+    <select
+      className="form-select"
+      value={recordCourse}
+      onChange={(e) => setRecordCourse(e.target.value)}
+    >
+      <option value="">Select Course</option>
+
+      {[
+        ...new Set(
+          records
+            .filter(
+              (r) =>
+                !recordYear ||
+                r.studentId?.year === recordYear
+            )
+            .map((r) => r.studentId?.course)
+        ),
+      ].map((course) => (
+        <option key={course} value={course}>
+          {course}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  <div className="col-md-4">
+    <input
+      type="date"
+      className="form-control"
+      value={recordDate}
+      onChange={(e) => setRecordDate(e.target.value)}
+    />
+  </div>
+
+</div>
+      {/* Attendance History */}
+      <div className="card shadow-sm p-4">
+
+        <h5 className="fw-bold mb-3">
+          Attendance Records
+        </h5>
+
+        <div className="table-responsive">
+          <table className="table table-bordered table-hover">
+
+            <thead className="table-light">
+              <tr>
+                <th>Student</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {filteredRecords.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="4"
+                    className="text-center"
+                  >
+                    No Records Found
+                  </td>
+                </tr>
+              ) : (
+                filteredRecords.map((record) => (
+                  <tr key={record._id}>
+
+                    <td>
+                      {record.studentId?.fullName ||
+                        record.studentId?.name ||
+                        "N/A"}
+                    </td>
+
+                    <td>{record.subject}</td>
+
+                    <td>{record.date}</td>
+
+                    <td>
+                      <span
+                        className={`badge ${
+                          record.status === "Present"
+                            ? "bg-success"
+                            : "bg-danger"
+                        }`}
+                      >
+                        {record.status}
+                      </span>
+                    </td>
+
+                  </tr>
+                ))
+              )}
+
+            </tbody>
+
+          </table>
+        </div>
+
+      </div>
+
     </div>
   );
 };

@@ -12,7 +12,7 @@ const router = express.Router();
 router.get("/student/:id", async (req, res) => {
   try {
     const data = await Attendance.find({ studentId: req.params.id })
-      .populate("studentId", "name email");
+      .populate("studentId", "fullName email");
 
     res.json(data);
   } catch (err) {
@@ -24,7 +24,7 @@ router.get("/student/:id", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const data = await Attendance.find()
-            .populate("studentId", "name email");
+            .populate("studentId", "fullName email");
 
         res.json(data);
     } catch (err) {
@@ -68,10 +68,10 @@ router.post("/add", async (req, res) => {
 // ✅ UPDATE RECORD
 router.put("/update/:id", async (req, res) => {
     try {
-        const { name, date, status } = req.body;
+        const { fullName, date, status } = req.body;
 
         await Attendance.findByIdAndUpdate(req.params.id, {
-            name,
+            fullName,
             date,
             status
         });
@@ -93,4 +93,44 @@ router.delete("/delete/:id", async (req, res) => {
     }
 });
 
+router.post("/bulk", async (req, res) => {
+  try {
+    const { records } = req.body;
+
+    if (!records || records.length === 0) {
+      return res.status(400).json({
+        message: "No attendance records found",
+      });
+    }
+
+    const attendanceRecords = [];
+
+    for (const record of records) {
+      const exists = await Attendance.findOne({
+        studentId: record.studentId,
+        subject: record.subject,
+        date: record.date,
+      });
+
+      if (!exists) {
+        attendanceRecords.push(record);
+      }
+    }
+
+    if (attendanceRecords.length > 0) {
+      await Attendance.insertMany(attendanceRecords);
+    }
+
+    res.json({
+      success: true,
+      message: "Attendance saved successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
 export default router;
