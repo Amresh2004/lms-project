@@ -1,4 +1,4 @@
-//15
+// //15
 import mongoose from "mongoose";
 
 const FacultySchema = new mongoose.Schema({
