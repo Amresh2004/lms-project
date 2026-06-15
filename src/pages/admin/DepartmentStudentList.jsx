@@ -4,7 +4,10 @@ import { Container, Table, Card, Button, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function DepartmentStudentList() {
-  const { dept } = useParams();
+  const { dept, year } = useParams();
+
+const selectedCourse = decodeURIComponent(dept);
+const selectedYear = decodeURIComponent(year);
   const navigate = useNavigate();
 
   const [students, setStudents] = useState([]);
@@ -14,12 +17,25 @@ export default function DepartmentStudentList() {
   // 🔵 Fetch Students
   useEffect(() => {
     fetchStudents();
-  }, [dept]);
+  }, [dept, year]);
 
   const fetchStudents = async () => {
-    const res = await axios.get("http://localhost:5000/api/students/all");
-    const filtered = res.data.filter((s) => s.course === dept);
-    setStudents(filtered);
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/students/all"
+      );
+
+      
+        const filtered = res.data.filter(
+  (s) =>
+    s.course === selectedCourse &&
+    s.year === selectedYear
+);
+
+      setStudents(filtered);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // 🔵 Edit
@@ -30,7 +46,10 @@ export default function DepartmentStudentList() {
 
   // 🔵 Input change
   const handleChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
+    setEditData({
+      ...editData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   // 🟢 Save Update
@@ -40,7 +59,7 @@ export default function DepartmentStudentList() {
 
       await axios.put(
         `http://localhost:5000/api/students/update/${editId}`,
-        updatedData,
+        updatedData
       );
 
       alert("Student Updated Successfully");
@@ -53,12 +72,16 @@ export default function DepartmentStudentList() {
     }
   };
 
+  // 🔴 Delete
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/students/delete/${id}`);
+      await axios.delete(
+        `http://localhost:5000/api/students/delete/${id}`
+      );
+
       alert("Student Deleted Successfully");
 
-      fetchStudents(); // refresh list
+      fetchStudents();
     } catch (err) {
       console.log(err);
       alert("Delete Failed");
@@ -67,7 +90,11 @@ export default function DepartmentStudentList() {
 
   return (
     <div
-      style={{ background: "#f5f7fb", minHeight: "100vh", paddingTop: "30px" }}
+      style={{
+        background: "#f5f7fb",
+        minHeight: "100vh",
+        paddingTop: "30px",
+      }}
     >
       <Container>
         {/* BACK BUTTON */}
@@ -81,13 +108,22 @@ export default function DepartmentStudentList() {
             padding: "10px 18px",
             fontWeight: "500",
           }}
-          onClick={() => navigate("/admin/view-student")}
+          onClick={() =>
+            navigate(
+              `/admin/view-student/${encodeURIComponent(dept)}`
+            )
+          }
         >
-          ← Back to Students
+          ← Back to Years
         </button>
 
-        <Card className="shadow border-0 p-4" style={{ borderRadius: "18px" }}>
-          <h2 className="text-center fw-bold mb-4">{dept} Students</h2>
+        <Card
+          className="shadow border-0 p-4"
+          style={{ borderRadius: "18px" }}
+        >
+          <h2 className="text-center fw-bold mb-4">
+            {selectedCourse} - {selectedYear} Students
+          </h2>
 
           <Table bordered hover responsive className="align-middle">
             <thead style={{ background: "#eef2ff" }}>
@@ -103,89 +139,99 @@ export default function DepartmentStudentList() {
             </thead>
 
             <tbody>
-              {students.map((s) => (
-                <tr key={s._id} className="text-center">
-                  <td>
-                    {editId === s._id ? (
-                      <Form.Control
-                        name="rollNo"
-                        value={editData.rollNo}
-                        onChange={handleChange}
-                      />
-                    ) : (
-                      s.rollNo
-                    )}
-                  </td>
+              {students.length > 0 ? (
+                students.map((s) => (
+                  <tr key={s._id} className="text-center">
+                    <td>
+                      {editId === s._id ? (
+                        <Form.Control
+                          name="rollNo"
+                          value={editData.rollNo}
+                          onChange={handleChange}
+                        />
+                      ) : (
+                        s.rollNo
+                      )}
+                    </td>
 
-                  <td>
-                    {editId === s._id ? (
-                      <Form.Control
-                        name="fullName"
-                        value={editData.fullName}
-                        onChange={handleChange}
-                      />
-                    ) : (
-                      s.fullName
-                    )}
-                  </td>
+                    <td>
+                      {editId === s._id ? (
+                        <Form.Control
+                          name="fullName"
+                          value={editData.fullName}
+                          onChange={handleChange}
+                        />
+                      ) : (
+                        s.fullName
+                      )}
+                    </td>
 
-                  <td>
-                    {editId === s._id ? (
-                      <Form.Control
-                        name="email"
-                        value={editData.email}
-                        onChange={handleChange}
-                      />
-                    ) : (
-                      s.email
-                    )}
-                  </td>
+                    <td>
+                      {editId === s._id ? (
+                        <Form.Control
+                          name="email"
+                          value={editData.email}
+                          onChange={handleChange}
+                        />
+                      ) : (
+                        s.email
+                      )}
+                    </td>
 
-                  <td>
-                    {editId === s._id ? (
-                      <Form.Control
-                        name="phone"
-                        value={editData.phone}
-                        onChange={handleChange}
-                      />
-                    ) : (
-                      s.phone
-                    )}
-                  </td>
+                    <td>
+                      {editId === s._id ? (
+                        <Form.Control
+                          name="phone"
+                          value={editData.phone}
+                          onChange={handleChange}
+                        />
+                      ) : (
+                        s.phone
+                      )}
+                    </td>
 
-                  <td>{s.course}</td>
-                  <td>{s.year}</td>
+                    <td>{s.course}</td>
+                    <td>{s.year}</td>
 
-                  {/* ACTION */}
-
-                  <td>
-                    {editId === s._id ? (
-                      <Button variant="success" size="sm" onClick={handleSave}>
-                        Save
-                      </Button>
-                    ) : (
-                      <>
+                    <td>
+                      {editId === s._id ? (
                         <Button
-                          variant="primary"
+                          variant="success"
                           size="sm"
-                          onClick={() => handleEdit(s)}
-                          style={{ marginRight: "8px" }}
+                          onClick={handleSave}
                         >
-                          Edit
+                          Save
                         </Button>
+                      ) : (
+                        <>
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => handleEdit(s)}
+                            style={{ marginRight: "8px" }}
+                          >
+                            Edit
+                          </Button>
 
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          onClick={() => handleDelete(s._id)}
-                        >
-                          Delete
-                        </Button>
-                      </>
-                    )}
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleDelete(s._id)}
+                          >
+                            Delete
+                          </Button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="text-center py-4">
+                    No students found for this course and year.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </Table>
         </Card>

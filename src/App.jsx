@@ -122,19 +122,26 @@ function App() {
             />
 
             <Route path="/admin/manage-student" element={<ManageStudent />} />
-            <Route path="/admin/student/add" element={<AddStudent />} />
-            <Route
-              path="/admin/view-student"
-              element={<ViewStudentDepartment />}
-            />
-            <Route
-              path="/admin/view-student/:dept"
-              element={<DepartmentStudentList />}
-            />
-            <Route
-              path="/admin/students/:dept/:year"
-              element={<SelectYear />}
-            />
+
+<Route path="/admin/student/add" element={<AddStudent />} />
+
+{/* Course Selection */}
+<Route
+  path="/admin/view-student"
+  element={<ViewStudentDepartment />}
+/>
+
+{/* Year Selection */}
+<Route
+  path="/admin/view-student/:dept"
+  element={<SelectYear />}
+/>
+
+{/* Student List */}
+<Route
+  path="/admin/view-student/:dept/:year"
+  element={<DepartmentStudentList />}
+/>
             <Route
               path="*"
               element={

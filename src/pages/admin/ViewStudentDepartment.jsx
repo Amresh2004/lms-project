@@ -1,6 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaLaptopCode, FaFlask, FaChartLine, FaDatabase } from "react-icons/fa";
+import {
+  FaLaptopCode,
+  FaFlask,
+  FaChartLine,
+  FaDatabase,
+} from "react-icons/fa";
 
 const courses = [
   { name: "BCA", icon: <FaLaptopCode />, color: "#3b82f6" },
@@ -19,45 +24,27 @@ export default function ViewStudentDepartment() {
 
   return (
     <div className="container py-4">
-
-      {/* BACK BUTTON */}
-      <button
-        className="btn d-flex align-items-center gap-2 shadow-sm mb-4"
-        style={{
-          background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
-          color: "white",
-          border: "none",
-          borderRadius: "12px",
-          padding: "10px 18px",
-          fontWeight: "500",
-          transition: "0.3s"
-        }}
-        onClick={() => navigate("/admin/manage-student")}
-        onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
-        onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
-      >
-        ← Back to Manage Students
-      </button>
-
-      <h2 className="fw-bold mb-4 text-center">Student Courses</h2>
+      <h2 className="text-center fw-bold mb-4">
+        Select Course
+      </h2>
 
       <div className="row g-4">
-        {courses.map((dept, i) => (
-          <div className="col-md-4" key={i}>
+        {courses.map((course) => (
+          <div className="col-md-4" key={course.name}>
             <div
               className="p-4 text-white shadow"
               style={{
                 borderRadius: "20px",
-                background: `linear-gradient(135deg, ${dept.color}, #00000020)`,
+                background: `linear-gradient(135deg, ${course.color}, #00000020)`,
                 cursor: "pointer",
-                transition: "0.3s",
-                height: "150px"
               }}
-              onClick={() => navigate(`/admin/view-student/${dept.name}`)}
+              onClick={() =>
+                navigate(`/admin/view-student/${encodeURIComponent(course.name)}`)
+              }
             >
-              <div style={{ fontSize: "30px" }}>{dept.icon}</div>
-              <h4 className="mt-3">{dept.name}</h4>
-              <p>View Students</p>
+              <div style={{ fontSize: "30px" }}>{course.icon}</div>
+              <h4 className="mt-3">{course.name}</h4>
+              <p>Select Year</p>
             </div>
           </div>
         ))}

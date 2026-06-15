@@ -17,10 +17,32 @@ export default function DepartmentFacultyList() {
   }, [dept]);
 
   const fetchFaculty = async () => {
-    const res = await axios.get("http://localhost:5000/api/faculty/all");
-    const filtered = res.data.filter((f) => f.department === dept);
+  try {
+    const res = await axios.get(
+      "http://localhost:5000/api/faculty/all"
+    );
+
+    const departmentMapping = {
+      CS: ["BCA", "BBA (CA)", "BSc (CS)"],
+      BM: ["BBA", "BCom (BM)", "BCom (CA)", "MCA"],
+      Commerce: ["BCom (BM)", "BCom (CA)"],
+      "AI & ML": ["BSc (AI & ML)", "MSc (AI & ML)", "MSc (DS)",],
+      PG: ["MSc (CS)", "MSc (DS)"],
+    };
+
+    const selectedDept = decodeURIComponent(dept);
+
+    const filtered = res.data.filter((faculty) =>
+      departmentMapping[selectedDept]?.includes(
+        faculty.department
+      )
+    );
+
     setFaculty(filtered);
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   // 🔵 Edit button click
   const handleEdit = (f) => {
@@ -36,7 +58,6 @@ export default function DepartmentFacultyList() {
   // 🟢 SAVE UPDATE (🔥 FIXED FUNCTION)
   const handleSave = async () => {
     try {
-      // ❌ Mongo ला _id आणि __v पाठवायचे नाही
       const { _id, __v, ...updatedData } = editData;
 
       await axios.put(
@@ -91,7 +112,9 @@ export default function DepartmentFacultyList() {
         </button>
 
         <Card className="shadow border-0 p-4" style={{ borderRadius: "18px" }}>
-          <h2 className="text-center fw-bold mb-4">{dept} Faculty List</h2>
+          <h2 className="text-center fw-bold mb-4">
+  {decodeURIComponent(dept)} Faculty List
+</h2>
 
           <Table bordered hover responsive className="align-middle">
             <thead style={{ background: "#eef2ff" }}>

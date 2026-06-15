@@ -3,15 +3,36 @@ import { useNavigate } from "react-router-dom";
 import { FaLaptopCode, FaFlask, FaChartLine, FaDatabase } from "react-icons/fa";
 
 const departments = [
-  { name: "BCA", icon: <FaLaptopCode />, color: "#3b82f6" },
-  { name: "BBA", icon: <FaChartLine />, color: "#14b8a6" },
-  { name: "BBA (CA)", icon: <FaLaptopCode />, color: "#06b6d4" },
-  { name: "BCom (BM)", icon: <FaChartLine />, color: "#f97316" },
-  { name: "BCom (CA)", icon: <FaChartLine />, color: "#f59e0b" },
-  { name: "BSc (CS)", icon: <FaFlask />, color: "#10b981" },
-  { name: "BSc (AI & ML)", icon: <FaDatabase />, color: "#0ea5e9" },
-  { name: "MSc (CS)", icon: <FaDatabase />, color: "#8b5cf6" },
-  { name: "MSc (DS)", icon: <FaDatabase />, color: "#6366f1" },
+  {
+    name: "Computer Science Department",
+    shortName: "CS",
+    icon: <FaLaptopCode />,
+    color: "#3b82f6",
+  },
+  {
+    name: "Business Management Department",
+    shortName: "BM",
+    icon: <FaChartLine />,
+    color: "#14b8a6",
+  },
+  {
+    name: "Artificial Intelligence & Machine Learning",
+    shortName: "AI & ML",
+    icon: <FaDatabase />,
+    color: "#0ea5e9",
+  },
+  {
+    name: "Commerce Department",
+    shortName: "Commerce",
+    icon: <FaChartLine />,
+    color: "#f59e0b",
+  },
+  {
+    name: "Postgraduate Studies",
+    shortName: "PG",
+    icon: <FaFlask />,
+    color: "#8b5cf6",
+  },
 ];
 
 export default function ViewFacultyDepartments() {
@@ -53,10 +74,24 @@ export default function ViewFacultyDepartments() {
                 transition: "0.3s",
                 height: "150px"
               }}
-              onClick={() => navigate(`/admin/view-faculty/${dept.name}`)}
+             onClick={() =>
+  navigate(
+    `/admin/view-faculty/${encodeURIComponent(dept.shortName)}`
+  )
+}
             >
               <div style={{ fontSize: "30px" }}>{dept.icon}</div>
-              <h4 className="mt-3">{dept.name}</h4>
+              <h4 className="mt-3">{dept.shortName}</h4>
+
+<p
+  style={{
+    fontSize: "14px",
+    opacity: "0.9",
+    minHeight: "40px",
+  }}
+>
+  {dept.name}
+</p>
               <p>View Faculty</p>
             </div>
           </div>
