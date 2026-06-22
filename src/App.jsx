@@ -70,6 +70,7 @@ import StudentGrades from "./pages/student/Grades";
 import Materials from "./pages/student/Materials";
 import StudentProfile from "./pages/student/Profile";
 import StudentAnnouncement from "./pages/student/Announcement";
+import AdmissionEnquiries from "./pages/admin/AdmissionEnquiries";
 
 function App() {
   const location = useLocation();
@@ -98,6 +99,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/career" element={<Career />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/admin/enquiries"
+            element={<AdmissionEnquiries />}
+          />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />}>

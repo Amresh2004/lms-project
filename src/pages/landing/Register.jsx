@@ -1,21 +1,22 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaGraduationCap } from "react-icons/fa";
 
 function Register() {
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     phone: "",
     parentPhone: "",
-    course: "",
-    password: "",
-    confirmPassword: "",
+    courseInterested: "",
+    qualification: "",
+    yearOfAdmission: "",
+    city: "",
+    message: "",
   });
 
   const [errors, setErrors] = useState({});
-  const [otp, setOtp] = useState("");
-  const [otpVerified, setOtpVerified] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -29,79 +30,17 @@ function Register() {
     });
   };
 
-  const sendOTP = async () => {
-    if (!formData.parentPhone) {
-      alert("Enter Parent Mobile Number");
-      return;
-    }
-
-    if (formData.phone === formData.parentPhone) {
-      alert(
-        "Parent Mobile Number cannot be same as Student Mobile Number"
-      );
-      return;
-    }
-
-    try {
-      const res = await fetch(
-        "http://localhost:5000/api/otp/send-otp",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            mobile: formData.parentPhone,
-          }),
-        }
-      );
-
-      const data = await res.json();
-
-      alert(data.message);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const verifyOTP = async () => {
-    try {
-      const res = await fetch(
-        "http://localhost:5000/api/otp/verify-otp",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            mobile: formData.parentPhone,
-            otp,
-          }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (data.success) {
-        setOtpVerified(true);
-      }
-
-      alert(data.message);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const validate = () => {
     let newErrors = {};
 
-    if (!formData.name)
-      newErrors.name = "Name is required";
+    if (!formData.fullName)
+      newErrors.fullName = "Full Name is required";
 
     if (!formData.email)
       newErrors.email = "Email is required";
 
     if (
+      formData.email &&
       !/\S+@\S+\.\S+/.test(formData.email)
     ) {
       newErrors.email = "Invalid Email";
@@ -109,41 +48,30 @@ function Register() {
 
     if (!/^\d{10}$/.test(formData.phone))
       newErrors.phone =
-        "Student Mobile must be 10 digits";
+        "Mobile Number must be 10 digits";
 
     if (
+      formData.parentPhone &&
       !/^\d{10}$/.test(formData.parentPhone)
-    )
+    ) {
       newErrors.parentPhone =
         "Parent Mobile must be 10 digits";
-
-    if (
-      formData.phone === formData.parentPhone
-    ) {
-      newErrors.parentPhone =
-        "Parent Mobile cannot be same as Student Mobile";
     }
 
-    if (!formData.course)
-      newErrors.course =
+    if (!formData.courseInterested)
+      newErrors.courseInterested =
         "Please select a course";
 
-    if (!formData.password)
-      newErrors.password =
-        "Password required";
+    if (!formData.qualification)
+      newErrors.qualification =
+        "Qualification is required";
 
-    if (
-      formData.password !==
-      formData.confirmPassword
-    ) {
-      newErrors.confirmPassword =
-        "Passwords do not match";
-    }
+    if (!formData.yearOfAdmission)
+      newErrors.yearOfAdmission =
+        "Select Year of Admission";
 
-    if (!otpVerified) {
-      newErrors.otp =
-        "Verify Parent Mobile Number";
-    }
+    if (!formData.city)
+      newErrors.city = "City is required";
 
     return newErrors;
   };
@@ -151,8 +79,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const validationErrors =
-      validate();
+    const validationErrors = validate();
 
     if (
       Object.keys(validationErrors).length > 0
@@ -163,7 +90,7 @@ function Register() {
 
     try {
       const res = await fetch(
-        "http://localhost:5000/api/users/register",
+        "http://localhost:5000/api/enquiries/create",
         {
           method: "POST",
           headers: {
@@ -176,168 +103,227 @@ function Register() {
 
       const data = await res.json();
 
-      alert(data.message);
+      if (res.ok) {
+        alert(
+          "Admission Enquiry Submitted Successfully!"
+        );
 
-      if (
-        data.message ===
-        "User registered successfully"
-      ) {
-        window.location.href =
-          "/login";
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          parentPhone: "",
+          courseInterested: "",
+          qualification: "",
+          yearOfAdmission: "",
+          city: "",
+          message: "",
+        });
+      } else {
+        alert(
+          data.message ||
+            "Failed to submit enquiry"
+        );
       }
     } catch (error) {
       console.log(error);
+      alert("Something went wrong");
     }
   };
 
   return (
     <div
       className="container mt-5 mb-5"
-      style={{ maxWidth: "700px" }}
+      style={{ maxWidth: "750px" }}
     >
-      <div className="card shadow">
-        <div className="card-header text-center bg-primary text-white">
-          <h3>Student Registration</h3>
+      <div
+        className="card shadow-lg border-0"
+        style={{ borderRadius: "20px" }}
+      >
+        <div
+          className="card-header text-center text-white"
+          style={{
+            background:
+              "linear-gradient(135deg,#2563eb,#7c3aed)",
+            borderRadius: "20px 20px 0 0",
+          }}
+        >
+          <h3 className="mb-0">
+            <FaGraduationCap className="me-2" />
+            Admission Enquiry Form
+          </h3>
         </div>
 
-        <div className="card-body">
-          <Link to="/home">
+        <div className="card-body p-4">
+          <Link
+            to="/home"
+            className="text-decoration-none"
+          >
             <FaArrowLeft /> Back
           </Link>
 
           <form onSubmit={handleSubmit}>
-            <br />
+            <div className="row mt-3">
+              {/* Full Name */}
+              <div className="col-md-6 mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Full Name"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                />
+                <small className="text-danger">
+                  {errors.fullName}
+                </small>
+              </div>
 
-            <input
-              className="form-control mb-3"
-              placeholder="Full Name"
-              name="name"
-              onChange={handleChange}
-            />
-            <small className="text-danger">
-              {errors.name}
-            </small>
+              {/* Email */}
+              <div className="col-md-6 mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Email Address"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                <small className="text-danger">
+                  {errors.email}
+                </small>
+              </div>
 
-            <input
-              className="form-control mb-3"
-              placeholder="Email"
-              name="email"
-              onChange={handleChange}
-            />
-            <small className="text-danger">
-              {errors.email}
-            </small>
+              {/* Student Mobile */}
+              <div className="col-md-6 mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Student Mobile Number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+                <small className="text-danger">
+                  {errors.phone}
+                </small>
+              </div>
 
-            <input
-              className="form-control mb-3"
-              placeholder="Student Mobile"
-              name="phone"
-              onChange={handleChange}
-            />
-            <small className="text-danger">
-              {errors.phone}
-            </small>
+              {/* Parent Mobile */}
+              <div className="col-md-6 mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Parent Mobile Number"
+                  name="parentPhone"
+                  value={formData.parentPhone}
+                  onChange={handleChange}
+                />
+                <small className="text-danger">
+                  {errors.parentPhone}
+                </small>
+              </div>
 
-            <div className="input-group mb-2">
-              <input
-                className="form-control"
-                placeholder="Parent Mobile"
-                name="parentPhone"
-                onChange={handleChange}
-              />
+              {/* Course */}
+              <div className="col-md-6 mb-3">
+                <select
+                  className="form-select"
+                  name="courseInterested"
+                  value={
+                    formData.courseInterested
+                  }
+                  onChange={handleChange}
+                >
+                  <option value="">
+                    Select Course
+                  </option>
 
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={sendOTP}
-              >
-                Send OTP
-              </button>
+                  <option>BCA</option>
+                  <option>BBA</option>
+                  <option>BBA (CA)</option>
+                  <option>BCom (BM)</option>
+                  <option>BCom (CA)</option>
+                  <option>BSc (CS)</option>
+                  <option>BSc (AI & ML)</option>
+                  <option>MSc (CS)</option>
+                  <option>MSc (DS)</option>
+                </select>
+
+                <small className="text-danger">
+                  {errors.courseInterested}
+                </small>
+              </div>
+
+              {/* Admission Year */}
+              <div className="col-md-6 mb-3">
+                <select
+                  className="form-select"
+                  name="yearOfAdmission"
+                  value={formData.yearOfAdmission}
+                  onChange={handleChange}
+                >
+                  <option value="">
+                    Admission Year
+                  </option>
+
+                  <option>2026-27</option>
+                  <option>2027-28</option>
+                  <option>2028-29</option>
+                </select>
+
+                <small className="text-danger">
+                  {errors.yearOfAdmission}
+                </small>
+              </div>
+
+              {/* Qualification */}
+              <div className="col-md-6 mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Qualification"
+                  name="qualification"
+                  value={formData.qualification}
+                  onChange={handleChange}
+                />
+                <small className="text-danger">
+                  {errors.qualification}
+                </small>
+              </div>
+
+              {/* City */}
+              <div className="col-md-6 mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="City"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                />
+                <small className="text-danger">
+                  {errors.city}
+                </small>
+              </div>
+
+              {/* Message */}
+              <div className="col-12 mb-3">
+                <textarea
+                  className="form-control"
+                  rows="4"
+                  placeholder="Write your enquiry here..."
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-
-            <small className="text-danger">
-              {errors.parentPhone}
-            </small>
-
-            <div className="input-group mt-3 mb-2">
-              <input
-                className="form-control"
-                placeholder="Enter OTP"
-                value={otp}
-                onChange={(e) =>
-                  setOtp(e.target.value)
-                }
-              />
-
-              <button
-                type="button"
-                className="btn btn-success"
-                onClick={verifyOTP}
-              >
-                Verify
-              </button>
-            </div>
-
-            {otpVerified && (
-              <p className="text-success">
-                ✓ Parent Mobile Verified
-              </p>
-            )}
-
-            <small className="text-danger">
-              {errors.otp}
-            </small>
-
-            <select
-              className="form-select mt-3"
-              name="course"
-              onChange={handleChange}
-            >
-              <option value="">
-                Select Course
-              </option>
-              <option>BBA</option>
-              <option>BBA(CA)</option>
-              <option>BSC(CS)</option>
-              <option>BSC(AI & ML)</option>
-              <option>MSC(CS)</option>
-              <option>MSC(DS)</option>
-            </select>
-
-            <small className="text-danger">
-              {errors.course}
-            </small>
-
-            <input
-              type="password"
-              className="form-control mt-3"
-              placeholder="Password"
-              name="password"
-              onChange={handleChange}
-            />
-
-            <small className="text-danger">
-              {errors.password}
-            </small>
-
-            <input
-              type="password"
-              className="form-control mt-3"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              onChange={handleChange}
-            />
-
-            <small className="text-danger">
-              {errors.confirmPassword}
-            </small>
 
             <button
               type="submit"
-              className="btn btn-primary w-100 mt-4"
-              disabled={!otpVerified}
+              className="btn btn-primary w-100 py-2"
             >
-              Register
+              Submit Admission Enquiry
             </button>
           </form>
         </div>
@@ -346,4 +332,4 @@ function Register() {
   );
 }
 
-export default Register;  
+export default Register;

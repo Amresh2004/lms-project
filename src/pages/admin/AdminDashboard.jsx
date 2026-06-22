@@ -65,6 +65,11 @@ function AdminDashboard() {
               <FaBullhorn /> Announcements
             </Link>
           </li>
+          <li className={location.pathname === "/admin/enquiries" ? "active" : ""}>
+            <Link to="/admin/enquiries">
+              <FaBullhorn /> Admission Enquiries
+            </Link>
+          </li>
 
           <li className={location.pathname === "/admin/reports" ? "active" : ""}>
             <Link to="/admin/reports">
